@@ -7,6 +7,7 @@
     android:background="@drawable/widget_card_background">
 
     <!-- 배경 이미지 -->
+    <!-- 배경 이미지 -->
     <ImageView
         android:id="@+id/widget_image"
         android:layout_width="match_parent"

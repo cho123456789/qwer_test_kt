@@ -3,6 +3,6 @@
     android:minWidth="165dp"
     android:minHeight="100dp"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/second_widget"
+    android:initialLayout="@layout/thrid_widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen" />
