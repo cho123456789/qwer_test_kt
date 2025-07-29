@@ -34,7 +34,7 @@
         </receiver>
 
     <receiver
-        android:name=".MyWidgetProvider"
+        android:name=".SiyeonWidgetProvider"
         android:exported="true">
         <intent-filter>
             <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -42,11 +42,11 @@
         </intent-filter>
         <meta-data
             android:name="android.appwidget.provider"
-            android:resource="@xml/home_widget_info" />
+            android:resource="@xml/siyeon_widget_info" />
     </receiver>
 
         <receiver
-            android:name=".MySecondProvider"
+            android:name=".NayoungWidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -54,11 +54,11 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/second_widget_info" />
+                android:resource="@xml/nayoung_widget_info" />
         </receiver>
 
         <receiver
-            android:name=".MythirdProvider"
+            android:name=".ChodanWidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -66,11 +66,11 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/thrid_widget_info" />
+                android:resource="@xml/chodan_widget_info" />
         </receiver>
 
         <receiver
-            android:name=".MyfourProvider"
+            android:name=".MagentaWidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -78,7 +78,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/four_widget_info" />
+                android:resource="@xml/magenta_widget_info" />
         </receiver>
 
     </application>

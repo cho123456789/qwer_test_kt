@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class MyfourProvider : AppWidgetProvider() {
+class MagentaWidgetProvider : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -40,7 +40,7 @@ class MyfourProvider : AppWidgetProvider() {
     @SuppressLint("RemoteViewLayout")
     private fun updateAllWidgets(context: Context) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        val componentName = ComponentName(context, MyfourProvider::class.java)
+        val componentName = ComponentName(context, MagentaWidgetProvider::class.java)
         val widgetIds = appWidgetManager.getAppWidgetIds(componentName)
         val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
         var currentIndex = prefs.getInt("current_image_index", 0)
@@ -49,7 +49,7 @@ class MyfourProvider : AppWidgetProvider() {
             val now = Calendar.getInstance()
             //val imageName = "s${currentIndex + 1}"  // s1 ~ s36
             //val imageRes = context.resources.getIdentifier(imageName, "drawable", context.packageName)
-            val views = RemoteViews(context.packageName, R.layout.four_widget)
+            val views = RemoteViews(context.packageName, R.layout.magenta_widget)
             val dateStr = SimpleDateFormat("M월 d일 EEEE", Locale.KOREAN).format(now.time)
             views.setTextViewText(R.id.widget_date, dateStr)
 
@@ -86,7 +86,7 @@ class MyfourProvider : AppWidgetProvider() {
 
     @SuppressLint("ScheduleExactAlarm")
     fun scheduleNextUpdate(context: Context) {
-        val intent = Intent(context, MyfourProvider::class.java).apply {
+        val intent = Intent(context, MagentaWidgetProvider::class.java).apply {
             action = ACTION_UPDATE_TIME
         }
 

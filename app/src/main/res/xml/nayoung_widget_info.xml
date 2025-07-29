@@ -3,7 +3,7 @@
     android:minWidth="165dp"
     android:minHeight="100dp"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/thrid_widget"
+    android:initialLayout="@layout/nayoung_widget"
     android:resizeMode="horizontal|vertical"
-    android:previewImage="@drawable/cho"
+    android:previewImage="@drawable/nayoung"
     android:widgetCategory="home_screen" />

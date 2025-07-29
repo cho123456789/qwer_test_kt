@@ -3,7 +3,7 @@
     android:minWidth="165dp"
     android:minHeight="100dp"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/four_widget"
+    android:initialLayout="@layout/siyeon_widget"
+    android:previewImage="@drawable/siyeon2"
     android:resizeMode="horizontal|vertical"
-    android:previewImage="@drawable/ma"
     android:widgetCategory="home_screen" />
