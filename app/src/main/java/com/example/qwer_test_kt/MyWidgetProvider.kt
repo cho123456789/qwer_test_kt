@@ -44,8 +44,8 @@ class MyWidgetProvider : AppWidgetProvider() {
 
         for (id in widgetIds) {
             val now = Calendar.getInstance()
-            val imageName = "s${currentIndex + 1}"  // s1 ~ s36
-            val imageRes = context.resources.getIdentifier(imageName, "drawable", context.packageName)
+            //val imageName = "s${currentIndex + 1}"  // s1 ~ s36
+            //val imageRes = context.resources.getIdentifier(imageName, "drawable", context.packageName)
             val views = RemoteViews(context.packageName, R.layout.home_widget)
             val dateStr = SimpleDateFormat("M월 d일 EEEE", Locale.KOREAN).format(now.time)
             views.setTextViewText(R.id.widget_date, dateStr)
@@ -57,15 +57,18 @@ class MyWidgetProvider : AppWidgetProvider() {
 
             val timeStr = String.format("%s %d:%02d", amPm, displayHour, minute)
 
-            if (imageRes != 0) {
-                views.setImageViewResource(R.id.widget_image, imageRes)
-            }
+            val imageRes = R.drawable.siyeon2
+            views.setImageViewResource(R.id.widget_image, imageRes)
+
+            //if (imageRes != 0) {
+           //     views.setImageViewResource(R.id.widget_image, imageRes)
+           // }
 
             val spannable = SpannableString(timeStr)
-            spannable.setSpan(RelativeSizeSpan(0.65f), 0, amPm.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannable.setSpan(RelativeSizeSpan(0.50f), 0, amPm.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             views.setTextViewText(R.id.widget_time, spannable)
 
-            views.setTextViewText(R.id.widget_weather, "맑음")
+           // views.setTextViewText(R.id.widget_weather, "맑음")
             appWidgetManager.updateAppWidget(id, views)
 
             currentIndex = (currentIndex + 1) % 36
