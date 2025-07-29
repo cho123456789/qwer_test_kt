@@ -5,4 +5,5 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/four_widget"
     android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/ma"
     android:widgetCategory="home_screen" />

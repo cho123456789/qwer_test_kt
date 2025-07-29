@@ -5,4 +5,5 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/thrid_widget"
     android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/cho"
     android:widgetCategory="home_screen" />

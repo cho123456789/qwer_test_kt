@@ -5,4 +5,5 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/second_widget"
     android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/nayoung"
     android:widgetCategory="home_screen" />
