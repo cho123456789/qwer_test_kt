@@ -1,0 +1,27 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 배경 -->
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="#444444" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- 진행 부분: inset + clip + shape -->
+    <item android:id="@android:id/progress">
+        <inset
+            android:insetLeft="3dp"
+            android:insetTop="3dp"
+            android:insetRight="3dp"
+            android:insetBottom="3dp">
+            <clip>
+                <shape android:shape="rectangle">
+                    <solid android:color="#FFFFFFFF" /> <!-- 하얀색 -->
+                    <corners android:radius="6dp" />
+                </shape>
+            </clip>
+        </inset>
+    </item>
+
+</layer-list>

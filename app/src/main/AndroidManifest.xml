@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
@@ -14,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Qwer_test_kt"
         tools:targetApi="31">
+        <activity
+            android:name=".batteryActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -32,19 +36,18 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".SiyeonWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.qwer_si_wiget.UPDATE_TIME" />
+            </intent-filter>
 
-    <receiver
-        android:name=".SiyeonWidgetProvider"
-        android:exported="true">
-        <intent-filter>
-            <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            <action android:name="com.example.qwer_si_wiget.UPDATE_TIME" />
-        </intent-filter>
-        <meta-data
-            android:name="android.appwidget.provider"
-            android:resource="@xml/siyeon_widget_info" />
-    </receiver>
-
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/siyeon_widget_info" />
+        </receiver>
         <receiver
             android:name=".NayoungWidgetProvider"
             android:exported="true">
@@ -52,11 +55,11 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.qwer_si_wiget.UPDATE_TIME" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/nayoung_widget_info" />
         </receiver>
-
         <receiver
             android:name=".ChodanWidgetProvider"
             android:exported="true">
@@ -64,11 +67,11 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.qwer_si_wiget.UPDATE_TIME" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/chodan_widget_info" />
         </receiver>
-
         <receiver
             android:name=".MagentaWidgetProvider"
             android:exported="true">
@@ -76,11 +79,24 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.qwer_si_wiget.UPDATE_TIME" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/magenta_widget_info" />
         </receiver>
 
+        <receiver android:name=".BatteryWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/battery_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
