@@ -23,7 +23,7 @@ class BatteryWidgetProvider : AppWidgetProvider() {
         fun updateBatteryWidget(context: Context, appWidgetManager: AppWidgetManager, intent: Intent) {
             val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
             val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
-            val percentage = (level * 100) / scale
+            val percentage = (level * 100) / scale.toFloat()
 
             val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
             val statusText = when (status) {
@@ -36,7 +36,7 @@ class BatteryWidgetProvider : AppWidgetProvider() {
 
             val views = RemoteViews(context.packageName, R.layout.battery_widget)
             views.setTextViewText(R.id.battery_level, "$percentage% ($statusText)")
-            views.setProgressBar(R.id.battery_progress, 100, percentage, false)
+            views.setProgressBar(R.id.battery_progress, 100, percentage.toInt(), false)
 
             val thisWidget = ComponentName(context, BatteryWidgetProvider::class.java)
             appWidgetManager.updateAppWidget(thisWidget, views)
