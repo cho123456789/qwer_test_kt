@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +25,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        val intent = Intent(this, BatteryMonitorService::class.java)
+        ContextCompat.startForegroundService(this, intent)
 
         SiyeonWidgetProvider().scheduleNextUpdate(this)
     }
