@@ -30,23 +30,33 @@ class BatteryWidgetProvider : AppWidgetProvider() {
 
             val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
             val views = RemoteViews(context.packageName, R.layout.battery_widget)
-
-            val statusText = when (status) {
+            when (status) {
                 BatteryManager.BATTERY_STATUS_CHARGING -> {
                     views.setViewVisibility(R.id.battery_progress_charging, View.VISIBLE)
                     views.setViewVisibility(R.id.battery_progress_normal, View.GONE)
-                    views.setProgressBar(R.id.battery_progress_charging, 100, percentageDisplay, false)
-                    "충전 중"
+                    views.setProgressBar(
+                        R.id.battery_progress_charging,
+                        100,
+                        percentageDisplay,
+                        false
+                    )
+
                 }
+
                 BatteryManager.BATTERY_STATUS_DISCHARGING -> {
                     views.setViewVisibility(R.id.battery_progress_charging, View.GONE)
                     views.setViewVisibility(R.id.battery_progress_normal, View.VISIBLE)
-                    views.setProgressBar(R.id.battery_progress_normal, 100, percentageDisplay, false)
-                    "사용 중"
+                    views.setProgressBar(
+                        R.id.battery_progress_normal,
+                        100,
+                        percentageDisplay,
+                        false
+                    )
                 }
-                BatteryManager.BATTERY_STATUS_FULL -> "완료"
-                BatteryManager.BATTERY_STATUS_NOT_CHARGING -> "충전 안 함"
-                else -> "알 수 없음"
+
+                BatteryManager.BATTERY_STATUS_FULL -> {}
+                BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {}
+                else -> {}
             }
 
             views.setTextViewText(R.id.battery_level, "$percentageDisplay%")
