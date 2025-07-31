@@ -60,7 +60,7 @@ class SiyeonWidgetProvider : AppWidgetProvider() {
 
             val timeStr = String.format("%s %d:%02d", amPm, displayHour, minute)
 
-            val imageRes = R.drawable.siyeon2
+            val imageRes = R.drawable.qwer2
             views.setImageViewResource(R.id.widget_image, imageRes)
 
             //if (imageRes != 0) {

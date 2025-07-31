@@ -13,18 +13,30 @@
         android:scaleType="centerCrop"
         android:src="@drawable/go" /> <!-- 여기에 원하는 배경 이미지 -->
 
-    <!-- 상단 왼쪽에 배터리 프로그레스바 -->
+    <!-- 배터리 ProgressBar -->
     <ProgressBar
-        android:id="@+id/battery_progress"
+        android:id="@+id/battery_progress_normal"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="wrap_content"
         android:layout_height="16dp"
         android:max="100"
-        android:progress="50"
+        android:progress="0"
         android:progressDrawable="@drawable/battery_progress"
-        android:indeterminate="false"
         android:layout_gravity="top|start"
-        android:layout_margin="12dp" />
+        android:layout_margin="12dp"
+        android:indeterminate="false" />
+
+    <ProgressBar
+        android:id="@+id/battery_progress_charging"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/battery_progress_on"
+        android:layout_gravity="top|start"
+        android:layout_margin="12dp"
+        android:indeterminate="false" />
 
     <!-- 하단 중앙에 배터리 퍼센트 텍스트 -->
     <TextView
@@ -33,12 +45,12 @@
         android:layout_height="wrap_content"
         android:text="--%"
         android:textColor="@android:color/white"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:fontFamily="@font/pretendard"
         android:shadowColor="#80000000"
-        android:shadowDx="1"
-        android:shadowDy="1"
-        android:shadowRadius="2"
+        android:shadowDx="7"
+        android:shadowDy="7"
+        android:shadowRadius="5"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="12dp" />
+        android:layout_margin="2dp" />
 </FrameLayout>

@@ -7,7 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
+import android.view.View
 import android.widget.RemoteViews
+import kotlin.math.roundToInt
 
 class BatteryWidgetProvider : AppWidgetProvider() {
 
@@ -24,19 +26,30 @@ class BatteryWidgetProvider : AppWidgetProvider() {
             val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
             val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
             val percentage = (level * 100) / scale.toFloat()
+            val percentageDisplay = percentage.roundToInt()  // 표시용 정수 변환
 
             val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+            val views = RemoteViews(context.packageName, R.layout.battery_widget)
+
             val statusText = when (status) {
-                BatteryManager.BATTERY_STATUS_CHARGING -> "충전 중"
-                BatteryManager.BATTERY_STATUS_DISCHARGING -> "사용 중"
+                BatteryManager.BATTERY_STATUS_CHARGING -> {
+                    views.setViewVisibility(R.id.battery_progress_charging, View.VISIBLE)
+                    views.setViewVisibility(R.id.battery_progress_normal, View.GONE)
+                    views.setProgressBar(R.id.battery_progress_charging, 100, percentageDisplay, false)
+                    "충전 중"
+                }
+                BatteryManager.BATTERY_STATUS_DISCHARGING -> {
+                    views.setViewVisibility(R.id.battery_progress_charging, View.GONE)
+                    views.setViewVisibility(R.id.battery_progress_normal, View.VISIBLE)
+                    views.setProgressBar(R.id.battery_progress_normal, 100, percentageDisplay, false)
+                    "사용 중"
+                }
                 BatteryManager.BATTERY_STATUS_FULL -> "완료"
                 BatteryManager.BATTERY_STATUS_NOT_CHARGING -> "충전 안 함"
                 else -> "알 수 없음"
             }
 
-            val views = RemoteViews(context.packageName, R.layout.battery_widget)
-            views.setTextViewText(R.id.battery_level, "$percentage% ($statusText)")
-            views.setProgressBar(R.id.battery_progress, 100, percentage.toInt(), false)
+            views.setTextViewText(R.id.battery_level, "$percentageDisplay%")
 
             val thisWidget = ComponentName(context, BatteryWidgetProvider::class.java)
             appWidgetManager.updateAppWidget(thisWidget, views)

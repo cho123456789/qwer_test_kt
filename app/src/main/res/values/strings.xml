@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">qwer_test_kt</string>
+    <string name="battery_icon">배터리</string>
 </resources>
