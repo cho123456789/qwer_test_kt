@@ -86,6 +86,14 @@ class SiyeonWidgetProvider : AppWidgetProvider() {
 
     @SuppressLint("ScheduleExactAlarm")
     fun scheduleNextUpdate(context: Context) {
+        val calendar = Calendar.getInstance().apply {
+            add(Calendar.MINUTE, 1)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        val triggerAtMillis = calendar.timeInMillis
+
         val intent = Intent(context, SiyeonWidgetProvider::class.java).apply {
             action = ACTION_UPDATE_TIME
         }
@@ -98,8 +106,6 @@ class SiyeonWidgetProvider : AppWidgetProvider() {
         )
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val triggerAtMillis = System.currentTimeMillis() + 60_000L // 1분
-
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             triggerAtMillis,
