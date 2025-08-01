@@ -54,7 +54,16 @@ class BatteryWidgetProvider : AppWidgetProvider() {
                     )
                 }
 
-                BatteryManager.BATTERY_STATUS_FULL -> {}
+                BatteryManager.BATTERY_STATUS_FULL -> {
+                    views.setViewVisibility(R.id.battery_progress_charging, View.VISIBLE)
+                    views.setViewVisibility(R.id.battery_progress_normal, View.GONE)
+                    views.setProgressBar(
+                        R.id.battery_progress_charging,
+                        100,
+                        percentageDisplay,
+                        false
+                    )
+                }
                 BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {}
                 else -> {}
             }
