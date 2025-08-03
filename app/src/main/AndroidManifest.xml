@@ -105,17 +105,19 @@
             android:exported="false"
             android:foregroundServiceType="dataSync" />
 
-        <receiver android:name=".SignboardWidgetProvider"
-            android:exported="true">
+        <receiver android:name=".CalendarWidgetProvider" android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.example.qwer_si_wiget.UPDATE_TIME" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/singborad_widget_info" />
+                android:resource="@xml/calendar_widget_info" />
         </receiver>
+
+        <service
+            android:name=".ScheduleWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
     </application>
 
 </manifest>
