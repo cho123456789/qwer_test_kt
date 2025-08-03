@@ -1,9 +1,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:background="@drawable/mani4"
-    android:padding="8dp">
+    android:layout_height="170dp"
+    android:padding="0dp"
+    android:background="@drawable/widget_card_background">
+
+    <!-- 👇 이미지 뷰 추가 -->
+    <ImageView
+        android:id="@+id/widget_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/qwer4" />
 
     <LinearLayout
         android:id="@+id/text_container"
