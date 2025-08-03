@@ -1,0 +1,124 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@color/white">
+
+    <!-- 왼쪽: QWER 사진 + 로고 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/qwer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard"
+            android:text="QWER"
+            android:textSize="15dp"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/qwer_photo"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:src="@drawable/qwer2"
+            android:contentDescription="QWER Photo"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/qwer_title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard"
+            android:text="3rd Mini Album"
+            android:textSize="14dp"
+            android:textColor="#000"
+            android:layout_marginTop="4dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/qwer_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard"
+            android:text="난 네편이야,"
+            android:textSize="12dp"
+            android:layout_gravity="center"
+            android:textColor="#000"
+            android:layout_marginTop="4dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/qwer_body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard"
+            android:text="온 세상이 협일지라도"
+            android:textSize="12dp"
+            android:layout_gravity="center"
+            android:textColor="#000"
+            android:layout_marginTop="4dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- 오른쪽: 달력 컨텐츠 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- 상단: 이전 버튼, 년월 텍스트, 다음 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp">
+
+            <ImageButton
+                android:id="@+id/button_prev"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/icon_prev"
+                android:contentDescription="Previous Month" />
+
+            <TextView
+                android:id="@+id/text_month"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2025년 8월"
+                android:textSize="18sp"
+                android:textColor="#000"
+                android:gravity="center" />
+
+            <ImageButton
+                android:id="@+id/button_next"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/icon_next"
+                android:contentDescription="Next Month" />
+        </LinearLayout>
+
+        <!-- 일정 리스트 -->
+        <ListView
+            android:id="@+id/schedule_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp" />
+    </LinearLayout>
+
+</LinearLayout>
