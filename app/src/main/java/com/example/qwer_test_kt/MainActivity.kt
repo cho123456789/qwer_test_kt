@@ -57,8 +57,8 @@ fun MainScreen() {
 
     val gradientBackground= Brush.verticalGradient(
         colors = listOf(
-            Color(0xFFE0E0E0),
-            Color(0xFFFFFFFF)
+            Color(0xFFE1F5FE),
+            Color(0xFFFCE4EC)
         )
     )
     Column(
@@ -82,6 +82,14 @@ fun MainScreen() {
                 append("R")
             }
         }
+
+        Text(
+            text = qwerAnnotatedString, // 여기에 AnnotatedString 객체를 전달합니다.
+            fontSize = 75.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = cafe24,
+            modifier = Modifier.padding(top = 100.dp)
+        )
 
         Column(
             modifier = Modifier.padding(top = 40.dp),
@@ -110,7 +118,7 @@ fun MainScreen() {
         // Concept Cards Grid
         Column(
             modifier = Modifier
-                .background(Color.White, shape = RoundedCornerShape(24.dp))
+                .background(Color.Transparent, shape = RoundedCornerShape(24.dp))
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -165,7 +173,8 @@ fun ConceptCard(
             .size(160.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -192,7 +201,7 @@ fun ConceptCard(
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun PreviewMainScreen() {
     MainScreen()
 }
 
