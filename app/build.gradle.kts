@@ -36,10 +36,26 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.4"
+    }
+    buildFeatures {
+        compose =  true
+    }
 }
 
 dependencies {
-
+    implementation(libs.androidx.material3.android)
+    val compose_bom = platform("androidx.compose:compose-bom:2023.10.01")
+    implementation(compose_bom)
+    androidTestImplementation(compose_bom)
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation ("androidx.activity:activity-compose")
+    implementation ("androidx.compose.ui:ui:1.5.0")
+    implementation ("androidx.compose.material:material")
+    implementation ("androidx.compose.ui:ui-tooling-preview")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx")
+    implementation ("androidx.compose.runtime:runtime-livedata")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

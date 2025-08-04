@@ -1,58 +1,233 @@
 package com.example.qwer_test_kt
 
-import android.app.AlarmManager
-import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.example.qwer_test_kt.databinding.ActivityMainBinding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material3.CardDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val qwerText = "QWER"
-        val spannableString = SpannableString(qwerText)
-
-
-        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#FFC0CB")), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#00B0FF")), 2, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#8BC34A")), 3, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.titleTextViewQWER.text = spannableString
-
-
-        binding.cardDiscord.setOnClickListener {
-           // val intent = Intent(this, PhotoWidgetActivity::class.java)
-            //startActivity(intent)
+        setContent {
+            MaterialTheme {
+                MainScreen()
+            }
         }
+    }
+}
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            if (!alarmManager.canScheduleExactAlarms()) {
-                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-                intent.data = Uri.parse("package:$packageName")
-                startActivity(intent)
+@Composable
+fun MainScreen() {
+    val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
+    val onePop = FontFamily(Font(R.font.onepop))
+
+    val gradientBackground= Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFFE0E0E0),
+            Color(0xFFFFFFFF)
+        )
+    )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(gradientBackground),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+
+        val qwerAnnotatedString = buildAnnotatedString {
+            withStyle(style = SpanStyle(color = Color(0xFFFFFFFF))) {
+                append("Q")
+            }
+            withStyle(style = SpanStyle(color = Color(0xFFFFC0CB))) {
+                append("W")
+            }
+            withStyle(style = SpanStyle(color = Color(0xFF00B0FF))) {
+                append("E")
+            }
+            withStyle(style = SpanStyle(color = Color(0xFF8BC34A))){
+                append("R")
             }
         }
 
-        val intent = Intent(this, BatteryMonitorService::class.java)
-        ContextCompat.startForegroundService(this, intent)
+        Column(
+            modifier = Modifier.padding(top = 40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Photo",
+                fontSize = 60.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFFFF9800),
+                fontFamily = cafe24,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = "Widget",
+                fontSize = 60.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF212121),
+                fontFamily = cafe24,
+                textAlign = TextAlign.Center
+            )
+        }
 
-        SiyeonWidgetProvider().scheduleNextUpdate(this)
+        Spacer(modifier = Modifier.height(30.dp))
+
+        // Concept Cards Grid
+        Column(
+            modifier = Modifier
+                .background(Color.White, shape = RoundedCornerShape(24.dp))
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // First row of cards
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                ConceptCard(
+                    imageResId = R.drawable.discord,
+                    text = "Discord",
+                    fontFamily = onePop,
+                    onClick = { /* Handle Discord card click */ }
+                )
+                ConceptCard(
+                    imageResId = R.drawable.mani2,
+                    text = "고민중독",
+                    fontFamily = onePop,
+                    onClick = { /* Handle 고민중독 card click */ }
+                )
+            }
+            // Second row of cards
+            Row(
+                modifier = Modifier.padding(top = 24.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                ConceptCard(
+                    imageResId = R.drawable.qwer2,
+                    text = "가짜아이돌",
+                    fontFamily = onePop,
+                    onClick = { /* Handle 가짜아이돌 card click */ }
+                )
+                ConceptCard(
+                    imageResId = R.drawable.dear,
+                    text = "눈물참기",
+                    fontFamily = onePop,
+                    onClick = { /* Handle 눈물참기 card click */ }
+                )
+            }
+        }
     }
 }
+
+@Composable
+fun ConceptCard(
+    imageResId: Int,
+    text: String,
+    fontFamily: FontFamily,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .size(160.dp)
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(24.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Image(
+                painter = painterResource(id = imageResId),
+                contentDescription = text,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+            Text(
+                text = text,
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(start = 16.dp, bottom = 16.dp),
+                color = Color.White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = fontFamily
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    MainScreen()
+}
+
+
+//        enableEdgeToEdge()
+//        binding = ActivityMainBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//
+//        val qwerText = "QWER"
+//        val spannableString = SpannableString(qwerText)
+//
+//
+//        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#FFC0CB")), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#00B0FF")), 2, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#8BC34A")), 3, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        binding.titleTextViewQWER.text = spannableString
+//
+//
+//        binding.cardDiscord.setOnClickListener {
+//           // val intent = Intent(this, PhotoWidgetActivity::class.java)
+//            //startActivity(intent)
+//        }
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//            if (!alarmManager.canScheduleExactAlarms()) {
+//                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+//                intent.data = Uri.parse("package:$packageName")
+//                startActivity(intent)
+//            }
+//        }
+//
+//        val intent = Intent(this, BatteryMonitorService::class.java)
+//        ContextCompat.startForegroundService(this, intent)
+//
+//        SiyeonWidgetProvider().scheduleNextUpdate(this)
+//    }
