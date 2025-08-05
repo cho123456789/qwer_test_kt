@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -27,10 +30,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+
+
+val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
+val onePop = FontFamily(Font(R.font.onepop))
 
 @Composable
 fun GominjungdokScreen(navController: NavHostController) {
@@ -45,69 +51,82 @@ fun GominjungdokScreen(navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .background(gradientBackground),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        // 상단: 멤버 소개 카드뷰
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            MemberProfileCard()
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            PreviewImageSection()
-        }
-        BottomNavigationBar()
+        MemberProfile() // 상단 슬라이더
+        PreviewImageSection() // 중앙 이미지
+        BottomNavigationBar() // 하단 네비게이션바
     }
 }
 
 @Composable
-fun MemberProfileCard() {
+fun MemberProfile() {
+    val albumList = listOf(
+        Album(title = "1st Mini Album 'MANITO", imageResId = R.drawable.mani4, Color.Blue),
+        Album(title = "1st Mini Album 'MANITO", imageResId = R.drawable.go, Color.Black)
+    )
+    AlbumPhoto(albumList)
+}
 
-    val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
-    val onePop = FontFamily(Font(R.font.onepop))
-
+@Composable
+fun AlbumPhoto(album: List<Album>) {
+    var pageState = rememberPagerState(initialPage = 0) {
+        album.size
+    }
     Column(
-        Modifier.padding(10.dp)
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
         Text(
-            text = "1st Mini Album ‘MANITO'", // 가사 또는 문구
+            text = album[pageState.currentPage].title,
             fontSize = 25.sp,
             fontFamily = cafe24,
-            fontWeight = FontWeight.Bold,
-            color = Color.Blue
+            color = album[pageState.currentPage].textColor,
+            modifier = Modifier.padding(top = 20.dp, bottom = 10.dp)
         )
-    }
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp)
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.8f)), // 반투명 흰색
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            // 위젯 배경 이미지
-            Image(
-                painter = painterResource(id = R.drawable.mani4), // 멤버 그룹 사진
-                contentDescription = "QWER Member Group Photo",
-                contentScale = ContentScale.Crop,
+        HorizontalPager(
+            state = pageState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+        ) { page ->
+            val album = album[page]
+
+            Card(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(24.dp))
-            )
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 16.dp),
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.8f)), // 반투명 흰색
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    // 위젯 배경 이미지
+                    Image(
+                        painter = painterResource(id = album.imageResId), // 멤버 그룹 사진
+                        contentDescription = "QWER Member Group Photo",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(24.dp))
+                    )
+                }
+            }
         }
     }
 }
+
 @Composable
 fun PreviewImageSection() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(500.dp)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .height(200.dp),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.8f)), // 반투명 흰색
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
@@ -122,6 +141,7 @@ fun PreviewImageSection() {
         )
     }
 }
+
 @Composable
 fun BottomNavigationBar() {
     Row(
@@ -146,6 +166,7 @@ fun BottomNavigationBar() {
         )
     }
 }
+
 // 하단 내비게이션 아이템
 @Composable
 fun NavigationItem(iconResId: Int, text: String) {
@@ -168,4 +189,9 @@ fun NavigationItem(iconResId: Int, text: String) {
     }
 }
 
+data class Album(
+    val title: String,
+    val imageResId: Int,
+    val textColor: Color
+)
 
