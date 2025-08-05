@@ -1,0 +1,27 @@
+package com.example.qwer_test_kt
+
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
+@Composable
+fun AppNavGraph() {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = Route.HOME
+    ) {
+        composable(Route.HOME) {
+            MainScreen(
+               navController = navController
+            )
+        }
+        composable(Route.Gominjungdok){
+            GominjungdokScreen(
+                navController = navController
+            )
+        }
+    }
+}

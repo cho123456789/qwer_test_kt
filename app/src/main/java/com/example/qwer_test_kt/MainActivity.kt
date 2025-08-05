@@ -3,9 +3,12 @@ package com.example.qwer_test_kt
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,13 +19,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -37,6 +43,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,18 +53,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                MainScreen()
+                AppNavGraph()
             }
         }
     }
 }
 
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavHostController) {
     val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
     val onePop = FontFamily(Font(R.font.onepop))
-
-    val gradientBackground= Brush.verticalGradient(
+    val gradientBackground = Brush.verticalGradient(
         colors = listOf(
             Color(0xFFE1F5FE),
             Color(0xFFFCE4EC)
@@ -66,7 +74,7 @@ fun MainScreen() {
             .fillMaxSize()
             .background(gradientBackground),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
 
         val qwerAnnotatedString = buildAnnotatedString {
             withStyle(style = SpanStyle(color = Color(0xFFFFFFFF))) {
@@ -78,7 +86,7 @@ fun MainScreen() {
             withStyle(style = SpanStyle(color = Color(0xFF00B0FF))) {
                 append("E")
             }
-            withStyle(style = SpanStyle(color = Color(0xFF8BC34A))){
+            withStyle(style = SpanStyle(color = Color(0xFF8BC34A))) {
                 append("R")
             }
         }
@@ -125,6 +133,7 @@ fun MainScreen() {
             // First row of cards
             Row(
                 horizontalArrangement = Arrangement.spacedBy(24.dp)
+
             ) {
                 ConceptCard(
                     imageResId = R.drawable.discord,
@@ -136,7 +145,9 @@ fun MainScreen() {
                     imageResId = R.drawable.mani2,
                     text = "고민중독",
                     fontFamily = onePop,
-                    onClick = { /* Handle 고민중독 card click */ }
+                    onClick = {
+                        navController.navigate(Route.Gominjungdok)
+                    }
                 )
             }
             // Second row of cards
@@ -168,12 +179,24 @@ fun ConceptCard(
     fontFamily: FontFamily,
     onClick: () -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val cornerSize by animateDpAsState(
+        targetValue = if (isPressed) 10.dp else 20.dp, // 눌렸을 때 12dp, 평상시 24dp
+        label = "cornerAnimation"
+    )
+
     Card(
         modifier = Modifier
             .size(160.dp)
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            ),
+        shape = RoundedCornerShape(cornerSize),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Box(
@@ -183,7 +206,9 @@ fun ConceptCard(
                 painter = painterResource(id = imageResId),
                 contentDescription = text,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(24.dp))
             )
             Text(
                 text = text,
@@ -202,7 +227,7 @@ fun ConceptCard(
 @Preview(showBackground = true)
 @Composable
 fun PreviewMainScreen() {
-    MainScreen()
+    AppNavGraph()
 }
 
 
