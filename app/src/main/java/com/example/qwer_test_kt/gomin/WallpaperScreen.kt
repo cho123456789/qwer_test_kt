@@ -23,19 +23,16 @@ import androidx.compose.ui.unit.dp
 import com.example.qwer_test_kt.R
 
 @Composable
-fun WallpaperScreen() {
+fun WallpaperScreen(wallpaperImageResId : Int) {
     val context = LocalContext.current
-    val imageBitmap =
-        (context.getDrawable(R.drawable.mani5) as BitmapDrawable).bitmap.asImageBitmap()
-
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
     ) {
         // 1. 화면을 가득 채우는 이미지
         Image(
-            painter = painterResource(id = R.drawable.mani5),
-            contentDescription = "qwer",
+            painter = painterResource(id = wallpaperImageResId),
+            contentDescription = "Selected Member Choice",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
