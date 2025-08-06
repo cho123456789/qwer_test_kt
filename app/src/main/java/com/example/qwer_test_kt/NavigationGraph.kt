@@ -1,10 +1,10 @@
 package com.example.qwer_test_kt
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.qwer_test_kt.gomin.GominjungdokScreen
 
 @Composable
 fun AppNavGraph() {
@@ -15,10 +15,10 @@ fun AppNavGraph() {
     ) {
         composable(Route.HOME) {
             MainScreen(
-               navController = navController
+                navController = navController
             )
         }
-        composable(Route.Gominjungdok){
+        composable(Route.Gominjungdok) {
             GominjungdokScreen(
                 navController = navController
             )
