@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -40,7 +39,7 @@ fun WallpaperScreen(wallpaperImageResId : Int) {
         // 2. 하단에 위치한 버튼
         Button(
             onClick = {
-                val drawable = context.getDrawable(R.drawable.mani5)
+                val drawable = context.getDrawable(R.drawable.gomin_si)
                 if (drawable is BitmapDrawable) {
                     val bitmap = drawable.bitmap
                     val wallpaperManager = WallpaperManager.getInstance(context)

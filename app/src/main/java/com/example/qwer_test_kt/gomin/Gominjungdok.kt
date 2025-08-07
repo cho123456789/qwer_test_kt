@@ -49,10 +49,18 @@ val onePop = FontFamily(Font(R.font.onepop))
 
 
 val members = listOf(
-    Member("쵸단 ", R.drawable.cho, R.drawable.mani2),
-    Member("마젠타", R.drawable.ma, R.drawable.mani3),
-    Member("히나", R.drawable.na, R.drawable.mani4),
-    Member("시연", R.drawable.siyeon, R.drawable.mani5)
+    Member("쵸단 ", R.drawable.gomin_cho_profile, R.drawable.gomin_cho),
+    Member("마젠타", R.drawable.gomin_ma_profile, R.drawable.gomin_ma),
+    Member("히나", R.drawable.gomin_hina_profile, R.drawable.gomin_hina),
+    Member("시연", R.drawable.gomin_siyeon_profile, R.drawable.gomin_si),
+    Member("단체", R.drawable.gomin_group, R.drawable.gomin_group_profile)
+)
+val membersSecond = listOf(
+    Member("쵸단 ", R.drawable.gomin_cho_profile2, R.drawable.gomin_cho2),
+    Member("마젠타", R.drawable.gomin_ma_profile2, R.drawable.gomin_ma2),
+    Member("히나", R.drawable.gomin_hina_profile2, R.drawable.gomin_hina2),
+    Member("시연", R.drawable.gomin_siyeon_profile2, R.drawable.gomin_si2),
+    Member("단체", R.drawable.gomin_group_profile2, R.drawable.gomin_group2)
 )
 
 @Composable
@@ -60,6 +68,8 @@ fun GominjungdokScreen(navController: NavHostController) {
 
     var selectedNavIndex by remember { mutableStateOf(0) }
     var selectedMember by remember { mutableStateOf(members[0]) }
+    var isSecondTheme by remember { mutableStateOf(false) }
+    val currentMembers = if (isSecondTheme) membersSecond else members
 
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
@@ -87,15 +97,14 @@ fun GominjungdokScreen(navController: NavHostController) {
                 fontFamily = onePop,
                 color = Color.Blue,
                 modifier = Modifier.clickable {
-//                    isSecondTheme = !isSecondTheme // 클릭 시 상태 토글
-//                    // 테마 변경 시 첫 번째 멤버가 선택되도록 초기화 (UX 개선)
-//                    selectedMember = currentMembers[0]
+                    isSecondTheme = !isSecondTheme
+                    selectedMember = currentMembers[0]
                 }
             )
         }
 
         MemberProfile(
-            members = members, // 추가: 현재 테마에 맞는 리스트 전달
+            members = currentMembers,
             selectedMember = selectedMember,
             onMemberSelected = { member -> selectedMember = member }
         )
@@ -172,7 +181,7 @@ fun MemberProfileImage(members: Member, isSelected: Boolean, onClick: () -> Unit
             contentDescription = "${members.name} profile",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(80.dp)
+                .size(65.dp)
                 .clip(RoundedCornerShape(40.dp))
                 .border(
                     width = borderWidth,

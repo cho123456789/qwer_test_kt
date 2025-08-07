@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/go" /> <!-- 여기에 원하는 배경 이미지 -->
+        android:src="@drawable/gomin_group" /> <!-- 여기에 원하는 배경 이미지 -->
 
     <!-- 배터리 ProgressBar -->
     <ProgressBar
