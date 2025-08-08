@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -45,18 +44,27 @@ import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import java.lang.reflect.Member
 
 
 val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
 val onePop = FontFamily(Font(R.font.onepop))
 
-
 val members = listOf(
-    Member("쵸단 ", R.drawable.gomin_cho_profile, "https://kpopping.com/cloudflare-proxy/01ad037f878aff8eaa4a92001a9caaf8"),
-//    Member("마젠타", R.drawable.gomin_ma_profile, R.drawable.gomin_ma),
-//    Member("히나", R.drawable.gomin_hina_profile, R.drawable.gomin_hina),
-//    Member("시연", R.drawable.gomin_siyeon_profile, R.drawable.gomin_si),
-//    Member("단체", R.drawable.gomin_group, R.drawable.gomin_group_profile)
+    Member(
+        "쵸단 ", R.drawable.gomin_cho_profile,
+        listOf(
+            "https://kpopping.com/cloudflare-proxy/01ad037f878aff8eaa4a92001a9caaf8",
+            "https://kpopping.com/cloudflare-proxy/e81ca1e707f7f057a9eb7a135d70d286",
+            "https://kpopping.com/cloudflare-proxy/b70a864fa1d55a2de57be9db71cd8848",
+            "https://kpopping.com/cloudflare-proxy/5a2985494474cecd8d77954ae7e627c6"
+        ),
+
+//    Member("마젠타", R.drawable.gomin_ma_profile, "https://kpopping.com/cloudflare-proxy/e81ca1e707f7f057a9eb7a135d70d286"),
+//    Member("히나", R.drawable.gomin_hina_profile, "https://kpopping.com/cloudflare-proxy/b70a864fa1d55a2de57be9db71cd8848"),
+//    Member("시연", R.drawable.gomin_siyeon_profile, "https://kpopping.com/cloudflare-proxy/e0123392956af229160dad89fd45a23b"),
+//    Member("단체", R.drawable.gomin_group,"https://kpopping.com/cloudflare-proxy/5a2985494474cecd8d77954ae7e627c6")
+    )
 )
 //val membersSecond = listOf(
 //    Member("쵸단 ", R.drawable.gomin_cho_profile2, R.drawable.gomin_cho2),
@@ -70,11 +78,13 @@ val members = listOf(
 @Composable
 fun GominjungdokScreen(navController: NavHostController) {
 
-    val pagerState =  rememberPagerState(initialPage = 0)
+    val pagerState = rememberPagerState(initialPage = 0)
     var selectedNavIndex by remember { mutableStateOf(0) }
     var selectedMember by remember { mutableStateOf(members[0]) }
     var isSecondTheme by remember { mutableStateOf(false) }
     //val currentMembers = if (isSecondTheme) membersSecond else members
+
+    var selectedWallpaperUrl by remember { mutableStateOf<String?>(null) }
 
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
@@ -108,24 +118,37 @@ fun GominjungdokScreen(navController: NavHostController) {
             )
         }
 
-        MemberProfile(
-                members = members,
-                selectedMember = selectedMember,
-                onMemberSelected = { member -> selectedMember = member }
-            )
-
-        // 상단 슬라이더
         Column(
             modifier = Modifier
-                .weight(1f) // 핵심! 하단 네비게이션을 제외한 모든 공간을 차지
+                .weight(1f)
                 .fillMaxSize()
         ) {
             when (selectedNavIndex) {
-                0 -> WallpaperScreen(selectedMember.wallPaperImageResId) // '배경화면' 탭일 때의 화면
-                1 -> WidgetScreen()    // '위젯' 탭일 때의 화면
-                2 -> IconScreen()      // '아이콘' 탭일 때의 화면
+                0 -> {
+                    // 선택된 배경화면 URL이 없으면 미리보기 화면을 보여주고,
+                    // 있으면 선택된 이미지를 보여주는 상세 화면을 표시
+                    if (selectedWallpaperUrl == null) {
+                        WallpaperPreviewScreen(
+                            wallpaperUrls = selectedMember.wallPaperImageResId,
+                            onWallpaperSelected = { url -> selectedWallpaperUrl = url }
+                        )
+                    } else {
+                        WallpaperDetailScreen(
+                            wallpaperUrl = selectedWallpaperUrl!!,
+                            onBackPressed = { selectedWallpaperUrl = null }
+                        )
+                    }
+                }
+                1 -> WidgetScreen()
+                2 -> IconScreen()
             }
         }
+//        MemberProfile(
+//            members = members,
+//            selectedMember = selectedMember,
+//            onMemberSelected = { member -> selectedMember = member }
+//        )
+
         BottomNavigationBar(
             selectedIndex = selectedNavIndex,
             onItemSelected = { index -> selectedNavIndex = index }
@@ -182,19 +205,19 @@ fun MemberProfileImage(members: Member, isSelected: Boolean, onClick: () -> Unit
                 interactionSource = remember { MutableInteractionSource() })
             .scale(scale)
     ) {
-        Image(
-            painter = painterResource(id = members.profileImageResId),
-            contentDescription = "${members.name} profile",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(65.dp)
-                .clip(RoundedCornerShape(40.dp))
-                .border(
-                    width = borderWidth,
-                    color = borderColor,
-                    shape = RoundedCornerShape(40.dp),
-                )
-        )
+//        Image(
+//            painter = painterResource(id = members.),
+//            contentDescription = "${members.name} profile",
+//            contentScale = ContentScale.Crop,
+//            modifier = Modifier
+//                .size(65.dp)
+//                .clip(RoundedCornerShape(40.dp))
+//                .border(
+//                    width = borderWidth,
+//                    color = borderColor,
+//                    shape = RoundedCornerShape(40.dp),
+//                )
+//        )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = members.name,
@@ -258,5 +281,5 @@ fun NavigationItem(iconResId: Int, text: String, isSelected: Boolean, onItemSele
 data class Member(
     val name: String,
     val profileImageResId: Int,
-    val wallPaperImageResId: String
+    val wallPaperImageResId: List<String>
 )
