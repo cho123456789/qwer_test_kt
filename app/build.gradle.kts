@@ -45,6 +45,8 @@ android {
 }
 
 dependencies {
+    implementation ("io.coil-kt:coil-compose:2.1.0")
+    implementation ("com.google.accompanist:accompanist-pager:0.24.13-rc")
     implementation(libs.androidx.material3.android)
     val compose_bom = platform("androidx.compose:compose-bom:2023.10.01")
     implementation(compose_bom)

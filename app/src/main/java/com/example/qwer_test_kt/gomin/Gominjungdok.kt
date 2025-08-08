@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -42,6 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 
 
 val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
@@ -49,27 +52,29 @@ val onePop = FontFamily(Font(R.font.onepop))
 
 
 val members = listOf(
-    Member("쵸단 ", R.drawable.gomin_cho_profile, R.drawable.gomin_cho),
-    Member("마젠타", R.drawable.gomin_ma_profile, R.drawable.gomin_ma),
-    Member("히나", R.drawable.gomin_hina_profile, R.drawable.gomin_hina),
-    Member("시연", R.drawable.gomin_siyeon_profile, R.drawable.gomin_si),
-    Member("단체", R.drawable.gomin_group, R.drawable.gomin_group_profile)
+    Member("쵸단 ", R.drawable.gomin_cho_profile, "https://kpopping.com/cloudflare-proxy/01ad037f878aff8eaa4a92001a9caaf8"),
+//    Member("마젠타", R.drawable.gomin_ma_profile, R.drawable.gomin_ma),
+//    Member("히나", R.drawable.gomin_hina_profile, R.drawable.gomin_hina),
+//    Member("시연", R.drawable.gomin_siyeon_profile, R.drawable.gomin_si),
+//    Member("단체", R.drawable.gomin_group, R.drawable.gomin_group_profile)
 )
-val membersSecond = listOf(
-    Member("쵸단 ", R.drawable.gomin_cho_profile2, R.drawable.gomin_cho2),
-    Member("마젠타", R.drawable.gomin_ma_profile2, R.drawable.gomin_ma2),
-    Member("히나", R.drawable.gomin_hina_profile2, R.drawable.gomin_hina2),
-    Member("시연", R.drawable.gomin_siyeon_profile2, R.drawable.gomin_si2),
-    Member("단체", R.drawable.gomin_group_profile2, R.drawable.gomin_group2)
-)
+//val membersSecond = listOf(
+//    Member("쵸단 ", R.drawable.gomin_cho_profile2, R.drawable.gomin_cho2),
+//    Member("마젠타", R.drawable.gomin_ma_profile2, R.drawable.gomin_ma2),
+//    Member("히나", R.drawable.gomin_hina_profile2, R.drawable.gomin_hina2),
+//    Member("시연", R.drawable.gomin_siyeon_profile2, R.drawable.gomin_si2),
+//    Member("단체", R.drawable.gomin_group_profile2, R.drawable.gomin_group2)
+//)
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun GominjungdokScreen(navController: NavHostController) {
 
+    val pagerState =  rememberPagerState(initialPage = 0)
     var selectedNavIndex by remember { mutableStateOf(0) }
     var selectedMember by remember { mutableStateOf(members[0]) }
     var isSecondTheme by remember { mutableStateOf(false) }
-    val currentMembers = if (isSecondTheme) membersSecond else members
+    //val currentMembers = if (isSecondTheme) membersSecond else members
 
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
@@ -98,16 +103,17 @@ fun GominjungdokScreen(navController: NavHostController) {
                 color = Color.Blue,
                 modifier = Modifier.clickable {
                     isSecondTheme = !isSecondTheme
-                    selectedMember = currentMembers[0]
+                    selectedMember = members[0]
                 }
             )
         }
 
         MemberProfile(
-            members = currentMembers,
-            selectedMember = selectedMember,
-            onMemberSelected = { member -> selectedMember = member }
-        )
+                members = members,
+                selectedMember = selectedMember,
+                onMemberSelected = { member -> selectedMember = member }
+            )
+
         // 상단 슬라이더
         Column(
             modifier = Modifier
@@ -252,5 +258,5 @@ fun NavigationItem(iconResId: Int, text: String, isSelected: Boolean, onItemSele
 data class Member(
     val name: String,
     val profileImageResId: Int,
-    val wallPaperImageResId: Int
+    val wallPaperImageResId: String
 )

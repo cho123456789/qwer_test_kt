@@ -19,10 +19,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.qwer_test_kt.R
 
 @Composable
-fun WallpaperScreen(wallpaperImageResId : Int) {
+fun WallpaperScreen(wallpaperImageResId : String) {
     val context = LocalContext.current
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -30,7 +31,7 @@ fun WallpaperScreen(wallpaperImageResId : Int) {
     ) {
         // 1. 화면을 가득 채우는 이미지
         Image(
-            painter = painterResource(id = wallpaperImageResId),
+            painter = rememberAsyncImagePainter(model = wallpaperImageResId),
             contentDescription = "Selected Member Choice",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
