@@ -44,7 +44,6 @@ import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import java.lang.reflect.Member
 
 
 val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
@@ -57,7 +56,7 @@ val members = listOf(
             "https://kpopping.com/cloudflare-proxy/01ad037f878aff8eaa4a92001a9caaf8",
             "https://kpopping.com/cloudflare-proxy/e81ca1e707f7f057a9eb7a135d70d286",
             "https://kpopping.com/cloudflare-proxy/b70a864fa1d55a2de57be9db71cd8848",
-            "https://kpopping.com/cloudflare-proxy/5a2985494474cecd8d77954ae7e627c6"
+            "https://kpopping.com/cloudflare-proxy/e0123392956af229160dad89fd45a23b"
         ),
 
 //    Member("마젠타", R.drawable.gomin_ma_profile, "https://kpopping.com/cloudflare-proxy/e81ca1e707f7f057a9eb7a135d70d286"),
@@ -123,6 +122,13 @@ fun GominjungdokScreen(navController: NavHostController) {
                 .weight(1f)
                 .fillMaxSize()
         ) {
+
+            MemberProfile(
+                members = members,
+                selectedMember = selectedMember,
+                onMemberSelected = { member -> selectedMember = member }
+            )
+
             when (selectedNavIndex) {
                 0 -> {
                     // 선택된 배경화면 URL이 없으면 미리보기 화면을 보여주고,
@@ -143,11 +149,6 @@ fun GominjungdokScreen(navController: NavHostController) {
                 2 -> IconScreen()
             }
         }
-//        MemberProfile(
-//            members = members,
-//            selectedMember = selectedMember,
-//            onMemberSelected = { member -> selectedMember = member }
-//        )
 
         BottomNavigationBar(
             selectedIndex = selectedNavIndex,
@@ -205,19 +206,19 @@ fun MemberProfileImage(members: Member, isSelected: Boolean, onClick: () -> Unit
                 interactionSource = remember { MutableInteractionSource() })
             .scale(scale)
     ) {
-//        Image(
-//            painter = painterResource(id = members.),
-//            contentDescription = "${members.name} profile",
-//            contentScale = ContentScale.Crop,
-//            modifier = Modifier
-//                .size(65.dp)
-//                .clip(RoundedCornerShape(40.dp))
-//                .border(
-//                    width = borderWidth,
-//                    color = borderColor,
-//                    shape = RoundedCornerShape(40.dp),
-//                )
-//        )
+        Image(
+            painter = painterResource(id = members.profileImageResId),
+            contentDescription = "${members.name} profile",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(65.dp)
+                .clip(RoundedCornerShape(40.dp))
+                .border(
+                    width = borderWidth,
+                    color = borderColor,
+                    shape = RoundedCornerShape(40.dp),
+                )
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = members.name,

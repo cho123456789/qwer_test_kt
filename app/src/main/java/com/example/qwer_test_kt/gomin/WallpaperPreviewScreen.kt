@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -33,7 +34,8 @@ fun WallpaperPreviewScreen(wallpaperUrls: List<String>, onWallpaperSelected: (St
             text = "배경화면을 선택해주세요",
             fontSize = 20.sp,
             fontFamily = onePop,
-            modifier = Modifier.padding(16.dp)
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(10.dp)
         )
         // LazyVerticalGrid를 사용해 스크롤 가능한 2x2 격자 구현
         LazyVerticalGrid(
