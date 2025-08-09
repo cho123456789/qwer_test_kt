@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
 
 android {
@@ -45,20 +47,23 @@ android {
 }
 
 dependencies {
-    implementation ("io.coil-kt:coil-compose:2.1.0")
-    implementation ("com.google.accompanist:accompanist-pager:0.24.13-rc")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation (libs.coil.compose)
+    implementation (libs.accompanist.pager)
     implementation(libs.androidx.material3.android)
     val compose_bom = platform("androidx.compose:compose-bom:2023.10.01")
     implementation(compose_bom)
     androidTestImplementation(compose_bom)
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation ("androidx.activity:activity-compose")
-    implementation ("androidx.compose.ui:ui:1.5.0")
-    implementation ("androidx.compose.material:material")
-    implementation ("androidx.compose.ui:ui-tooling-preview")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx")
-    implementation ("androidx.compose.runtime:runtime-livedata")
+    implementation(libs.androidx.navigation.compose)
+    debugImplementation(libs.androidx.ui.tooling)
+    implementation (libs.androidx.activity.compose)
+    implementation (libs.androidx.ui)
+    implementation (libs.androidx.material)
+    implementation (libs.androidx.ui.tooling.preview)
+    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation (libs.androidx.runtime.livedata)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
