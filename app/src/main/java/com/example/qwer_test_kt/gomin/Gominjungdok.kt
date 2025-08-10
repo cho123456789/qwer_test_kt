@@ -42,10 +42,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
-import com.example.qwer_test_kt.Route
+import com.example.qwer_test_kt.gomin.view.WallpaperDetailScreen
+import com.example.qwer_test_kt.gomin.view.WallpaperPreviewScreen
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -59,7 +59,7 @@ val members = listOf(
         "쵸단 ", R.drawable.gomin_cho_profile,
         listOf(
             "https://scontent-icn2-1.cdninstagram.com/v/t51.29350-15/434297446_3756819281310444_7596647869360208337_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0uaW1hZ2VfdXJsZ2VuLjE0NDB4MTgwMC5zZHIuZjI5MzUwLmRlZmF1bHRfaW1hZ2UuYzIifQ&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_cat=100&_nc_oc=Q6cZ2QEnF0WSzQcnsIKRb8ioD6xdOHjLjlCYrRg5B2dEWROeBLTUtgEdbBsAYmcP8IFw06Y&_nc_ohc=9-h6Pb3t-3MQ7kNvwFA__e4&_nc_gid=EGOX6AZD2f8G35Mho-LBcQ&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzMzMDMxODA5Mzk5Nzc3MTEzOQ%3D%3D.3-ccb7-5&oh=00_AfXY-2rImq5fwewpmgT7pFuAutUHtEQTEPkkiWq_OfQ_uA&oe=689CE140&_nc_sid=10d13b",
-            "https://scontent-icn2-1.cdninstagram.com/v/t51.29350-15/434300692_2076879782711749_8654505459255521025_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0uaW1hZ2VfdXJsZ2VuLjE0NDB4MTc5Ni5zZHIuZjI5MzUwLmRlZmF1bHRfaW1hZ2UuYzIifQ&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2QEnF0WSzQcnsIKRb8ioD6xdOHjLjlCYrRg5B2dEWROeBLTUtgEdbBsAYmcP8IFw06Y&_nc_ohc=UhmzR8FiN2wQ7kNvwERWdLL&_nc_gid=EGOX6AZD2f8G35Mho-LBcQ&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzMzMDMxODA5Mzg4MDMwMjYxMQ%3D%3D.3-ccb7-5&oh=00_AfU-DgHWLLEV6cH9nurIwY03HcmgIOfhajEYkCnYw9CbWQ&oe=689CBA37&_nc_sid=10d13b",
+            "https://cafeptthumb-phinf.pstatic.net/MjAyNDAzMjRfODMg/MDAxNzExMjU2MTU1NzUz.-gDWGk24Aii4L4rbiMKfqvsIPsdWdogQApXAA0s1U-sg.CbfvsVwiE8yX-pZ1HSDTut3GDIk7Q_pYeYY61BzJ-jAg.JPEG/qwer_x_manito_concept_q_1_u.jpeg?type=w1600",
             "https://scontent-icn2-1.cdninstagram.com/v/t51.29350-15/421030505_3669590759993293_7685181885209961154_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0uaW1hZ2VfdXJsZ2VuLjE0NDB4MTc5OS5zZHIuZjI5MzUwLmRlZmF1bHRfaW1hZ2UuYzIifQ&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2QEnF0WSzQcnsIKRb8ioD6xdOHjLjlCYrRg5B2dEWROeBLTUtgEdbBsAYmcP8IFw06Y&_nc_ohc=4f7-eiA-pHgQ7kNvwFjg9G6&_nc_gid=EGOX6AZD2f8G35Mho-LBcQ&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzMzMDMxODA5Mzg4MDIzNjQ0NA%3D%3D.3-ccb7-5&oh=00_AfUgWo_--WCcdsSnEZ84M7_PEYPDYSPVZjuc79hmIRkB5g&oe=689CE113&_nc_sid=10d13b",
             "https://scontent-icn2-1.cdninstagram.com/v/t51.29350-15/421042277_7397278296981580_7460217418024092784_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0uaW1hZ2VfdXJsZ2VuLjE0NDB4MTgwMC5zZHIuZjI5MzUwLmRlZmF1bHRfaW1hZ2UuYzIifQ&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2QEnF0WSzQcnsIKRb8ioD6xdOHjLjlCYrRg5B2dEWROeBLTUtgEdbBsAYmcP8IFw06Y&_nc_ohc=OdIpEZnYcWEQ7kNvwFyndjr&_nc_gid=EGOX6AZD2f8G35Mho-LBcQ&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzMzMDMxODA5Mzg4MDE5NTEwNA%3D%3D.3-ccb7-5&oh=00_AfWgOsRO_ABCfE9bRQcFCAK04LXAZyEuqc10L7K66AGhLQ&oe=689CEDD8&_nc_sid=10d13b"
         ),
@@ -82,7 +82,7 @@ val members = listOf(
 @Composable
 fun GominjungdokScreen(navController: NavHostController) {
 
-    val viewModel : GominJungdokViewModel = hiltViewModel()
+    val viewModel: GominJungdokViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
     val pagerState = rememberPagerState(initialPage = 0)
     var selectedNavIndex by remember { mutableStateOf(0) }
@@ -90,6 +90,7 @@ fun GominjungdokScreen(navController: NavHostController) {
     var isSecondTheme by remember { mutableStateOf(false) }
     //val currentMembers = if (isSecondTheme) membersSecond else members
 
+    var showEditorScreen by remember { mutableStateOf(false) }
     var selectedWallpaperUrl by remember { mutableStateOf<String?>(null) }
 
     val gradientBackground = Brush.verticalGradient(
@@ -98,7 +99,6 @@ fun GominjungdokScreen(navController: NavHostController) {
             Color(0xFFE1BEE7)  // 더 밝은 연보라색
         )
     )
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -157,7 +157,6 @@ fun GominjungdokScreen(navController: NavHostController) {
                 2 -> IconScreen()
             }
         }
-
         BottomNavigationBar(
             selectedIndex = selectedNavIndex,
             onItemSelected = { index -> selectedNavIndex = index }
