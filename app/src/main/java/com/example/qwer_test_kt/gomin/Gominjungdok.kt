@@ -221,8 +221,8 @@ fun MemberProfile(
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(members.size) { index ->
@@ -254,6 +254,7 @@ fun MemberProfileImage(member: Member, isSelected: Boolean, onClick: () -> Unit)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
+            .width(80.dp)
             .clickable(
                 onClick = onClick,
                 indication = null,
