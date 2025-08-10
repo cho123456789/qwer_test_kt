@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -27,16 +28,20 @@ import com.example.qwer_test_kt.gomin.onePop
 @Composable
 fun WallpaperPreviewScreen(wallpaperUrls: List<String>, onWallpaperSelected: (String) -> Unit) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.
+            fillMaxSize()
+            .padding(top = 30.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "배경화면을 선택해주세요",
-            fontSize = 20.sp,
+            fontSize = 30.sp,
             fontFamily = onePop,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp)
         )
         // LazyVerticalGrid를 사용해 스크롤 가능한 2x2 격자 구현
         LazyVerticalGrid(
@@ -45,7 +50,7 @@ fun WallpaperPreviewScreen(wallpaperUrls: List<String>, onWallpaperSelected: (St
                 .fillMaxSize()
                 .wrapContentHeight()
                 .align(Alignment.CenterHorizontally),
-            contentPadding = PaddingValues(25.dp),
+            contentPadding = PaddingValues(10.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp), // 세로 간격 8.dp
             horizontalArrangement = Arrangement.spacedBy(8.dp), // 세로 간격 8.dp
         ) {
