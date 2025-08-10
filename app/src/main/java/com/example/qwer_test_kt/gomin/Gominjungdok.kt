@@ -149,12 +149,10 @@ fun GominjungdokScreen(navController: NavHostController) {
                         onMemberSelected = { member ->
                             coroutineScope.launch {
                                 pagerState.animateScrollToPage(
-                                    members.indexOf(
-                                        member
-                                    )
-                                )
+                                    members.indexOf(member))
                             }
-                        }
+                        },
+                        isClickable = uiState.selectedWallpaper == null
                     )
 
                     // HorizontalPager를 사용하여 멤버에 따라 다른 화면을 표시합니다.
@@ -216,7 +214,8 @@ fun GominjungdokScreen(navController: NavHostController) {
 fun MemberProfile(
     members: List<Member>,
     pagerState: PagerState,
-    onMemberSelected: (Member) -> Unit
+    onMemberSelected: (Member) -> Unit,
+    isClickable: Boolean
 ) {
     // LazyRow를 사용하여 멤버 프로필을 가로로 스크롤 가능하게 만듭니다.
     LazyRow(
@@ -231,7 +230,10 @@ fun MemberProfile(
             MemberProfileImage(
                 member = member,
                 isSelected = index == pagerState.currentPage, // 현재 페이지와 일치하는지 확인
-                onClick = { onMemberSelected(member) }
+                onClick = {
+                    if(isClickable)
+                    onMemberSelected(member)
+                }
             )
         }
     }
