@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
@@ -50,6 +52,7 @@ fun WallpaperDetailScreen(
     onBackPressed: () -> Unit,
     viewModel: GominJungdokViewModel
 ) {
+    val scrollState = rememberScrollState()
 
     BackHandler {
         onBackPressed()
@@ -78,7 +81,8 @@ fun WallpaperDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 16.dp), // 하단 패딩을 Column 전체에 적용
+            .padding(bottom = 16.dp)
+            .verticalScroll(scrollState),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -98,7 +102,6 @@ fun WallpaperDetailScreen(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
                 .padding(horizontal = 16.dp)
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.Crop
