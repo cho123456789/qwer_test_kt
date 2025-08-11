@@ -7,6 +7,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.qwer_test_kt.domin.model.Member
+import com.example.qwer_test_kt.domin.usecase.GetMembersUseCase
 import com.example.qwer_test_kt.domin.usecase.GetWallpaperBitmapUseCase
 import com.example.qwer_test_kt.domin.usecase.SetWallpaperUseCase
 import com.example.qwer_test_kt.gomin.view.downloadBitmap
@@ -36,16 +38,35 @@ data class GominJungdokUiState(
 
 @HiltViewModel
 class GominJungdokViewModel @Inject constructor(
-    private val setWallpaperUseCase: SetWallpaperUseCase,
-    private val getWallpaperBitmapUseCase: GetWallpaperBitmapUseCase,
-    private val getApplication: Application
+    private val getMembersUseCase: GetMembersUseCase
 ) : ViewModel() {
 
     // 내부에서 상태를 변경
     private val _uiState = MutableStateFlow(GominJungdokUiState())
-
     // viewmodel 변경된 상태 확인
     val uiState: StateFlow<GominJungdokUiState> = _uiState.asStateFlow()
+
+    private val _members = MutableStateFlow<List<Member>>(emptyList())
+    val members: StateFlow<List<Member>> = _members.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val loading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    init {
+        fetchMembers()
+    }
+
+    fun fetchMembers(){
+        viewModelScope.launch {
+            _isLoading.value = true
+            val result = getMembersUseCase()
+            if (result.isSuccess) {
+                _members.value = result.getOrThrow()
+            } else {
+                _isLoading.value = false
+            }
+        }
+    }
 
     fun setWallpaper(context: Context, wallpaperUrl: String, onIntentReady: (Intent) -> Unit) {
         viewModelScope.launch {
