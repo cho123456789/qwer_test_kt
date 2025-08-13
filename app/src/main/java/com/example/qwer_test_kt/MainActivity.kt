@@ -139,7 +139,10 @@ fun MainScreen(navController: NavHostController) {
                     imageResId = R.drawable.discord,
                     text = "Discord",
                     fontFamily = onePop,
-                    onClick = { /* Handle Discord card click */ }
+                    onClick = {
+                        navController.navigate(Route.Discord)
+                        
+                    }
                 )
                 ConceptCard(
                     imageResId = R.drawable.mani2,

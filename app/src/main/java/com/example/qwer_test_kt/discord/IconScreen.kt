@@ -1,4 +1,4 @@
-package com.example.qwer_test_kt.gomin
+package com.example.qwer_test_kt.discord
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

@@ -1,4 +1,4 @@
-package com.example.qwer_test_kt.gomin
+package com.example.qwer_test_kt.discord
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -46,6 +46,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
+import com.example.qwer_test_kt.gomin.IconScreen
+import com.example.qwer_test_kt.gomin.WidgetScreen
 import com.example.qwer_test_kt.gomin.view.WallpaperDetailScreen
 import com.example.qwer_test_kt.gomin.view.WallpaperPreviewScreen
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
@@ -55,7 +57,6 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-
 val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
 val onePop = FontFamily(Font(R.font.onepop))
 
@@ -63,9 +64,9 @@ val members = listOf(
     Member(
         "쵸단 ", R.drawable.gomin_cho_profile,
         listOf(
-            "https://cafeptthumb-phinf.pstatic.net/MjAyNDAzMjRfMTg5/MDAxNzExMjU2MTU1OTgx.MwMlG3nmyMRbPJlLTAdxdxvKBYvH1hhtlp_RHqYKWr4g.LxcylwxRiVGVtOHPxXcKTw5DdLQIeluzlUF1sP3qNMEg.JPEG/qwer_x_manito_concept_q_2_u.jpeg?type=w1600",
-            "https://cafeptthumb-phinf.pstatic.net/MjAyNDAzMjRfODMg/MDAxNzExMjU2MTU1NzUz.-gDWGk24Aii4L4rbiMKfqvsIPsdWdogQApXAA0s1U-sg.CbfvsVwiE8yX-pZ1HSDTut3GDIk7Q_pYeYY61BzJ-jAg.JPEG/qwer_x_manito_concept_q_1_u.jpeg?type=w1600",
-            "https://cafeptthumb-phinf.pstatic.net/MjAyNDAzMjRfMjM1/MDAxNzExMjU2MTU1NjIy.W3NNSoSdyqOKV4at2ttzhiML-2Gjc-Irz6WTH88bnnIg._TYxEAhfmCYIM8Im7dbj_vhMlDTt_Y4bAZL_zsl1SEEg.JPEG/qwer_x_manito_concept_q_3_u.jpeg?type=w1600",
+            "https://scontent-icn2-1.cdninstagram.com/v/t51.29350-15/386756537_7494235740593614_3432590371465961733_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0uaW1hZ2VfdXJsZ2VuLjE0NDB4MTcyNC5zZHIuZjI5MzUwLmRlZmF1bHRfaW1hZ2UuYzIifQ&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2QFFLP0GsQk5y6xHxgoDPd6UwWW0dB0Tmz6_fKGax_F_iqiixhY4oXJQMlx-PIpZVcM&_nc_ohc=HXz2oQXg6tgQ7kNvwHUSPI0&_nc_gid=Ef8t_gf91DDRPa4mSrhthg&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzIwOTY5NjAyODA0NjE4MTc0Nw%3D%3D.3-ccb7-5&oh=00_AfXGrtXzn_IZgyl8vnqaas8LqoXlJC62KD7cvc1MyV5Cag&oe=689FC30E&_nc_sid=10d13b",
+            "https://scontent-icn2-1.cdninstagram.com/v/t51.29350-15/387266597_852646466572804_3786881278734045513_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0uaW1hZ2VfdXJsZ2VuLjE0NDB4MTcyNC5zZHIuZjI5MzUwLmRlZmF1bHRfaW1hZ2UuYzIifQ&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2QFFLP0GsQk5y6xHxgoDPd6UwWW0dB0Tmz6_fKGax_F_iqiixhY4oXJQMlx-PIpZVcM&_nc_ohc=Tas5sVKL2yMQ7kNvwENC_aR&_nc_gid=Ef8t_gf91DDRPa4mSrhthg&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzIwOTY5NjAyODA3MTQxMTUzMA%3D%3D.3-ccb7-5&oh=00_AfV0yZGxO3na11-RftYpbOcgIVyS8GZ4ekTfxu911LahNw&oe=689FA9FE&_nc_sid=10d13b",
+            "https://scontent-icn2-1.cdninstagram.com/v/t51.29350-15/387659262_1056040365753909_7454895144852532129_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0uaW1hZ2VfdXJsZ2VuLjE0NDB4MTcyNC5zZHIuZjI5MzUwLmRlZmF1bHRfaW1hZ2UuYzIifQ&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_cat=109&_nc_oc=Q6cZ2QFFLP0GsQk5y6xHxgoDPd6UwWW0dB0Tmz6_fKGax_F_iqiixhY4oXJQMlx-PIpZVcM&_nc_ohc=aJG2jVFKAHoQ7kNvwHi7Hyl&_nc_gid=Ef8t_gf91DDRPa4mSrhthg&edm=APs17CUBAAAA&ccb=7-5&ig_cache_key=MzIwOTY5NjAyODA3MTM3NDAxMw%3D%3D.3-ccb7-5&oh=00_AfUVm9bQZCR9MHpPPnf8UY30rUCWFxDsqf9rVCgl9MGMdg&oe=689FD5B9&_nc_sid=10d13b",
             "https://cafeptthumb-phinf.pstatic.net/MjAyNDAzMjRfMzkg/MDAxNzExMjU2MTU1NDg3.neBP6LMXMCr1Y-H658HSpRJyPflNjDZLNACDbjVNZGUg.mkMIXssOBFLYwuJchs4xknGHm0mlYucPaM1_tZnO9VQg.JPEG/qwer_x_manito_concept_q_4_u.jpeg?type=w1600"
         ),
     ),
@@ -109,7 +110,7 @@ val members = listOf(
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun GominjungdokScreen(navController: NavHostController) {
+fun DiscordScreen(navController: NavHostController) {
 
     val viewModel: GominJungdokViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
@@ -149,7 +150,8 @@ fun GominjungdokScreen(navController: NavHostController) {
                         onMemberSelected = { member ->
                             coroutineScope.launch {
                                 pagerState.animateScrollToPage(
-                                    members.indexOf(member))
+                                    members.indexOf(member)
+                                )
                             }
                         },
                         isClickable = uiState.selectedWallpaper == null
@@ -188,7 +190,7 @@ fun GominjungdokScreen(navController: NavHostController) {
                         .weight(1f)
                         .fillMaxSize()
                 ) {
-                    WidgetScreen(navController)
+                    WidgetScreen()
                 }
             }
 
@@ -231,8 +233,8 @@ fun MemberProfile(
                 member = member,
                 isSelected = index == pagerState.currentPage, // 현재 페이지와 일치하는지 확인
                 onClick = {
-                    if(isClickable)
-                    onMemberSelected(member)
+                    if (isClickable)
+                        onMemberSelected(member)
                 }
             )
         }

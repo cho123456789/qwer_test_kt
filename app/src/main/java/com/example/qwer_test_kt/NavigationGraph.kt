@@ -1,13 +1,12 @@
 package com.example.qwer_test_kt
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.qwer_test_kt.discord.DiscordScreen
 import com.example.qwer_test_kt.gomin.GominjungdokScreen
-import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 
 @Composable
 fun AppNavGraph() {
@@ -26,5 +25,10 @@ fun AppNavGraph() {
                 navController = navController
             )
         }
-    }
+        composable(Route.Discord) {
+                DiscordScreen(
+                    navController = navController
+                )
+            }
+        }
 }

@@ -102,6 +102,7 @@ fun WallpaperDetailScreen(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
                 .padding(horizontal = 16.dp)
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.Crop
