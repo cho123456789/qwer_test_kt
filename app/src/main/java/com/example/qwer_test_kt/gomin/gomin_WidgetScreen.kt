@@ -1,5 +1,12 @@
 package com.example.qwer_test_kt.gomin
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.ContentValues.TAG
+import android.content.Context
+import android.os.Build
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,16 +25,25 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.qwer_test_kt.CalendarWidgetProvider
+import com.example.qwer_test_kt.ChodanWidgetProvider
+import com.example.qwer_test_kt.MyWidgetProvider
 import com.example.qwer_test_kt.R
+import com.example.qwer_test_kt.SiyeonWidgetProvider
 
 @Composable
 fun WidgetScreen(navController: NavController) {
+    val context: Context = LocalContext.current
+    val appWidgetManager = AppWidgetManager.getInstance(context)
+    val myProvider = ComponentName(context, ChodanWidgetProvider::class.java)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,7 +54,17 @@ fun WidgetScreen(navController: NavController) {
             imagePainter = painterResource(id = R.drawable.mm),
             titles = listOf("The 1st Mini Album", "MANITO", "QWER"),
             onClick = {
-                // 이 카드를 클릭했을 때 실행할 동작
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        // Android 8.0 (Oreo) 이상에서 위젯 고정 요청이 가능한지 확인
+                        if (appWidgetManager.isRequestPinAppWidgetSupported) {
+                            // 위젯 고정 요청
+                            appWidgetManager.requestPinAppWidget(myProvider, null, null)
+                        } else {
+                            Toast.makeText(context, "위젯 고정을 지원하지 않는 기기입니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(context, "안드로이드 8.0 이상에서만 지원되는 기능입니다.", Toast.LENGTH_SHORT).show()
+                    }
             },
             modifier = Modifier
                 .fillMaxHeight(0.2f) // 화면 높이의 30%를 차지하도록 설정
