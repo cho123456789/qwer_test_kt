@@ -11,7 +11,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,6 +39,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,7 +58,7 @@ import kotlinx.coroutines.launch
 
 val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
 val onePop = FontFamily(Font(R.font.onepop))
-
+val sam = FontFamily(Font(R.font.samliphop))
 val members = listOf(
     Member(
         "쵸단 ", R.drawable.gomin_cho_profile,
@@ -135,77 +135,70 @@ fun GominjungdokScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        when (selectedNavIndex) {
-            0 -> {
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(top = 40.dp)
-                ) {
-                    MemberProfile(
-                        members = members,
-                        pagerState = pagerState,
-                        onMemberSelected = { member ->
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(
-                                    members.indexOf(member))
-                            }
-                        },
-                        isClickable = uiState.selectedWallpaper == null
-                    )
-
-                    // HorizontalPager를 사용하여 멤버에 따라 다른 화면을 표시합니다.
-                    HorizontalPager(
-                        count = members.size,
-                        state = pagerState,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        userScrollEnabled = uiState.selectedWallpaper == null
-                    ) { page ->
-                        // 현재 페이지에 해당하는 멤버의 배경화면 목록을 표시합니다.
-                        val currentMember = members[page]
-                        if (uiState.selectedWallpaper == null) {
-                            WallpaperPreviewScreen(
-                                wallpaperUrls = currentMember.wallPaperImageResId,
-                                onWallpaperSelected = { url -> viewModel.onWallpaperSelected(url) }
-                            )
-                        } else {
-                            WallpaperDetailScreen(
-                                wallpaperUrl = uiState.selectedWallpaper!!,
-                                onBackPressed = { viewModel.onBackPressed() },
-                                viewModel = viewModel
-                            )
-                        }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize()
+                .padding(top = 40.dp)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally // 중앙 정렬
+            ) {
+                Text(
+                    text = "The 1st Mini Album",
+                    fontSize = 40.sp,
+                    color = Color.Black,
+                    fontFamily = sam,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(10.dp)
+                )
+                Text(
+                    text = "MANITO", // 여기에 원하는 텍스트를 입력
+                    fontSize = 45.sp,
+                    color = Color.Magenta,
+                    fontFamily = sam,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(10.dp)
+                )
+            }
+            MemberProfile(
+                members = members,
+                pagerState = pagerState,
+                onMemberSelected = { member ->
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(
+                            members.indexOf(member)
+                        )
                     }
-                }
-            }
-
-            1 -> { // 위젯 탭
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                ) {
-                    WidgetScreen(navController)
-                }
-            }
-
-            2 -> { // 아이콘 탭
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                ) {
-                    IconScreen()
+                },
+                isClickable = uiState.selectedWallpaper == null
+            )
+            // HorizontalPager를 사용하여 멤버에 따라 다른 화면을 표시합니다.
+            HorizontalPager(
+                count = members.size,
+                state = pagerState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                userScrollEnabled = uiState.selectedWallpaper == null
+            ) { page ->
+                // 현재 페이지에 해당하는 멤버의 배경화면 목록을 표시합니다.
+                val currentMember = members[page]
+                if (uiState.selectedWallpaper == null) {
+                    WallpaperPreviewScreen(
+                        wallpaperUrls = currentMember.wallPaperImageResId,
+                        onWallpaperSelected = { url -> viewModel.onWallpaperSelected(url) }
+                    )
+                } else {
+                    WallpaperDetailScreen(
+                        wallpaperUrl = uiState.selectedWallpaper!!,
+                        onBackPressed = { viewModel.onBackPressed() },
+                        viewModel = viewModel
+                    )
                 }
             }
         }
-        BottomNavigationBar(
-            selectedIndex = selectedNavIndex,
-            onItemSelected = { index -> selectedNavIndex = index }
-        )
     }
 }
 
@@ -231,8 +224,8 @@ fun MemberProfile(
                 member = member,
                 isSelected = index == pagerState.currentPage, // 현재 페이지와 일치하는지 확인
                 onClick = {
-                    if(isClickable)
-                    onMemberSelected(member)
+                    if (isClickable)
+                        onMemberSelected(member)
                 }
             )
         }
@@ -280,57 +273,6 @@ fun MemberProfileImage(member: Member, isSelected: Boolean, onClick: () -> Unit)
             text = member.name,
             fontSize = 14.sp,
             fontFamily = onePop
-        )
-    }
-}
-
-@Composable
-fun BottomNavigationBar(selectedIndex: Int, onItemSelected: (Int) -> Unit) {
-    val navItems = listOf(
-        Pair(android.R.drawable.ic_menu_gallery, "배경화면"),
-        Pair(R.drawable.qwer2, "위젯"),
-        Pair(R.drawable.dear, "아이콘")
-    )
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .background(Color.White.copy(alpha = 0.8f)), // 반투명 흰색
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        navItems.forEachIndexed { index, item ->
-            NavigationItem(
-                iconResId = item.first,
-                text = item.second,
-                isSelected = index == selectedIndex, // 현재 아이템이 선택되었는지 전달
-                onItemSelected = { onItemSelected(index) } // 클릭 시 인덱스 반환
-            )
-        }
-    }
-}
-
-// 하단 내비게이션 아이템
-@Composable
-fun NavigationItem(iconResId: Int, text: String, isSelected: Boolean, onItemSelected: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .width(60.dp)
-            .clickable(onClick = onItemSelected)
-    ) {
-        Image(
-            painter = painterResource(id = iconResId),
-            contentDescription = text,
-            modifier = Modifier.size(24.dp),
-            contentScale = ContentScale.Fit,
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = text,
-            fontSize = 12.sp,
-            fontFamily = onePop,
-            color = if (isSelected) Color.Blue else Color.Black
         )
     }
 }

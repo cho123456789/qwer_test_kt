@@ -30,18 +30,18 @@ fun WallpaperPreviewScreen(wallpaperUrls: List<String>, onWallpaperSelected: (St
     Column(
         modifier = Modifier.
             fillMaxSize()
-            .padding(top = 30.dp),
+            .padding(top = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "배경화면을 선택해주세요",
+            text = "사진을 선택해주세요",
             fontSize = 30.sp,
             fontFamily = onePop,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp)
+                .padding(20.dp)
         )
         // LazyVerticalGrid를 사용해 스크롤 가능한 2x2 격자 구현
         LazyVerticalGrid(
