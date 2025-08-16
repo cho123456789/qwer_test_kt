@@ -1,5 +1,7 @@
 package com.example.qwer_test_kt.discord
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -46,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
+import com.example.qwer_test_kt.Route
 import com.example.qwer_test_kt.gomin.IconScreen
 import com.example.qwer_test_kt.gomin.WidgetScreen
 import com.example.qwer_test_kt.gomin.view.WallpaperDetailScreen
@@ -108,6 +111,7 @@ val members = listOf(
     )
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun DiscordScreen(navController: NavHostController) {

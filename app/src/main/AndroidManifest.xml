@@ -105,6 +105,25 @@
         </receiver>
 
         <service
+            android:name=".gomin.wiget.GoBatteryMonitorService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+
+        <receiver android:name=".gomin.wiget.GoBatteryWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/battery_go_widget_info" />
+        </receiver>
+
+        <service
             android:name=".BatteryMonitorService"
             android:exported="false"
             android:foregroundServiceType="dataSync" />

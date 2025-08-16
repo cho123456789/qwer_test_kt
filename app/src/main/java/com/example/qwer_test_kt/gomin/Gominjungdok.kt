@@ -1,5 +1,7 @@
 package com.example.qwer_test_kt.gomin
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -107,6 +109,7 @@ val members = listOf(
     )
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun GominjungdokScreen(navController: NavHostController) {
@@ -194,7 +197,7 @@ fun GominjungdokScreen(navController: NavHostController) {
                     WallpaperDetailScreen(
                         wallpaperUrl = uiState.selectedWallpaper!!,
                         onBackPressed = { viewModel.onBackPressed() },
-                        viewModel = viewModel
+                        viewModel = viewModel,
                     )
                 }
             }

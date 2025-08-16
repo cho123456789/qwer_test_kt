@@ -3,11 +3,14 @@ package com.example.qwer_test_kt.gomin.view
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,7 +32,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,11 +52,12 @@ import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 import java.io.File
 import java.io.FileOutputStream
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WallpaperDetailScreen(
     wallpaperUrl: String,
     onBackPressed: () -> Unit,
-    viewModel: GominJungdokViewModel
+    viewModel: GominJungdokViewModel,
 ) {
     val scrollState = rememberScrollState()
 
@@ -78,6 +85,8 @@ fun WallpaperDetailScreen(
             CircularProgressIndicator()
         }
     }
+    var showWidgetSelectionDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -97,6 +106,7 @@ fun WallpaperDetailScreen(
             }
         }
 
+
         AsyncImage(
             model = wallpaperUrl,
             contentDescription = null,
@@ -107,17 +117,56 @@ fun WallpaperDetailScreen(
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.Crop
         )
+        WallpaperAndWidgetRow(
+            viewModel = viewModel, // Pass the instance
+            context = context,
+            wallpaperUrl = wallpaperUrl,
+            onSetWidgetClicked = {
+                showWidgetSelectionDialog = true
+            } // Pass the lambda
+        )
+        if (showWidgetSelectionDialog) {
+            WidgetSelectionDialog(
+                onDismissRequest = {
+                    showWidgetSelectionDialog = false
+                },
+                onWidgetSelected = {
+                    showWidgetSelectionDialog = false
+                },
+                wallpaperUrl = wallpaperUrl // 매개변수를 괄호 안에 올바르게 위치시킵니다.
+            )
+        }
+    }
+}
 
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun WallpaperAndWidgetRow(
+    viewModel: GominJungdokViewModel, // Replace with your actual ViewModel
+    context: Context, // Make sure you have the context available
+    wallpaperUrl: String,
+    onSetWidgetClicked: () -> Unit
+) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceAround, // Arranges buttons with space between them
+        verticalAlignment = Alignment.CenterVertically // Aligns buttons vertically in the center
+    ) {
+        // "배경화면으로 설정하기" (Set as Wallpaper) Button
         Button(
             onClick = {
                 viewModel.setWallpaper(context, wallpaperUrl) {
                     context.startActivity(it)
                 }
             },
+            // The `weight` modifier is crucial for `Row` to make the buttons share space
             modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .padding(horizontal = 16.dp), // 수평 패딩만 적용
+                .weight(1f)
+                .height(56.dp),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(0xFF80CBC4),
                 contentColor = Color.White
@@ -125,9 +174,42 @@ fun WallpaperDetailScreen(
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                text = "배경화면으로 설정하기",
+                text = "배경화면 등록",
+                fontFamily = onePop, // Make sure this font family is defined
+                fontSize = 18.sp
+            )
+        }
+
+        // Add a spacer for visual separation
+        Spacer(modifier = Modifier.width(16.dp))
+
+        // "위젯으로 설정하기" (Set as Widget) Button
+        Button(
+            onClick = onSetWidgetClicked,
+            modifier = Modifier
+                .weight(1f) // Gives this button equal weight to the first one
+                .height(56.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color(0xFF80CBC4),
+                contentColor = Color.White
+            ),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(
+                text = "위젯 등록",
                 fontFamily = onePop,
                 fontSize = 18.sp
+            )
+        }
+        if (showDialog) {
+            WidgetSelectionDialog(
+                onDismissRequest = {
+                    showDialog = false // Dismiss the dialog when user clicks outside
+                },
+                onWidgetSelected = {
+                    showDialog = false // Dismiss the dialog after a widget is selected
+                },
+                wallpaperUrl = wallpaperUrl
             )
         }
     }

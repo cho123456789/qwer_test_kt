@@ -1,6 +1,7 @@
 package com.example.qwer_test_kt
 
-import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -8,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.qwer_test_kt.discord.DiscordScreen
 import com.example.qwer_test_kt.gomin.GominjungdokScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavGraph() {
     val navController = rememberNavController()
@@ -26,9 +28,10 @@ fun AppNavGraph() {
             )
         }
         composable(Route.Discord) {
-                DiscordScreen(
-                    navController = navController
-                )
-            }
+            DiscordScreen(
+                navController = navController
+            )
         }
+    }
+
 }
