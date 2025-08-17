@@ -224,7 +224,7 @@ fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
     return tempFile
 }
 
-suspend fun downloadBitmap(context: Context, url: String): Bitmap? {
+suspend fun downloadBitmap(context:  Context, url: String): Bitmap? {
     val request = ImageRequest.Builder(context)
         .data(url)
         .allowHardware(false)

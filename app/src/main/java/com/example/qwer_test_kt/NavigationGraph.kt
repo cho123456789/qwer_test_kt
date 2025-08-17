@@ -3,11 +3,15 @@ package com.example.qwer_test_kt
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.qwer_test_kt.discord.DiscordScreen
 import com.example.qwer_test_kt.gomin.GominjungdokScreen
+import com.example.qwer_test_kt.gomin.view.WallpaperDetailScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -26,6 +30,21 @@ fun AppNavGraph() {
             GominjungdokScreen(
                 navController = navController
             )
+        }
+        composable(
+            route = "${Route.Gomin_detail}/wallpaperUrl", // 경로 이름 수정
+            arguments = listOf(navArgument("wallpaperUrl") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val wallpaperUrl = backStackEntry.arguments?.getString("wallpaperUrl")
+            if (wallpaperUrl != null) {
+                WallpaperDetailScreen(
+                    wallpaperUrl = wallpaperUrl,
+                    onBackPressed = {
+                        navController.popBackStack()
+                    },
+                    viewModel = hiltViewModel()
+                )
+            }
         }
         composable(Route.Discord) {
             DiscordScreen(

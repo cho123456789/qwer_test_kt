@@ -1,5 +1,6 @@
 package com.example.qwer_test_kt.gomin
 
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
@@ -12,6 +13,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,21 +24,25 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -45,17 +51,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.qwer_test_kt.R
-import com.example.qwer_test_kt.gomin.view.WallpaperDetailScreen
-import com.example.qwer_test_kt.gomin.view.WallpaperPreviewScreen
-import com.example.qwer_test_kt.presentation.GominJungdokViewModel
+import com.example.qwer_test_kt.Route
+import com.example.qwer_test_kt.gomin.view.WallpaperListScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.launch
 
 
 val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
@@ -109,21 +114,22 @@ val members = listOf(
     )
 )
 
+
+sealed class BottomNavItem(val route: String, val icon: ImageVector, val title: String) {
+    object Wallpaper : BottomNavItem("wallpaper_list", Icons.Filled.Home, "배경화면")
+    object Widget : BottomNavItem("widget_list", Icons.Filled.List, "위젯")
+    object Icon : BottomNavItem("icon_list", Icons.Filled.Settings, "아이콘")
+}
+
+
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun GominjungdokScreen(navController: NavHostController) {
 
-    val viewModel: GominJungdokViewModel = hiltViewModel()
-    val uiState by viewModel.uiState.collectAsState()
-    val pagerState = rememberPagerState(initialPage = 0)
-    var selectedNavIndex by remember { mutableStateOf(0) }
-    val coroutineScope = rememberCoroutineScope()
+    val bottomNavController = rememberNavController()
 
-    var selectedMember by remember { mutableStateOf(members[0]) }
-    LaunchedEffect(pagerState.currentPage) {
-        selectedMember = members[pagerState.currentPage]
-    }
+    val allWallpapers = members.flatMap { it.wallPaperImageResId }
 
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
@@ -131,22 +137,21 @@ fun GominjungdokScreen(navController: NavHostController) {
             Color(0xFFE1BEE7)  // 더 밝은 연보라색
         )
     )
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(gradientBackground),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
+    Scaffold(
+        bottomBar = { GominBottomNavigation(navController = bottomNavController) }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
-                .weight(1f)
                 .fillMaxSize()
-                .padding(top = 40.dp)
+                .background(gradientBackground)
+                .padding(innerPadding)
+                .padding(top = 40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally // 중앙 정렬
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "The 1st Mini Album",
@@ -157,7 +162,7 @@ fun GominjungdokScreen(navController: NavHostController) {
                     modifier = Modifier.padding(10.dp)
                 )
                 Text(
-                    text = "MANITO", // 여기에 원하는 텍스트를 입력
+                    text = "MANITO",
                     fontSize = 45.sp,
                     color = Color.Magenta,
                     fontFamily = sam,
@@ -165,45 +170,34 @@ fun GominjungdokScreen(navController: NavHostController) {
                     modifier = Modifier.padding(10.dp)
                 )
             }
-            MemberProfile(
-                members = members,
-                pagerState = pagerState,
-                onMemberSelected = { member ->
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(
-                            members.indexOf(member)
-                        )
-                    }
-                },
-                isClickable = uiState.selectedWallpaper == null
-            )
-            // HorizontalPager를 사용하여 멤버에 따라 다른 화면을 표시합니다.
-            HorizontalPager(
-                count = members.size,
-                state = pagerState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                userScrollEnabled = uiState.selectedWallpaper == null
-            ) { page ->
-                // 현재 페이지에 해당하는 멤버의 배경화면 목록을 표시합니다.
-                val currentMember = members[page]
-                if (uiState.selectedWallpaper == null) {
-                    WallpaperPreviewScreen(
-                        wallpaperUrls = currentMember.wallPaperImageResId,
-                        onWallpaperSelected = { url -> viewModel.onWallpaperSelected(url) }
+
+            // 하단 내비게이션 탭에 따라 다른 화면을 보여주는 NavHost
+            NavHost(
+                navController = bottomNavController,
+                startDestination = BottomNavItem.Wallpaper.route,
+                modifier = Modifier.weight(1f)
+            ) {
+                composable(BottomNavItem.Wallpaper.route) {
+                    WallpaperListScreen(
+                        allWallpapers = allWallpapers,
+                        onWallpaperClick = { wallpaperUrl ->
+                            val encodedUrl = Uri.encode(wallpaperUrl)
+                            // 메인 NavController를 사용해 상세 화면으로 이동하며 URL 전달
+                            navController.navigate("${Route.Gomin_detail}/$encodedUrl")
+                        }
                     )
-                } else {
-                    WallpaperDetailScreen(
-                        wallpaperUrl = uiState.selectedWallpaper!!,
-                        onBackPressed = { viewModel.onBackPressed() },
-                        viewModel = viewModel,
-                    )
+                }
+                composable(BottomNavItem.Widget.route) {
+                    EmptyScreen(title = "위젯 목록")
+                }
+                composable(BottomNavItem.Icon.route) {
+                    EmptyScreen(title = "아이콘 목록")
                 }
             }
         }
     }
 }
+
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -232,6 +226,55 @@ fun MemberProfile(
                 }
             )
         }
+    }
+}
+
+@Composable
+fun GominBottomNavigation(navController: NavHostController) {
+    val items = listOf(
+        BottomNavItem.Wallpaper,
+        BottomNavItem.Widget,
+        BottomNavItem.Icon
+    )
+    BottomNavigation(
+        backgroundColor = Color(0xFFE1BEE7)
+    ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        items.forEach { item ->
+            BottomNavigationItem(
+                icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
+                label = { Text(text = item.title) },
+                selectedContentColor = Color.Magenta,
+                unselectedContentColor = Color.White.copy(0.4f),
+                alwaysShowLabel = true,
+                selected = currentRoute == item.route,
+                onClick = {
+                    navController.navigate(item.route) {
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) { saveState = true }
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
+        }
+    }
+}
+
+// 위젯 및 아이콘 탭에 표시할 임시 화면 (기존과 동일)
+@Composable
+fun EmptyScreen(title: String) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "$title 화면입니다.",
+            fontSize = 24.sp,
+            fontFamily = sam
+        )
     }
 }
 

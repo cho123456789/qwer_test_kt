@@ -3,6 +3,7 @@ package com.example.qwer_test_kt
 object Route {
     const val HOME = "home"
     const val Gominjungdok = "gominjungdok"
+    const val Gomin_detail = "gomin_detail"
     const val Discord = "discord"
     const val Gomin_select = "GominSelect"
     const val WALLPAPER = "wallpaper_screen"
