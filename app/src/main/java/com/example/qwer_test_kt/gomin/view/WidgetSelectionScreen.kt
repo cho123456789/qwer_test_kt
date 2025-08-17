@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -56,6 +57,7 @@ fun WidgetSelectionDialog(
 ) {
     val context = LocalContext.current
     var selectedWidgetProvider by remember { mutableStateOf<ComponentName?>(null) }
+    val dialogBackgroundColor = Color(0xFFF8BBD0)
 
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
@@ -63,7 +65,7 @@ fun WidgetSelectionDialog(
                 .fillMaxWidth()
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp),
-            backgroundColor = Color.White
+            backgroundColor = dialogBackgroundColor
         ) {
             Column(
                 modifier = Modifier
@@ -80,6 +82,8 @@ fun WidgetSelectionDialog(
                         text = "위젯 스타일 선택",
                         fontSize = 20.sp,
                         fontFamily = onePop,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
                     )
                     IconButton(
                         onClick = onDismissRequest,
@@ -158,7 +162,7 @@ fun WidgetSelectionDialog(
                         },
                         enabled = selectedWidgetProvider != null,
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFFF06292),
+                            backgroundColor = Color(0xFF3A1C71),
                             contentColor = Color.White
                         )
                     ) {
@@ -177,7 +181,7 @@ fun WidgetButton(
     onClick: () -> Unit
 ) {
     val contentColor = if (isSelected) Color.Black.copy(alpha = 1.0f) else Color.Black.copy(alpha = 0.5f)
-    val radioColor = Color(0xFFF06292) // '확인' 버튼과 동일한 분홍색
+    val radioColor = Color(0xFF3A1C71) // '확인' 버튼과 동일한 분홍색
 
     Button(
         onClick = onClick,
