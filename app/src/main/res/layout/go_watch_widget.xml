@@ -3,16 +3,14 @@
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="170dp"
-    android:padding="0dp"
-    android:background="@drawable/widget_card_background">
+    android:background="@android:color/transparent">
 
     <!-- 배경 이미지 -->
     <ImageView
-        android:id="@+id/widget_image"
+        android:id="@+id/go_widget_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/na" />
+        android:scaleType="centerCrop" />
 
     <!-- 상단 날짜 -->
     <TextView

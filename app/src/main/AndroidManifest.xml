@@ -33,6 +33,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".gomin.wiget.WidgetConfigurationActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.NoDisplay" />
 
         <receiver
             android:name=".BootReceiver"
@@ -42,18 +46,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".SiyeonWidgetProvider"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.example.qwer_si_wiget.UPDATE_TIME" />
-            </intent-filter>
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/siyeon_widget_info" />
-        </receiver>
         <receiver
             android:name=".NayoungWidgetProvider"
             android:exported="true">
@@ -121,6 +114,19 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/battery_go_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".gomin.wiget.GoWatchWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.qwer_test_kt.UPDATE_TIME" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/go_watch_info" />
         </receiver>
 
         <service

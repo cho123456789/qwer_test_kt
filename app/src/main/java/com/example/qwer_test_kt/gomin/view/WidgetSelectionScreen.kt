@@ -3,6 +3,7 @@ package com.example.qwer_test_kt.gomin.view
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -44,9 +45,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.qwer_test_kt.BatteryWidgetProvider
 import com.example.qwer_test_kt.ChodanWidgetProvider
-import com.example.qwer_test_kt.SiyeonWidgetProvider
 import com.example.qwer_test_kt.discord.onePop
 import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
+import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetProvider
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -112,9 +113,9 @@ fun WidgetSelectionDialog(
 
                 WidgetButton(
                     text = "시계 위젯",
-                    isSelected = selectedWidgetProvider?.className == SiyeonWidgetProvider::class.java.name,
+                    isSelected = selectedWidgetProvider?.className == GoWatchWidgetProvider::class.java.name,
                     onClick = {
-                        selectedWidgetProvider = ComponentName(context, SiyeonWidgetProvider::class.java)
+                        selectedWidgetProvider = ComponentName(context, GoWatchWidgetProvider::class.java)
                     }
                 )
 
@@ -151,7 +152,7 @@ fun WidgetSelectionDialog(
                                 // 어떤 위젯 타입인지 확인합니다.
                                 val widgetType = when (it.className) {
                                     GoBatteryWidgetProvider::class.java.name -> "battery"
-                                    SiyeonWidgetProvider::class.java.name -> "clock"
+                                    GoWatchWidgetProvider::class.java.name -> "clock"
                                     ChodanWidgetProvider::class.java.name -> "photo"
                                     else -> "unknown"
                                 }

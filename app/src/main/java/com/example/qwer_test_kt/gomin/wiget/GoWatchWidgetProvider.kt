@@ -1,4 +1,4 @@
-package com.example.qwer_test_kt
+package com.example.qwer_test_kt.gomin.wiget
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -11,12 +11,20 @@ import android.content.Intent
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.widget.RemoteViews
+import com.example.qwer_test_kt.R
+import com.example.qwer_test_kt.gomin.view.downloadBitmap
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class SiyeonWidgetProvider : AppWidgetProvider() {
+class GoWatchWidgetProvider : AppWidgetProvider() {
+
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -40,18 +48,23 @@ class SiyeonWidgetProvider : AppWidgetProvider() {
     @SuppressLint("RemoteViewLayout")
     private fun updateAllWidgets(context: Context) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        val componentName = ComponentName(context, SiyeonWidgetProvider::class.java)
+        val componentName = ComponentName(context, GoWatchWidgetProvider::class.java)
         val widgetIds = appWidgetManager.getAppWidgetIds(componentName)
+
+        val sharedPrefs = context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
+        val wallpaperUrl = sharedPrefs.getString("widgetWallpaperUrl", null)
+        val widgetType = sharedPrefs.getString("widgetType", null)
+
         val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
         var currentIndex = prefs.getInt("current_image_index", 0)
 
+
         for (id in widgetIds) {
             val now = Calendar.getInstance()
-            //val imageName = "s${currentIndex + 1}"  // s1 ~ s36
-            //val imageRes = context.resources.getIdentifier(imageName, "drawable", context.packageName)
-            val views = RemoteViews(context.packageName, R.layout.siyeon_widget)
-            val dateStr = SimpleDateFormat("M월 d일 EEEE", Locale.KOREAN).format(now.time)
-            views.setTextViewText(R.id.widget_date, dateStr)
+            val views = RemoteViews(context.packageName, R.layout.go_watch_widget)
+
+            val dateStrWithYear = SimpleDateFormat("yyyy년 M월 d일 EEEE", Locale.KOREAN).format(now.time)
+            views.setTextViewText(R.id.widget_date, dateStrWithYear)
 
             val amPm = if (now.get(Calendar.AM_PM) == Calendar.AM) "오전" else "오후"
             val hour = now.get(Calendar.HOUR)
@@ -59,13 +72,6 @@ class SiyeonWidgetProvider : AppWidgetProvider() {
             val minute = now.get(Calendar.MINUTE)
 
             val timeStr = String.format("%s %d:%02d", amPm, displayHour, minute)
-
-            val imageRes = R.drawable.qwer2
-            views.setImageViewResource(R.id.widget_image, imageRes)
-
-            //if (imageRes != 0) {
-            //     views.setImageViewResource(R.id.widget_image, imageRes)
-            // }
 
             val spannable = SpannableString(timeStr)
             spannable.setSpan(
@@ -76,9 +82,27 @@ class SiyeonWidgetProvider : AppWidgetProvider() {
             )
             views.setTextViewText(R.id.widget_time, spannable)
 
-            // views.setTextViewText(R.id.widget_weather, "맑음")
-            appWidgetManager.updateAppWidget(id, views)
-
+            if (widgetType != null && wallpaperUrl != null) {
+                coroutineScope.launch {
+                    Log.d("GoWatchWidget", "Downloading image from: $wallpaperUrl") // 로그 추가
+                    val bitmap = downloadBitmap(context, wallpaperUrl)
+                    if (bitmap != null) {
+                        views.setImageViewBitmap(
+                            R.id.go_widget_image,
+                            bitmap
+                        )
+                        Log.d("GoWatchWidget", "Image downloaded successfully!") // 성공 로그
+                    } else {
+                        Log.e(
+                            "GoWatchWidget",
+                            "Failed to download bitmap from $wallpaperUrl"
+                        ) // 실패 로그
+                    }
+                    appWidgetManager.updateAppWidget(id, views)
+                }
+            } else {
+                appWidgetManager.updateAppWidget(id, views)
+            }
             currentIndex = (currentIndex + 1) % 36
             prefs.edit().putInt("current_image_index", currentIndex).apply()
         }
@@ -94,7 +118,7 @@ class SiyeonWidgetProvider : AppWidgetProvider() {
 
         val triggerAtMillis = calendar.timeInMillis
 
-        val intent = Intent(context, SiyeonWidgetProvider::class.java).apply {
+        val intent = Intent(context, GoWatchWidgetProvider::class.java).apply {
             action = ACTION_UPDATE_TIME
         }
 

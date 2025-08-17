@@ -1,7 +1,15 @@
 package com.example.qwer_test_kt
 
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -51,10 +59,32 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        checkAndRequestExactAlarmPermission(this)
+
         setContent {
             MaterialTheme {
                 AppNavGraph()
             }
+        }
+    }
+}
+
+fun checkAndRequestExactAlarmPermission(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        if (!alarmManager.canScheduleExactAlarms()) {
+            Toast.makeText(
+                context,
+                "위젯 업데이트를 위해 알람 권한이 필요합니다. 설정에서 '알람 및 미리 알림'을 허용해주세요.",
+                Toast.LENGTH_LONG
+            ).show()
+
+            val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                data = Uri.fromParts("package", context.packageName, null)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // 위젯에서 호출 시 필요
+            }
+            context.startActivity(intent)
         }
     }
 }
@@ -141,7 +171,7 @@ fun MainScreen(navController: NavHostController) {
                     fontFamily = onePop,
                     onClick = {
                         navController.navigate(Route.Discord)
-                        
+
                     }
                 )
                 ConceptCard(
@@ -227,6 +257,7 @@ fun ConceptCard(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun PreviewMainScreen() {

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
+import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import com.example.qwer_test_kt.R
@@ -35,12 +36,16 @@ class GoBatteryWidgetProvider : AppWidgetProvider() {
 
         if (widgetType != null && wallpaperUrl != null) {
             coroutineScope.launch {
+                Log.d("GoWatchWidget", "Downloading image from: $wallpaperUrl") // 로그 추가
                 val bitmap = downloadBitmap(context, wallpaperUrl)
                 if (bitmap != null) {
                     views.setImageViewBitmap(
                         R.id.widget_background,
                         bitmap
-                    ) // R.id.widget_background_image는 배경 이미지뷰 ID입니다.
+                    )
+                    Log.d("GoWatchWidget", "Image downloaded successfully!") // 성공 로그
+                } else {
+                    Log.e("GoWatchWidget", "Failed to download bitmap from $wallpaperUrl") // 실패 로그
                 }
 
                 // 배터리 정보 업데이트는 UI 업데이트 후 진행

@@ -36,7 +36,6 @@ import com.example.qwer_test_kt.CalendarWidgetProvider
 import com.example.qwer_test_kt.ChodanWidgetProvider
 import com.example.qwer_test_kt.MyWidgetProvider
 import com.example.qwer_test_kt.R
-import com.example.qwer_test_kt.SiyeonWidgetProvider
 
 @Composable
 fun WidgetScreen(navController: NavController) {

@@ -3,7 +3,6 @@
     android:minWidth="165dp"
     android:minHeight="100dp"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/siyeon_widget"
-    android:previewImage="@drawable/siyeon2"
+    android:initialLayout="@layout/go_watch_widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen" />
