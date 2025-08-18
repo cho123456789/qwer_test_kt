@@ -1,5 +1,6 @@
 package com.example.qwer_test_kt
 
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -32,10 +33,11 @@ fun AppNavGraph() {
             )
         }
         composable(
-            route = "${Route.Gomin_detail}/wallpaperUrl", // 경로 이름 수정
+            route = "${Route.Gomin_detail}/{wallpaperUrl}", // 경로 이름 수정
             arguments = listOf(navArgument("wallpaperUrl") { type = NavType.StringType })
         ) { backStackEntry ->
-            val wallpaperUrl = backStackEntry.arguments?.getString("wallpaperUrl")
+            val encodedUrl = backStackEntry.arguments?.getString("wallpaperUrl")
+            val wallpaperUrl = Uri.decode(encodedUrl)
             if (wallpaperUrl != null) {
                 WallpaperDetailScreen(
                     wallpaperUrl = wallpaperUrl,
