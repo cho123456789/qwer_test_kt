@@ -1,5 +1,6 @@
 package com.example.qwer_test_kt
 
+import SplashScreen
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -20,7 +21,8 @@ fun AppNavGraph() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Route.HOME
+        startDestination = Route.Splash
+
     ) {
         composable(Route.HOME) {
             MainScreen(
@@ -29,6 +31,11 @@ fun AppNavGraph() {
         }
         composable(Route.Gominjungdok) {
             GominjungdokScreen(
+                navController = navController
+            )
+        }
+        composable(Route.Splash) {
+            SplashScreen(
                 navController = navController
             )
         }
