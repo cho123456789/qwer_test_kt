@@ -35,17 +35,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.qwer_test_kt.BatteryWidgetProvider
 import com.example.qwer_test_kt.ChodanWidgetProvider
 import com.example.qwer_test_kt.SiyeonWidgetProvider
-import com.example.qwer_test_kt.discord.onePop
+import com.example.qwer_test_kt.gomin.onePop
 import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -104,7 +102,8 @@ fun WidgetSelectionDialog(
                     text = "배터리 위젯",
                     isSelected = selectedWidgetProvider?.className == GoBatteryWidgetProvider::class.java.name,
                     onClick = {
-                        selectedWidgetProvider = ComponentName(context, GoBatteryWidgetProvider::class.java)
+                        selectedWidgetProvider =
+                            ComponentName(context, GoBatteryWidgetProvider::class.java)
                     }
                 )
 
@@ -114,7 +113,8 @@ fun WidgetSelectionDialog(
                     text = "시계 위젯",
                     isSelected = selectedWidgetProvider?.className == SiyeonWidgetProvider::class.java.name,
                     onClick = {
-                        selectedWidgetProvider = ComponentName(context, SiyeonWidgetProvider::class.java)
+                        selectedWidgetProvider =
+                            ComponentName(context, SiyeonWidgetProvider::class.java)
                     }
                 )
 
@@ -124,7 +124,8 @@ fun WidgetSelectionDialog(
                     text = "사진 위젯",
                     isSelected = selectedWidgetProvider?.className == ChodanWidgetProvider::class.java.name,
                     onClick = {
-                        selectedWidgetProvider = ComponentName(context, ChodanWidgetProvider::class.java)
+                        selectedWidgetProvider =
+                            ComponentName(context, ChodanWidgetProvider::class.java)
                     }
                 )
 
@@ -180,7 +181,8 @@ fun WidgetButton(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val contentColor = if (isSelected) Color.Black.copy(alpha = 1.0f) else Color.Black.copy(alpha = 0.5f)
+    val contentColor =
+        if (isSelected) Color.Black.copy(alpha = 1.0f) else Color.Black.copy(alpha = 0.5f)
     val radioColor = Color(0xFF3A1C71) // '확인' 버튼과 동일한 분홍색
 
     Button(
@@ -240,7 +242,12 @@ fun WidgetButton(
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun requestPinWidget(context: Context, providerComponent: ComponentName, wallpaperUrl: String, widgetType: String) {
+fun requestPinWidget(
+    context: Context,
+    providerComponent: ComponentName,
+    wallpaperUrl: String,
+    widgetType: String
+) {
     val appWidgetManager = AppWidgetManager.getInstance(context)
     val success = appWidgetManager.requestPinAppWidget(providerComponent, null, null)
 

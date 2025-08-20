@@ -11,7 +11,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.qwer_test_kt.discord.DiscordScreen
 import com.example.qwer_test_kt.gomin.GominjungdokScreen
 import com.example.qwer_test_kt.gomin.view.WallpaperDetailScreen
 
@@ -54,11 +53,6 @@ fun AppNavGraph() {
                     viewModel = hiltViewModel()
                 )
             }
-        }
-        composable(Route.Discord) {
-            DiscordScreen(
-                navController = navController
-            )
         }
     }
 
