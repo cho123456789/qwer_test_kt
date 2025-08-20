@@ -53,7 +53,6 @@ fun GominjungdokScreen(
     val members by viewModel.members.collectAsState()
     val filteredWallpapers by viewModel.filterWallpapers.collectAsState()
 
-
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
             Color(0xFFE0F7FA), // 더 밝고 화사한 하늘색

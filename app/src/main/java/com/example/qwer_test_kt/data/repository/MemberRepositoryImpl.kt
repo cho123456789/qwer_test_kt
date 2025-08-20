@@ -1,6 +1,8 @@
 package com.example.qwer_test_kt.data.repository
 
 import android.content.Context
+import com.example.qwer_test_kt.data.model.MemberData
+import com.example.qwer_test_kt.data.model.toMember
 import com.example.qwer_test_kt.domin.model.Member
 import com.example.qwer_test_kt.domin.repository.MemberRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -14,22 +16,16 @@ class MemberRepositoryImpl @Inject constructor(
 ) : MemberRepository {
 
     override suspend fun getMember(): List<Member> {
-        return try {
-            val jsonString =
-                context.assets.open("member.json").bufferedReader().use { it.readText() }
-
-            val memberDataList = Json.decodeFromString<List<Member>>(jsonString)
-
-            memberDataList.map { data ->
-                Member(
-                    name = data.name,
-                    profileImageResId = data.profileImageResId,
-                    wallpaperImageUrls = data.wallpaperImageUrls
-                )
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            emptyList()
+        val jsonString: String
+        try {
+            jsonString = context.assets.open("member.json").bufferedReader().use { it.readText() }
+        } catch (ioException: IOException) {
+            ioException.printStackTrace()
+            return emptyList()
         }
+
+        val memberDataList = Json.decodeFromString<List<MemberData>>(jsonString)
+        return memberDataList.map { it.toMember() }
     }
+
 }
