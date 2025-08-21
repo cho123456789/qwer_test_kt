@@ -48,6 +48,7 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.glance:glance-appwidget:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("com.squareup.moshi:moshi:1.14.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")

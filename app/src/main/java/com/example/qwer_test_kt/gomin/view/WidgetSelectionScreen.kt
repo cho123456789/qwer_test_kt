@@ -44,6 +44,8 @@ import androidx.compose.ui.window.Dialog
 import com.example.qwer_test_kt.ChodanWidgetProvider
 import com.example.qwer_test_kt.SiyeonWidgetProvider
 import com.example.qwer_test_kt.gomin.onePop
+import com.example.qwer_test_kt.gomin.wiget.BatteryGlanceWidgetProvider
+import com.example.qwer_test_kt.gomin.wiget.BatteryGlanceWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -100,10 +102,10 @@ fun WidgetSelectionDialog(
                 // 위젯 선택 버튼들 (라디오 버튼 스타일)
                 WidgetButton(
                     text = "배터리 위젯",
-                    isSelected = selectedWidgetProvider?.className == GoBatteryWidgetProvider::class.java.name,
+                    isSelected = selectedWidgetProvider?.className == BatteryGlanceWidgetProvider::class.java.name,
                     onClick = {
                         selectedWidgetProvider =
-                            ComponentName(context, GoBatteryWidgetProvider::class.java)
+                            ComponentName(context, BatteryGlanceWidgetReceiver::class.java)
                     }
                 )
 
@@ -151,7 +153,7 @@ fun WidgetSelectionDialog(
                             selectedWidgetProvider?.let {
                                 // 어떤 위젯 타입인지 확인합니다.
                                 val widgetType = when (it.className) {
-                                    GoBatteryWidgetProvider::class.java.name -> "battery"
+                                    BatteryGlanceWidgetProvider::class.java.name -> "battery"
                                     SiyeonWidgetProvider::class.java.name -> "clock"
                                     ChodanWidgetProvider::class.java.name -> "photo"
                                     else -> "unknown"

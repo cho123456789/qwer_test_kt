@@ -2,14 +2,16 @@ package com.example.qwer_test_kt.presentation
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.compose.ui.geometry.Offset
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.imageLoader
+import coil.request.ImageRequest
 import com.example.qwer_test_kt.domin.model.Member
 import com.example.qwer_test_kt.domin.usecase.GetMemberUseCase
-import com.example.qwer_test_kt.gomin.view.downloadBitmap
-import com.example.qwer_test_kt.gomin.view.saveBitmapToTempFile
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +23,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 
@@ -39,8 +43,6 @@ class GominJungdokViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(GominJungdokUiState())
     val uiState: StateFlow<GominJungdokUiState> = _uiState.asStateFlow()
-
-
 
     fun setWallpaper(context: Context, wallpaperUrl: String, onIntentReady: (Intent) -> Unit) {
         viewModelScope.launch {
@@ -69,7 +71,6 @@ class GominJungdokViewModel @Inject constructor(
             }
         }
     }
-
 
     val filterWallpapers: StateFlow<List<String>> =
         combine(members, _selectedMemberName) { memberList, selectedName ->
@@ -108,3 +109,21 @@ data class GominJungdokUiState(
     val imageScale: Float = 1f,
     val imageOffset: Offset = Offset.Zero
 )
+
+fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
+    val tempFile = File(context.cacheDir, "wallpaper_temp.png")
+    val fos = FileOutputStream(tempFile)
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+    fos.flush()
+    fos.close()
+    return tempFile
+}
+
+suspend fun downloadBitmap(context: Context, url: String): Bitmap? {
+    val request = ImageRequest.Builder(context)
+        .data(url)
+        .allowHardware(false)
+        .build()
+    val result = context.imageLoader.execute(request)
+    return (result.drawable as? BitmapDrawable)?.bitmap
+}

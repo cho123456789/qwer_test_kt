@@ -142,8 +142,8 @@ fun WallpaperDetailScreen(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WallpaperAndWidgetRow(
-    viewModel: GominJungdokViewModel, // Replace with your actual ViewModel
-    context: Context, // Make sure you have the context available
+    viewModel: GominJungdokViewModel,
+    context: Context,
     wallpaperUrl: String,
     onSetWidgetClicked: () -> Unit
 ) {
@@ -180,7 +180,6 @@ fun WallpaperAndWidgetRow(
             )
         }
 
-        // Add a spacer for visual separation
         Spacer(modifier = Modifier.width(16.dp))
 
         // "위젯으로 설정하기" (Set as Widget) Button
@@ -213,22 +212,4 @@ fun WallpaperAndWidgetRow(
             )
         }
     }
-}
-
-fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
-    val tempFile = File(context.cacheDir, "wallpaper_temp.png")
-    val fos = FileOutputStream(tempFile)
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-    fos.flush()
-    fos.close()
-    return tempFile
-}
-
-suspend fun downloadBitmap(context:  Context, url: String): Bitmap? {
-    val request = ImageRequest.Builder(context)
-        .data(url)
-        .allowHardware(false)
-        .build()
-    val result = context.imageLoader.execute(request)
-    return (result.drawable as? BitmapDrawable)?.bitmap
 }

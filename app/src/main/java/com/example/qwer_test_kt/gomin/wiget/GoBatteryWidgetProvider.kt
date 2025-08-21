@@ -10,7 +10,7 @@ import android.os.BatteryManager
 import android.view.View
 import android.widget.RemoteViews
 import com.example.qwer_test_kt.R
-import com.example.qwer_test_kt.gomin.view.downloadBitmap
+import com.example.qwer_test_kt.presentation.downloadBitmap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
