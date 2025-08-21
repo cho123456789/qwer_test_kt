@@ -153,7 +153,7 @@ fun WidgetSelectionDialog(
                             selectedWidgetProvider?.let {
                                 // 어떤 위젯 타입인지 확인합니다.
                                 val widgetType = when (it.className) {
-                                    BatteryGlanceWidgetProvider::class.java.name -> "battery"
+                                    BatteryGlanceWidgetReceiver::class.java.name -> "battery"
                                     SiyeonWidgetProvider::class.java.name -> "clock"
                                     ChodanWidgetProvider::class.java.name -> "photo"
                                     else -> "unknown"
