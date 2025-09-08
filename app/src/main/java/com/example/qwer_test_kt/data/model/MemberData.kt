@@ -10,12 +10,3 @@ data class MemberData(
     val profileImageResId: String,
     val wallPaperImageUrls: List<String>
 )
-
-// 데이터 모델에서 받아온 json 데이터를 ui domin data로 매핑
-fun MemberData.toMember(): Member {
-    return Member(
-        name = this.name,
-        profileImageUrl = this.profileImageResId,
-        wallpaperImageUrls = this.wallPaperImageUrls
-    )
-}

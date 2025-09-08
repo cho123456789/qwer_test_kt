@@ -1,5 +1,6 @@
 package com.example.qwer_test_kt.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.qwer_test_kt.domin.model.BatteryInfo

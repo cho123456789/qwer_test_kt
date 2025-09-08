@@ -1,8 +1,10 @@
 package com.example.qwer_test_kt.gomin.wiget
 
+import android.R.attr.fontWeight
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.BatteryManager
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
@@ -41,6 +43,7 @@ class BatteryGlanceWidgetProvider : GlanceAppWidget() {
             downloadBitmap(context, it)
         }
 
+        Log.d("BatteryGlanceWidgetProvider", "provideGlance: ${uiState}")
         provideContent {
             BatteryGlanceWidget(
                 batteryInfo = uiState.batteryInfo,
@@ -82,6 +85,17 @@ fun BatteryGlanceWidget(
                     ) {
                         Text(
                             text = "${batteryInfo.percentage.roundToInt()}%",
+                            style = TextStyle(
+                                color = androidx.glance.color.ColorProvider(
+                                    day = Color.White,
+                                    night = Color.White
+                                ),
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        )
+                        Text(
+                            text = "충전중",
                             style = TextStyle(
                                 color = androidx.glance.color.ColorProvider(
                                     day = Color.White,

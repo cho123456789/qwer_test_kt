@@ -41,12 +41,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.qwer_test_kt.ChodanWidgetProvider
-import com.example.qwer_test_kt.SiyeonWidgetProvider
 import com.example.qwer_test_kt.gomin.onePop
-import com.example.qwer_test_kt.gomin.wiget.BatteryGlanceWidgetProvider
 import com.example.qwer_test_kt.gomin.wiget.BatteryGlanceWidgetReceiver
-import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
+import kotlin.jvm.java
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -102,7 +99,7 @@ fun WidgetSelectionDialog(
                 // 위젯 선택 버튼들 (라디오 버튼 스타일)
                 WidgetButton(
                     text = "배터리 위젯",
-                    isSelected = selectedWidgetProvider?.className == BatteryGlanceWidgetProvider::class.java.name,
+                    isSelected = selectedWidgetProvider?.className == BatteryGlanceWidgetReceiver::class.java.name,
                     onClick = {
                         selectedWidgetProvider =
                             ComponentName(context, BatteryGlanceWidgetReceiver::class.java)
@@ -111,25 +108,25 @@ fun WidgetSelectionDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                WidgetButton(
-                    text = "시계 위젯",
-                    isSelected = selectedWidgetProvider?.className == SiyeonWidgetProvider::class.java.name,
-                    onClick = {
-                        selectedWidgetProvider =
-                            ComponentName(context, SiyeonWidgetProvider::class.java)
-                    }
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                WidgetButton(
-                    text = "사진 위젯",
-                    isSelected = selectedWidgetProvider?.className == ChodanWidgetProvider::class.java.name,
-                    onClick = {
-                        selectedWidgetProvider =
-                            ComponentName(context, ChodanWidgetProvider::class.java)
-                    }
-                )
+//                WidgetButton(
+//                    text = "시계 위젯",
+//                    isSelected = selectedWidgetProvider?.className == SiyeonWidgetProvider::class.java.name,
+//                    onClick = {
+//                        selectedWidgetProvider =
+//                            ComponentName(context, SiyeonWidgetProvider::class.java)
+//                    }
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                WidgetButton(
+//                    text = "사진 위젯",
+//                    isSelected = selectedWidgetProvider?.className == ChodanWidgetProvider::class.java.name,
+//                    onClick = {
+//                        selectedWidgetProvider =
+//                            ComponentName(context, ChodanWidgetProvider::class.java)
+//                    }
+//                )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -154,8 +151,8 @@ fun WidgetSelectionDialog(
                                 // 어떤 위젯 타입인지 확인합니다.
                                 val widgetType = when (it.className) {
                                     BatteryGlanceWidgetReceiver::class.java.name -> "battery"
-                                    SiyeonWidgetProvider::class.java.name -> "clock"
-                                    ChodanWidgetProvider::class.java.name -> "photo"
+                                  //  SiyeonWidgetProvider::class.java.name -> "clock"
+                                  //  ChodanWidgetProvider::class.java.name -> "photo"
                                     else -> "unknown"
                                 }
                                 // 위젯 타입과 wallpaperUrl을 함께 전달합니다.
