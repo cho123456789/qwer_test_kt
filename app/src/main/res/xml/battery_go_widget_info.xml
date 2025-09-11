@@ -3,7 +3,7 @@
     android:minWidth="150dp"
     android:minHeight="60dp"
     android:updatePeriodMillis="86400000"
-    android:initialLayout="@layout/battery_go_widget"
     android:resizeMode="horizontal|vertical"
-    android:widgetCategory="home_screen">
+    android:widgetCategory="home_screen"
+    android:configure="com.example.qwer_test_kt.gomin.wiget.WidgetConfigureActivity">
 </appwidget-provider>

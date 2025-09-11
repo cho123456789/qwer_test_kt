@@ -7,6 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MemberData(
     val name: String,
-    val profileImageResId: String,
     val wallPaperImageUrls: List<String>
 )

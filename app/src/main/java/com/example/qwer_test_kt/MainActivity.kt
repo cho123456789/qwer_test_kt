@@ -1,5 +1,7 @@
 package com.example.qwer_test_kt
 
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -44,10 +46,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.qwer_test_kt.gomin.wiget.BatteryChangeReceiver
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private var batteryChangeReceiver: BatteryChangeReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +61,17 @@ class MainActivity : AppCompatActivity() {
                 AppNavGraph()
             }
         }
+        // 배터리 브로드캐스트 동적 등록
+        batteryChangeReceiver = BatteryChangeReceiver()
+        val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        registerReceiver(batteryChangeReceiver, filter)
+    }
+
+    override fun onDestroy() {
+        // 안전하게 리시버 해제
+        batteryChangeReceiver?.let { unregisterReceiver(it) }
+        batteryChangeReceiver = null
+        super.onDestroy()
     }
 }
 

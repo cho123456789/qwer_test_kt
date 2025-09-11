@@ -10,6 +10,7 @@
         android:id="@+id/widget_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:src="@drawable/cho"
         android:scaleType="centerCrop" /> <!-- 여기에 원하는 배경 이미지 -->
 
     <!-- 배터리 ProgressBar -->
