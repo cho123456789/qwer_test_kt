@@ -4,8 +4,8 @@
     android:minHeight="110dp"
     android:updatePeriodMillis="86400000"
     android:resizeMode="horizontal|vertical"
-    android:widgetCategory="home_screen"
-    android:configure="com.example.qwer_test_kt.gomin.wiget.WidgetConfigureActivity">
+    android:previewImage="@drawable/gomin_cho"
+    android:widgetCategory="home_screen">
 
     <!-- (원하는 셀의 개수 × 70) - 30 = dp-->
 

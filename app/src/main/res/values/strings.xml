@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">qwer_test_kt</string>
+    <string name="app_name">QWER Photo Widget</string>
     <string name="Sun">일</string>
     <string name="Mon">월 </string>
     <string name="Tue">화</string>
@@ -7,4 +7,6 @@
     <string name="Thu">목</string>
     <string name="Fri">금</string>
     <string name="Sat">토</string>
+
+    <string name="app_widget_description">배터리 위젯 등록</string>
 </resources>

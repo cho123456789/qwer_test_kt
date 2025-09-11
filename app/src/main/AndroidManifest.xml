@@ -56,7 +56,8 @@
 
         <receiver
             android:name=".gomin.wiget.GoBatteryWidgetProvider"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/app_widget_description" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />

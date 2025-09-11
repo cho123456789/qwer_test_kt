@@ -35,7 +35,6 @@ class GominJungdokViewModel @Inject constructor(
     private val getMemberUseCase: GetMemberUseCase
 ) : ViewModel() {
 
-
     val _selectedMemberName = MutableStateFlow("전체")
 
     private val _members = MutableStateFlow<List<Member>>(emptyList())

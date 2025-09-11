@@ -11,6 +11,7 @@ import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import com.example.qwer_test_kt.R
+import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 import com.example.qwer_test_kt.presentation.downloadBitmap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +45,7 @@ class GoBatteryWidgetProvider : AppWidgetProvider() {
                     views.setImageViewBitmap(
                         R.id.widget_background,
                         bitmap
-                    ) // R.id.widget_background_image는 배경 이미지뷰 ID입니다.
+                    )
                 }
 
                 // 배터리 정보 업데이트는 UI 업데이트 후 진행
