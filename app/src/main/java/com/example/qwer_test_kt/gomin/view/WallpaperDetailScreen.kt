@@ -67,7 +67,6 @@ fun WallpaperDetailScreen(
 
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(uiState.userMessage) {
         uiState.userMessage?.let { message ->
@@ -76,7 +75,6 @@ fun WallpaperDetailScreen(
         }
     }
 
-    // 로딩 중일 때 로딩 인디케이터 표시
     if (uiState.isLoading) {
         Box(
             modifier = Modifier.fillMaxSize(),

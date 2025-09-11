@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
+import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import com.example.qwer_test_kt.R
@@ -32,6 +33,9 @@ class GoBatteryWidgetProvider : AppWidgetProvider() {
         val widgetType = sharedPrefs.getString("widgetType", null)
 
         val views = RemoteViews(context.packageName, R.layout.battery_go_widget)
+
+        startBatteryMonitoringService(context)
+
 
         if (widgetType != null && wallpaperUrl != null) {
             coroutineScope.launch {
@@ -66,6 +70,27 @@ class GoBatteryWidgetProvider : AppWidgetProvider() {
 
         context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))?.let {
             updateBatteryWidget(context, appWidgetManager, it)
+        }
+    }
+    override fun onEnabled(context: Context) {
+        // 위젯의 첫 번째 인스턴스가 추가될 때 호출됩니다.
+        super.onEnabled(context)
+        startBatteryMonitoringService(context)
+    }
+    override fun onDisabled(context: Context) {
+        // 위젯의 마지막 인스턴스가 제거될 때 호출됩니다.
+        super.onDisabled(context)
+        // 서비스 종료
+        val serviceIntent = Intent(context, GoBatteryMonitorService::class.java)
+        context.stopService(serviceIntent)
+    }
+    private fun startBatteryMonitoringService(context: Context) {
+        val serviceIntent = Intent(context, GoBatteryMonitorService::class.java)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(serviceIntent)
+        } else {
+            context.startService(serviceIntent)
         }
     }
 

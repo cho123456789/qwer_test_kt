@@ -2,16 +2,13 @@ package com.example.qwer_test_kt.data
 
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
-import com.example.qwer_test_kt.data.repository.BatteryRepositoryImpl
 import com.example.qwer_test_kt.data.repository.MemberRepositoryImpl
 import com.example.qwer_test_kt.data.repository.WidgetRepositoryImpl
 import com.example.qwer_test_kt.data.source.MemberRemoteDataSource
 import com.example.qwer_test_kt.data.source.MemberRemoteDataSourceImpl
-import com.example.qwer_test_kt.domin.repository.BatteryRepository
 import com.example.qwer_test_kt.domin.repository.MemberRepository
 import com.example.qwer_test_kt.domin.repository.WidgetRepository
 import com.example.qwer_test_kt.gomin.wiget.BatteryGlanceWidgetProvider
-import com.example.qwer_test_kt.gomin.wiget.BatteryInfoManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -38,12 +35,6 @@ abstract  class RepositoryModule {
     abstract fun bindMemberRepository(
         memberRepository: MemberRepositoryImpl
     ): MemberRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindBatteryRepository(
-        batteryRepository: BatteryRepositoryImpl
-    ): BatteryRepository
 
     @Binds
     @Singleton
