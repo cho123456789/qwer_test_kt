@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="150dp"
-    android:minHeight="60dp"
+    android:minWidth="110dp"
+    android:minHeight="110dp"
     android:updatePeriodMillis="86400000"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
     android:configure="com.example.qwer_test_kt.gomin.wiget.WidgetConfigureActivity">
+
+    <!-- (원하는 셀의 개수 × 70) - 30 = dp-->
+
+    <!-- 1x1 위젯:  minWidth = (1 × 70) - 30 = 40dp  minHeight = (1 × 70) - 30 = 40dp -->
+    <!-- 2x2 위젯:  minWidth = (2 × 70) - 30 = 110dp  minHeight = (2 × 70) - 30 = 110dp -->
+    <!-- 3x3 위젯:  minWidth = (3 × 70) - 30 = 180dp  minHeight = (3 × 70) - 30 = 180dp -->
+
+    <!--  110dp  / 60dp -->
+    <!-- 110dp -> 2 그리드  /  60dp  -> 2그리드 (1그리드 충족 x) -->
+
 </appwidget-provider>
