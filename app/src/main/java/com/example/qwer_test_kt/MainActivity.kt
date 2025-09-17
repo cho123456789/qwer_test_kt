@@ -138,56 +138,56 @@ fun MainScreen(navController: NavHostController) {
         }
 
         Spacer(modifier = Modifier.height(30.dp))
-
-        // Concept Cards Grid
-        Column(
-            modifier = Modifier
-                .background(Color.Transparent, shape = RoundedCornerShape(24.dp))
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // First row of cards
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(24.dp)
-
-            ) {
-                ConceptCard(
-                    imageResId = R.drawable.discord,
-                    text = "Discord",
-                    fontFamily = onePop,
-                    onClick = {
-                        navController.navigate(Route.Discord)
-                        
-                    }
-                )
-                ConceptCard(
-                    imageResId = R.drawable.mani2,
-                    text = "고민중독",
-                    fontFamily = onePop,
-                    onClick = {
-                        navController.navigate(Route.Gominjungdok)
-                    }
-                )
-            }
-            // Second row of cards
-            Row(
-                modifier = Modifier.padding(top = 24.dp),
-                horizontalArrangement = Arrangement.spacedBy(24.dp)
-            ) {
-                ConceptCard(
-                    imageResId = R.drawable.qwer2,
-                    text = "가짜아이돌",
-                    fontFamily = onePop,
-                    onClick = { /* Handle 가짜아이돌 card click */ }
-                )
-                ConceptCard(
-                    imageResId = R.drawable.dear,
-                    text = "눈물참기",
-                    fontFamily = onePop,
-                    onClick = { /* Handle 눈물참기 card click */ }
-                )
-            }
-        }
+//
+//        // Concept Cards Grid
+//        Column(
+//            modifier = Modifier
+//                .background(Color.Transparent, shape = RoundedCornerShape(24.dp))
+//                .padding(24.dp),
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//            // First row of cards
+//            Row(
+//                horizontalArrangement = Arrangement.spacedBy(24.dp)
+//
+//            ) {
+//                ConceptCard(
+//                    imageResId = R.drawable.discord,
+//                    text = "Discord",
+//                    fontFamily = onePop,
+//                    onClick = {
+//                        navController.navigate(Route.Discord)
+//
+//                    }
+//                )
+//                ConceptCard(
+//                    imageResId = R.drawable.mani2,
+//                    text = "고민중독",
+//                    fontFamily = onePop,
+//                    onClick = {
+//                        navController.navigate(Route.Gominjungdok)
+//                    }
+//                )
+//            }
+//            // Second row of cards
+//            Row(
+//                modifier = Modifier.padding(top = 24.dp),
+//                horizontalArrangement = Arrangement.spacedBy(24.dp)
+//            ) {
+//                ConceptCard(
+//                    imageResId = R.drawable.qwer2,
+//                    text = "가짜아이돌",
+//                    fontFamily = onePop,
+//                    onClick = { /* Handle 가짜아이돌 card click */ }
+//                )
+//                ConceptCard(
+//                    imageResId = R.drawable.dear,
+//                    text = "눈물참기",
+//                    fontFamily = onePop,
+//                    onClick = { /* Handle 눈물참기 card click */ }
+//                )
+//            }
+//        }
     }
 }
 
