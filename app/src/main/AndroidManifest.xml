@@ -80,12 +80,29 @@
                 android:resource="@xml/battery_glance_widget_info" />
         </receiver>
 
-        <activity android:name=".gomin.wiget.WidgetConfigureActivity"
-            android:exported="true">
+        <receiver
+            android:name=".gomin.wiget.GoWatchWidgetReceiver"
+            android:exported="true"
+            android:label="@string/app_widget_watch_description">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-        </activity>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/watch_go_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".gomin.wiget.GoWatchWidgetProvider"
+            android:exported="true"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/watch_go_widget_info" />
+        </receiver>
 
         <service
             android:name=".gomin.wiget.BatteryUpdateService"

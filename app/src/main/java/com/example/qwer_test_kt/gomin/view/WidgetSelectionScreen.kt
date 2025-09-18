@@ -44,6 +44,8 @@ import androidx.compose.ui.window.Dialog
 import com.example.qwer_test_kt.gomin.onePop
 import com.example.qwer_test_kt.gomin.wiget.BatteryGlanceWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
+import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetProvider
+import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
 import kotlin.jvm.java
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -109,14 +111,14 @@ fun WidgetSelectionDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-//                WidgetButton(
-//                    text = "시계 위젯",
-//                    isSelected = selectedWidgetProvider?.className == SiyeonWidgetProvider::class.java.name,
-//                    onClick = {
-//                        selectedWidgetProvider =
-//                            ComponentName(context, SiyeonWidgetProvider::class.java)
-//                    }
-//                )
+                WidgetButton(
+                    text = "시계 위젯",
+                    isSelected = selectedWidgetProvider?.className == GoWatchWidgetProvider::class.java.name,
+                    onClick = {
+                        selectedWidgetProvider =
+                            ComponentName(context, GoWatchWidgetReceiver::class.java)
+                    }
+                )
 //
 //                Spacer(modifier = Modifier.height(16.dp))
 //
@@ -152,7 +154,7 @@ fun WidgetSelectionDialog(
                                 // 어떤 위젯 타입인지 확인합니다.
                                 val widgetType = when (it.className) {
                                     GoBatteryWidgetProvider::class.java.name -> "battery"
-                                  //  SiyeonWidgetProvider::class.java.name -> "clock"
+                                    GoWatchWidgetProvider::class.java.name -> "clock"
                                   //  ChodanWidgetProvider::class.java.name -> "photo"
                                     else -> "unknown"
                                 }
@@ -258,6 +260,8 @@ fun requestPinWidget(
             .putString("widgetType", widgetType)
             .apply()
         Toast.makeText(context, "위젯이 추가되었습니다!", Toast.LENGTH_SHORT).show()
+
+
     } else {
         Toast.makeText(context, "위젯 추가에 실패했습니다.", Toast.LENGTH_SHORT).show()
     }
