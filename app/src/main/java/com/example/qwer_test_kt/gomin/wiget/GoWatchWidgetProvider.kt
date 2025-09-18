@@ -1,5 +1,6 @@
 package com.example.qwer_test_kt.gomin.wiget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -7,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -20,6 +22,7 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.state.PreferencesGlanceStateDefinition
@@ -63,6 +66,7 @@ class GoWatchWidgetProvider : GlanceAppWidget() {
     }
 }
 
+@SuppressLint("RestrictedApi")
 @Composable
 fun WidgetLayout(wallpaperBitmap: Bitmap?) {
     val now = Calendar.getInstance()
@@ -74,7 +78,6 @@ fun WidgetLayout(wallpaperBitmap: Bitmap?) {
     Box(
         modifier = GlanceModifier.fillMaxSize()
     ) {
-        // 비트맵이 존재하면 배경 이미지로 표시
         wallpaperBitmap?.let {
             Image(
                 provider = ImageProvider(it),
@@ -84,18 +87,26 @@ fun WidgetLayout(wallpaperBitmap: Bitmap?) {
             )
         }
 
-        // 날짜와 시간 텍스트를 표시하는 컬럼
         Column(
-            modifier = GlanceModifier.fillMaxSize().padding(16.dp),
+            modifier = GlanceModifier.fillMaxWidth().padding(top = 16.dp), // 👈 수정된 부분
             horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
-            verticalAlignment = Alignment.Vertical.CenterVertically
         ) {
             Text(
                 text = dateStr,
-                style = TextStyle(fontWeight = FontWeight.Bold),
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = ColorProvider(color = androidx.compose.ui.graphics.Color.White),
+                    fontSize = 12.sp
+                ),
             )
             Text(
                 text = "$amPm $hour:$minute",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = ColorProvider(color = androidx.compose.ui.graphics.Color.White
+                    ),
+                    fontSize = 32.sp
+                )
             )
         }
     }
