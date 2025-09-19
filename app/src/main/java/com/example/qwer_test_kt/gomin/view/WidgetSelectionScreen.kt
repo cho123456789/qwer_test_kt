@@ -42,11 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.qwer_test_kt.gomin.onePop
-import com.example.qwer_test_kt.gomin.wiget.BatteryGlanceWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetProvider
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
-import kotlin.jvm.java
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -58,6 +56,7 @@ fun WidgetSelectionDialog(
     val context = LocalContext.current
     var selectedWidgetProvider by remember { mutableStateOf<ComponentName?>(null) }
     val dialogBackgroundColor = Color(0xFFF8BBD0)
+    var selectedWidgetName by remember { mutableStateOf<String?>(null) }
 
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
@@ -102,8 +101,10 @@ fun WidgetSelectionDialog(
                 // 위젯 선택 버튼들 (라디오 버튼 스타일)
                 WidgetButton(
                     text = "배터리 위젯",
-                    isSelected = selectedWidgetProvider?.className == GoBatteryWidgetProvider::class.java.name,
+                    isSelected = selectedWidgetName == "battery",
+                    //isSelected = selectedWidgetProvider?.className == GoBatteryWidgetProvider::class.java.name,
                     onClick = {
+                        selectedWidgetName = "battery"
                         selectedWidgetProvider =
                             ComponentName(context, GoBatteryWidgetProvider::class.java)
                     }
@@ -113,8 +114,10 @@ fun WidgetSelectionDialog(
 
                 WidgetButton(
                     text = "시계 위젯",
-                    isSelected = selectedWidgetProvider?.className == GoWatchWidgetProvider::class.java.name,
+                    // isSelected = selectedWidgetProvider?.className == GoWatchWidgetProvider::class.java.name,
+                    isSelected = selectedWidgetName == "clock", // <-- 변경된 부분
                     onClick = {
+                        selectedWidgetName = "clock"
                         selectedWidgetProvider =
                             ComponentName(context, GoWatchWidgetReceiver::class.java)
                     }
@@ -155,7 +158,7 @@ fun WidgetSelectionDialog(
                                 val widgetType = when (it.className) {
                                     GoBatteryWidgetProvider::class.java.name -> "battery"
                                     GoWatchWidgetProvider::class.java.name -> "clock"
-                                  //  ChodanWidgetProvider::class.java.name -> "photo"
+                                    //  ChodanWidgetProvider::class.java.name -> "photo"
                                     else -> "unknown"
                                 }
                                 // 위젯 타입과 wallpaperUrl을 함께 전달합니다.
@@ -240,7 +243,9 @@ fun WidgetButton(
                 )
             }
         }
+
     }
+
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -260,7 +265,6 @@ fun requestPinWidget(
             .putString("widgetType", widgetType)
             .apply()
         Toast.makeText(context, "위젯이 추가되었습니다!", Toast.LENGTH_SHORT).show()
-
 
     } else {
         Toast.makeText(context, "위젯 추가에 실패했습니다.", Toast.LENGTH_SHORT).show()
