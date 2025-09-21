@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
@@ -30,16 +28,9 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import coil.imageLoader
-import coil.request.ImageRequest
-import java.io.File
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-
-val ImageUrlKey = stringPreferencesKey("widget_image_url")
-
 
 class GoWatchWidgetProvider : GlanceAppWidget() {
 
@@ -103,31 +94,12 @@ fun WidgetLayout(wallpaperBitmap: Bitmap?) {
                 text = "$amPm $hour:$minute",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    color = ColorProvider(color = androidx.compose.ui.graphics.Color.White
+                    color = ColorProvider(
+                        color = androidx.compose.ui.graphics.Color.White
                     ),
                     fontSize = 32.sp
                 )
             )
         }
     }
-}
-
-// 이미지 URL에서 비트맵을 다운로드하는 함수
-suspend fun downloadBitmap(context: Context, url: String): Bitmap? {
-    val request = ImageRequest.Builder(context)
-        .data(url)
-        .allowHardware(false)
-        .build()
-    val result = context.imageLoader.execute(request)
-    return (result.drawable as? BitmapDrawable)?.bitmap
-}
-
-// 비트맵을 임시 파일로 저장하는 함수
-fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
-    val tempFile = File(context.cacheDir, "wallpaper_temp.png")
-    val fos = FileOutputStream(tempFile)
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-    fos.flush()
-    fos.close()
-    return tempFile
 }
