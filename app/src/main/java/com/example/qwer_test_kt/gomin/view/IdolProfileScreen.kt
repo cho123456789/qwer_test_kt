@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,13 +14,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -36,8 +42,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,6 +55,8 @@ import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
 import com.example.qwer_test_kt.gomin.onePop
 import com.example.qwer_test_kt.gomin.view.model.MemberInfo
+import com.example.qwer_test_kt.gomin.view.model.albumInfo
+import com.example.qwer_test_kt.gomin.view.model.albums
 import com.example.qwer_test_kt.gomin.view.model.members
 
 
@@ -74,6 +85,7 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
     ) { paddingValues ->
 
         var selectedMember by remember { mutableStateOf<MemberInfo?>(null) }
+        var showAlbums by remember { mutableStateOf(false) }
 
 
         Column(
@@ -91,9 +103,15 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
                 modifier = Modifier
                     .height(200.dp)
                     .fillMaxWidth()
-                    .clip(shape = CircleShape),
+                    .clip(shape = CircleShape)
+                    .clickable {
+                        showAlbums = !showAlbums
+                    },
                 contentScale = ContentScale.Crop
             )
+            if (showAlbums) {
+                AlbumListScreen()
+            }
 
             // 여백
             Spacer(modifier = Modifier.height(20.dp))
@@ -144,7 +162,7 @@ fun MemberProfile(memberInfo: MemberInfo, onClick: () -> Unit) {
                 .weight(1f)
         ) {
             Text(
-                text = memberInfo.name,
+                text = memberInfo.nickname,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 15.sp,
                 fontFamily = onePop
@@ -192,6 +210,13 @@ fun MemberDetails(memberInfo: MemberInfo) {
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Text(
+            text = memberInfo.birthday,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            fontFamily = onePop,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Text(
             text = memberInfo.description,
             fontSize = 14.sp,
             fontFamily = onePop,
@@ -200,6 +225,73 @@ fun MemberDetails(memberInfo: MemberInfo) {
     }
 }
 
+@Composable
+fun AlbumListScreen() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(top = 8.dp)
+    ) {
+        items(albums) { album ->
+            AlbumCard(album = album)
+        }
+    }
+}
+
+@Composable
+fun AlbumCard(album: albumInfo) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5) )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically // Vertically align content
+        ) {
+            // Album Image
+            Image(
+                painter = painterResource(id = album.image),
+                contentDescription = "${album.title} Album Cover",
+                modifier = Modifier
+                    .size(120.dp)
+            )
+
+            // Track List and Title
+            Column(
+                modifier = Modifier
+                    .weight(1f) // Fills the remaining space
+                    .padding(start = 16.dp)
+            ) {
+                Text(
+                    text = album.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = buildAnnotatedString {
+                        album.trackList.forEachIndexed { index, track ->
+                            if (index == 0) {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append(track)
+                                }
+                            } else {
+                                append(track)
+                            }
+                            if (index < album.trackList.size - 1) {
+                                append("\n")
+                            }
+                        }
+                    },
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
