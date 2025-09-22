@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.qwer_test_kt.gomin.GominjungdokScreen
+import com.example.qwer_test_kt.gomin.view.IdolProfileScreenWithScaffold
 import com.example.qwer_test_kt.gomin.view.WallpaperDetailScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -35,6 +36,11 @@ fun AppNavGraph() {
         }
         composable(Route.Splash) {
             SplashScreen(
+                navController = navController
+            )
+        }
+        composable(Route.Memeber) {
+            IdolProfileScreenWithScaffold(
                 navController = navController
             )
         }

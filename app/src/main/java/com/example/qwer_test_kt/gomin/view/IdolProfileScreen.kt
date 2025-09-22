@@ -1,5 +1,6 @@
 package com.example.qwer_test_kt.gomin.view
 
+import SplashScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,17 +16,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R // This is the corrected import
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IdolProfileScreenWithScaffold() {
+fun IdolProfileScreenWithScaffold(navController: NavController) {
     // Scaffold를 사용하여 앱의 기본 구조를 정의합니다.
     Scaffold(
         topBar = {
@@ -107,5 +111,5 @@ fun MemberProfile(name: String, position: String, imageId: Int) {
 @Preview(showBackground = true)
 @Composable
 fun IdolProfileScreenWithScaffoldPreview() {
-    IdolProfileScreenWithScaffold()
+    IdolProfileScreenWithScaffold(navController = NavHostController(LocalContext.current))
 }

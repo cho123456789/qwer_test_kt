@@ -1,26 +1,21 @@
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -38,7 +33,6 @@ import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
 import com.example.qwer_test_kt.Route
 import com.example.qwer_test_kt.gomin.onePop
-import kotlinx.coroutines.delay
 
 data class Song(val title: String, val artist: String)
 
@@ -63,34 +57,6 @@ fun SplashScreen(navController: NavHostController) {
     // 오늘의 추천곡 상태
     val randomSong = remember { songList.random() }
 
-
-    // 진행률을 추적하는 상태 변수
-    var progress by remember { mutableStateOf(0f) }
-
-    // 진행률 값을 애니메이션 처리
-    val animatedProgress by animateFloatAsState(
-        targetValue = progress,
-        animationSpec = tween(
-            durationMillis = 2000, // 2초 동안 애니메이션
-            easing = LinearEasing
-        ),
-        label = "loadingProgress"
-    )
-
-    // 진행률을 업데이트하고 화면을 전환하기 위한 효과 실행
-    LaunchedEffect(key1 = true) {
-        // 진행률을 0에서 1로 시작
-        progress = 1f
-        // 애니메이션이 끝날 때까지 기다림
-        delay(2000)
-        // 메인 화면으로 이동
-        navController.navigate(Route.Gominjungdok) {
-            // 스플래시 화면을 백 스택에서 제거
-            popUpTo(Route.Splash) {
-                inclusive = true
-            }
-        }
-    }
 
     Box(
         modifier = Modifier
@@ -118,17 +84,27 @@ fun SplashScreen(navController: NavHostController) {
                 fontFamily = cafe24,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
-
-            // Photo Widget 텍스트
-            Text(
-                text = "Photo\nWidget",
-                fontSize = 50.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-                textAlign = TextAlign.Center,
-                fontFamily = cafe24,
-            )
-
+            Column (
+                modifier = Modifier.padding(top = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Photo",
+                    fontSize = 50.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    fontFamily = cafe24,
+                )
+                Text(
+                    text = "Widget",
+                    fontSize = 50.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    fontFamily = cafe24,
+                )
+            }
             Spacer(modifier = Modifier.height(60.dp))
 
             Text(
@@ -151,16 +127,51 @@ fun SplashScreen(navController: NavHostController) {
                 modifier = Modifier.padding(bottom = 10.dp)
             )
 
-            // 로딩바
-            LinearProgressIndicator(
-                progress = animatedProgress,
-                modifier = Modifier
-                    .padding(horizontal = 50.dp)
-                    .height(8.dp)
-                    .clip(RoundedCornerShape(4.dp)),
-                color = Color(0xFFB3E5FC), // 옅은 하늘색
-                backgroundColor = Color(0xFFE0F7FA) // 아주 옅은 민트색
-            )
+            Row(
+                modifier = Modifier.padding(top = 20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .width(120.dp)
+                        .height(50.dp),
+                    onClick = {
+                        navController.navigate(Route.Memeber)
+                    },
+                    shape = RoundedCornerShape(20.dp), // 👈 버튼을 둥글게 만듭니다.
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFE0B0FF) // 👈 연보라색 배경으로 변경
+                    )
+                ) {
+                    Text(
+                        text = "멤버소개",
+                        fontSize = 18.sp,
+                        fontFamily = onePop,
+                        color = Color.White
+                    )
+                }
+                Button(
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .width(120.dp)
+                        .height(50.dp),
+                    onClick = {
+                        navController.navigate(Route.Gominjungdok)
+                    },
+                    shape = RoundedCornerShape(20.dp), // 👈 버튼을 둥글게 만듭니다.
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFB3E5FC) // 👈 연한 하늘색 배경으로 변경
+                    )
+                ) {
+                    Text(
+                        text = "위젯기능",
+                        fontSize = 18.sp,
+                        fontFamily = onePop,
+                        color = Color.White
+                    )
+                }
+            }
         }
     }
 }
