@@ -81,12 +81,12 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(Color.White)
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // 그룹 이미지
             Image(
-                painter = painterResource(id = R.drawable.main5),
+                painter = painterResource(id = R.drawable.qwer_ban),
                 contentDescription = "QWER",
                 modifier = Modifier
                     .height(200.dp)
@@ -96,19 +96,18 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
             )
 
             // 여백
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             // 멤버 목록
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 members.forEach { member ->
                     MemberProfile(member) {
                         selectedMember = if (selectedMember == member) null else member
                     }
                     if (selectedMember == member) {
-                        Spacer(modifier = Modifier.height(8.dp))
                         MemberDetails(member)
                     }
                 }
@@ -181,10 +180,10 @@ fun MemberDetails(memberInfo: MemberInfo) {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFFE0F7FA))
-            .padding(16.dp),
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = memberInfo.name,
             fontWeight = FontWeight.Bold,
