@@ -84,7 +84,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
 
             glanceIds.forEach { glanceId ->
                 try {
-                    // 백그라운드 스레드에서 비트맵 다운로드
                     val bitmap = withContext(Dispatchers.IO) {
                         downloadBitmap(context, wallpaperUrl)
                     } ?: throw IllegalStateException("비트맵 다운로드 실패")

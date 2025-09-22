@@ -57,7 +57,7 @@ class GoWatchWidgetProvider : GlanceAppWidget() {
     }
 }
 
-@SuppressLint("RestrictedApi")
+@SuppressLint("RestrictedApi", "DefaultLocale")
 @Composable
 fun WidgetLayout(wallpaperBitmap: Bitmap?) {
     val now = Calendar.getInstance()
@@ -91,13 +91,13 @@ fun WidgetLayout(wallpaperBitmap: Bitmap?) {
                 ),
             )
             Text(
-                text = "$amPm $hour:$minute",
+                text = "$amPm ${String.format("%02d", hour)}:${String.format("%02d", minute)}",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     color = ColorProvider(
                         color = androidx.compose.ui.graphics.Color.White
                     ),
-                    fontSize = 32.sp
+                    fontSize = 25.sp
                 )
             )
         }
