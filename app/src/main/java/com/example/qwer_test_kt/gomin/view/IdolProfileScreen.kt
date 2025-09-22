@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -73,6 +75,7 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
 
         var selectedMember by remember { mutableStateOf<MemberInfo?>(null) }
 
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -116,6 +119,9 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
 
 @Composable
 fun MemberProfile(memberInfo: MemberInfo, onClick: () -> Unit) {
+
+    var likesCount by remember { mutableStateOf(0) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -151,6 +157,21 @@ fun MemberProfile(memberInfo: MemberInfo, onClick: () -> Unit) {
                 fontFamily = onePop
             )
         }
+        IconButton(
+            onClick = {
+                likesCount++
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Favorite,
+                contentDescription = "Like"
+            )
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(
+            text = "$likesCount",
+        )
     }
 }
 
