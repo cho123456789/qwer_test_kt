@@ -159,9 +159,9 @@ fun SplashScreen(navController: NavHostController) {
                     onClick = {
                         navController.navigate(Route.Gominjungdok)
                     },
-                    shape = RoundedCornerShape(20.dp), // 👈 버튼을 둥글게 만듭니다.
+                    shape = RoundedCornerShape(20.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFB3E5FC) // 👈 연한 하늘색 배경으로 변경
+                        containerColor = Color(0xFFB3E5FC)
                     )
                 ) {
                     Text(

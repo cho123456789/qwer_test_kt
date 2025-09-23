@@ -298,3 +298,8 @@ fun AlbumCard(album: albumInfo) {
 fun IdolProfileScreenWithScaffoldPreview() {
     IdolProfileScreenWithScaffold(navController = NavHostController(LocalContext.current))
 }
+@Preview(showBackground = true)
+@Composable
+fun Profile(){
+    AlbumListScreen()
+}
