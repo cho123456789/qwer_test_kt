@@ -26,7 +26,7 @@ val members = listOf(
         "마젠타",
         "1997.06.02",
         R.drawable.gomin_ma_profile,
-        "매력적인 비주얼과 안정적인 베이스 연주를 담당합니다. 🎸"
+        "베이스 연주를 담당합니다. 🎸"
     ),
     MemberInfo(
         "장나영",
@@ -42,6 +42,6 @@ val members = listOf(
         nickname = "이시연",
         "2000.05.16",
         R.drawable.gomin_siyeon_profile,
-        "뛰어난 가창력으로 밴드의 메인 보컬을 맡고 있습니다. 🎤"
+        "밴드의 메인 보컬을 맡고 있습니다. 🎤"
     )
 )

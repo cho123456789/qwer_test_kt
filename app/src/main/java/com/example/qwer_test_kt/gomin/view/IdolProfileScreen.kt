@@ -1,9 +1,13 @@
 package com.example.qwer_test_kt.gomin.view
 
+import android.R.attr.onClick
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,9 +21,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -84,50 +91,63 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
         }
     ) { paddingValues ->
 
-        var selectedMember by remember { mutableStateOf<MemberInfo?>(null) }
-        var showAlbums by remember { mutableStateOf(false) }
+        var showMembers by remember { mutableStateOf(false) }
 
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color.White)
-                .padding(horizontal = 8.dp),
+                .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // 그룹 이미지
-            Image(
-                painter = painterResource(id = R.drawable.qwer_ban),
-                contentDescription = "QWER",
-                modifier = Modifier
-                    .height(200.dp)
-                    .fillMaxWidth()
-                    .clip(shape = CircleShape)
-                    .clickable {
-                        showAlbums = !showAlbums
-                    },
-                contentScale = ContentScale.Crop
-            )
-            if (showAlbums) {
-                AlbumListScreen()
+            item {
+                // 메인 그룹 이미지 (클릭 시 멤버 프로필 표시)
+                Image(
+                    painter = painterResource(id = R.drawable.qwer_ban),
+                    contentDescription = "QWER",
+                    modifier = Modifier
+                        .height(200.dp)
+                        .fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(20.dp))
+                        .clickable {
+                            showMembers = !showMembers
+                        },
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(20.dp))
             }
 
-            // 여백
-            Spacer(modifier = Modifier.height(20.dp))
+            if (showMembers) {
+                item{
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "멤버 정보",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        fontFamily = onePop,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                }
+                // 멤버 프로필 리스트
+                items(members) { member ->
+                    MemberProfile(member)
+                }
+            }
 
-            // 멤버 목록
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
-            ) {
-                members.forEach { member ->
-                    MemberProfile(member) {
-                        selectedMember = if (selectedMember == member) null else member
-                    }
-                    if (selectedMember == member) {
-                        MemberDetails(member)
-                    }
+            if (!showMembers) {
+                item {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "앨범 정보",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        fontFamily = onePop,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                }
+                items(albums) { album ->
+                    AlbumCard(album = album)
                 }
             }
         }
@@ -135,93 +155,116 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
 }
 
 @Composable
-fun MemberProfile(memberInfo: MemberInfo, onClick: () -> Unit) {
-
-    var likesCount by remember { mutableStateOf(0) }
-
-    Row(
+fun MemberProfile(memberInfo: MemberInfo) {
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.LightGray.copy(alpha = 0.2f))
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), // Increased elevation for a richer feel
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
-        Image(
-            painter = painterResource(id = memberInfo.image),
-            contentDescription = "$memberInfo.name 프로필 이미지",
-            modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape),
-            contentScale = ContentScale.Crop
-        )
-
         Column(
             modifier = Modifier
-                .padding(start = 16.dp)
-                .weight(1f)
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
-            Text(
-                text = memberInfo.nickname,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 15.sp,
-                fontFamily = onePop
-            )
-            Text(
-                text = memberInfo.position,
-                fontSize = 12.sp,
-                color = Color.Gray,
-                fontFamily = onePop
-            )
-        }
-        IconButton(
-            onClick = {
-                likesCount++
+            // Profile Image and Nickname/Position Row
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Profile Image with a border
+                Box(
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                        .border(BorderStroke(2.dp, Color(0xFFC70039)), CircleShape)
+                ) {
+                    Image(
+                        painter = painterResource(id = memberInfo.image),
+                        contentDescription = "${memberInfo.name} 프로필 이미지",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+
+                // Nickname, Position, and Likes
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 16.dp)
+                ) {
+                    Text(
+                        text = memberInfo.nickname,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 20.sp,
+                        fontFamily = onePop,
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "# ${memberInfo.position}",
+                        fontSize = 14.sp,
+                        color = Color(0xFFC70039),
+                        fontFamily = onePop,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
             }
-        ) {
-            Icon(
-                imageVector = Icons.Default.Favorite,
-                contentDescription = "Like"
-            )
+            // Full Name, Birthday, and Description
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            ) {
+                // Full Name
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = "Name Icon",
+                        modifier = Modifier.size(20.dp),
+                        tint = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "본명: ${memberInfo.name}",
+                        fontSize = 14.sp,
+                        color = Color.DarkGray,
+                        fontFamily = onePop
+                    )
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Birthday
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = "Birthday Icon",
+                        modifier = Modifier.size(20.dp),
+                        tint = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "생일: ${memberInfo.birthday}",
+                        fontSize = 14.sp,
+                        color = Color.DarkGray,
+                        fontFamily = onePop
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Description
+                Text(
+                    text = "설명: ${memberInfo.description}",
+                    fontSize = 14.sp,
+                    color = Color.DarkGray,
+                    fontFamily = onePop,
+                    textAlign = TextAlign.Start
+                )
+            }
         }
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text(
-            text = "$likesCount",
-        )
-    }
-}
-
-@Composable
-fun MemberDetails(memberInfo: MemberInfo) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color(0xFFE0F7FA))
-            .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = memberInfo.name,
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            fontFamily = onePop,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            text = memberInfo.birthday,
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            fontFamily = onePop,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            text = memberInfo.description,
-            fontSize = 14.sp,
-            fontFamily = onePop,
-            textAlign = TextAlign.Center,
-        )
     }
 }
 
@@ -239,6 +282,8 @@ fun AlbumListScreen() {
 
 @Composable
 fun AlbumCard(album: albumInfo) {
+    var likesCount by remember { mutableStateOf(0) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -289,6 +334,25 @@ fun AlbumCard(album: albumInfo) {
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
+            IconButton(
+                onClick = {
+                    likesCount++
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Like",
+                    tint = if (likesCount > 0) Color.Red else Color.Gray
+                )
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Text(
+                text = "$likesCount",
+                fontSize = 14.sp,
+                color = Color.DarkGray,
+                fontFamily = onePop
+            )
         }
     }
 }
