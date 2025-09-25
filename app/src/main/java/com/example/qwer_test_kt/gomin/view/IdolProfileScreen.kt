@@ -109,6 +109,7 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
                     modifier = Modifier
                         .height(200.dp)
                         .fillMaxWidth()
+                        .padding(8.dp)
                         .clip(shape = RoundedCornerShape(20.dp))
                         .clickable {
                             showMembers = !showMembers
@@ -161,7 +162,7 @@ fun MemberProfile(memberInfo: MemberInfo) {
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 8.dp),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), // Increased elevation for a richer feel
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Column(
@@ -169,16 +170,14 @@ fun MemberProfile(memberInfo: MemberInfo) {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Profile Image and Nickname/Position Row
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Profile Image with a border
                 Box(
                     modifier = Modifier
                         .size(80.dp)
                         .clip(CircleShape)
-                        .border(BorderStroke(2.dp, Color(0xFFC70039)), CircleShape)
+                        .border(BorderStroke(2.dp, Color(0xFF0000FF)), CircleShape)
                 ) {
                     Image(
                         painter = painterResource(id = memberInfo.image),
@@ -311,7 +310,12 @@ fun AlbumCard(album: albumInfo) {
                     .padding(start = 16.dp)
             ) {
                 Text(
-                    text = album.title,
+                    modifier = Modifier.padding(
+                        start = 5.dp,
+                        top = 5.dp,
+                        end = 5.dp,
+                        bottom = 5.dp
+                    ), text = album.title,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -366,4 +370,18 @@ fun IdolProfileScreenWithScaffoldPreview() {
 @Composable
 fun Profile(){
     AlbumListScreen()
+}
+@Preview(showBackground = true)
+@Composable
+fun MemberProfilePreview() {
+    MemberProfile(
+        memberInfo = MemberInfo(
+            "이시연",
+            "리드 보컬",
+            "이시연",
+            "2000.05.16",
+            R.drawable.gomin_siyeon_profile2,
+            "밴드의 메인 보컬을 맡고 있습니다. 🎤"
+        )
+    )
 }
