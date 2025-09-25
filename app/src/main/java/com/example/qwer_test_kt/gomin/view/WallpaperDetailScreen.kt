@@ -1,10 +1,7 @@
 package com.example.qwer_test_kt.gomin.view
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
@@ -23,19 +20,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,12 +39,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import coil.imageLoader
-import coil.request.ImageRequest
 import com.example.qwer_test_kt.gomin.onePop
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
-import java.io.File
-import java.io.FileOutputStream
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -67,23 +56,6 @@ fun WallpaperDetailScreen(
     }
 
     val context = LocalContext.current
-    val uiState by viewModel.uiState.collectAsState()
-
-    LaunchedEffect(uiState.userMessage) {
-        uiState.userMessage?.let { message ->
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            viewModel.userMessageShown() // 메시지 표시 후 상태 초기화
-        }
-    }
-
-    if (uiState.isLoading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    }
     var showWidgetSelectionDialog by remember { mutableStateOf(false) }
 
     Column(
@@ -133,7 +105,7 @@ fun WallpaperDetailScreen(
                 onWidgetSelected = {
                     showWidgetSelectionDialog = false
                 },
-                wallpaperUrl = wallpaperUrl // 매개변수를 괄호 안에 올바르게 위치시킵니다.
+                wallpaperUrl = wallpaperUrl
             )
         }
     }
@@ -153,17 +125,16 @@ fun WallpaperAndWidgetRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceAround, // Arranges buttons with space between them
-        verticalAlignment = Alignment.CenterVertically // Aligns buttons vertically in the center
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        // "배경화면으로 설정하기" (Set as Wallpaper) Button
+
         Button(
             onClick = {
                 viewModel.setWallpaper(context, wallpaperUrl) {
                     context.startActivity(it)
                 }
             },
-            // The `weight` modifier is crucial for `Row` to make the buttons share space
             modifier = Modifier
                 .weight(1f)
                 .height(56.dp),
@@ -175,18 +146,17 @@ fun WallpaperAndWidgetRow(
         ) {
             Text(
                 text = "배경화면 등록",
-                fontFamily = onePop, // Make sure this font family is defined
+                fontFamily = onePop,
                 fontSize = 18.sp
             )
         }
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        // "위젯으로 설정하기" (Set as Widget) Button
         Button(
             onClick = onSetWidgetClicked,
             modifier = Modifier
-                .weight(1f) // Gives this button equal weight to the first one
+                .weight(1f)
                 .height(56.dp),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(0xFF80CBC4),
@@ -203,10 +173,10 @@ fun WallpaperAndWidgetRow(
         if (showDialog) {
             WidgetSelectionDialog(
                 onDismissRequest = {
-                    showDialog = false // Dismiss the dialog when user clicks outside
+                    showDialog = false
                 },
                 onWidgetSelected = {
-                    showDialog = false // Dismiss the dialog after a widget is selected
+                    showDialog = false
                 },
                 wallpaperUrl = wallpaperUrl
             )

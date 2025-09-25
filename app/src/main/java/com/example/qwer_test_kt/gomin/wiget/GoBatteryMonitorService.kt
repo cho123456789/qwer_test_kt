@@ -12,11 +12,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
-import com.example.qwer_test_kt.BatteryWidgetProvider
 import com.example.qwer_test_kt.MainActivity
 import com.example.qwer_test_kt.R
 

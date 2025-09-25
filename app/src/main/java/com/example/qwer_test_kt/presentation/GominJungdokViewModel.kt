@@ -40,32 +40,23 @@ class GominJungdokViewModel @Inject constructor(
     private val _members = MutableStateFlow<List<Member>>(emptyList())
     val members: StateFlow<List<Member>> = _members
 
-    private val _uiState = MutableStateFlow(GominJungdokUiState())
-    val uiState: StateFlow<GominJungdokUiState> = _uiState.asStateFlow()
-
     fun setWallpaper(context: Context, wallpaperUrl: String, onIntentReady: (Intent) -> Unit) {
-        viewModelScope.launch {
-            viewModelScope.launch(Dispatchers.IO) {
-                val bitmap = downloadBitmap(context, wallpaperUrl)
-                bitmap?.let {
-                    val wallpaperFile = saveBitmapToTempFile(context, it)
-                    val contentUri = FileProvider.getUriForFile(
-                        context,
-                        "${context.packageName}.fileprovider",
-                        wallpaperFile
-                    )
-                    val intent = Intent(Intent.ACTION_SET_WALLPAPER).apply {
-                        addCategory(Intent.CATEGORY_DEFAULT)
-                        setDataAndType(contentUri, "image/*")
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
-                    withContext(Dispatchers.Main) {
-                        onIntentReady(intent)
-                    }
-                } ?: run {
-                    _uiState.update {
-                        it.copy(userMessage = "이미지를 다운로드할 수 없습니다.")
-                    }
+        viewModelScope.launch(Dispatchers.IO) {
+            val bitmap = downloadBitmap(context, wallpaperUrl)
+            bitmap?.let {
+                val wallpaperFile = saveBitmapToTempFile(context, it)
+                val contentUri = FileProvider.getUriForFile(
+                    context,
+                    "${context.packageName}.fileprovider",
+                    wallpaperFile
+                )
+                val intent = Intent(Intent.ACTION_SET_WALLPAPER).apply {
+                    addCategory(Intent.CATEGORY_DEFAULT)
+                    setDataAndType(contentUri, "image/*")
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                withContext(Dispatchers.Main) {
+                    onIntentReady(intent)
                 }
             }
         }
@@ -93,21 +84,7 @@ class GominJungdokViewModel @Inject constructor(
     fun filterByMember(memberName: String) {
         _selectedMemberName.value = memberName
     }
-
-    fun userMessageShown() {
-        _uiState.update {
-            it.copy(userMessage = null)
-        }
-    }
 }
-
-data class GominJungdokUiState(
-    val selectedWallpaper: String? = null,
-    val isLoading: Boolean = false,
-    val userMessage: String? = null,
-    val imageScale: Float = 1f,
-    val imageOffset: Offset = Offset.Zero
-)
 
 fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
     val tempFile = File(context.cacheDir, "wallpaper_temp.png")

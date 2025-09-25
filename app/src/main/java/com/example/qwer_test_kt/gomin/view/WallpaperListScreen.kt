@@ -18,8 +18,8 @@ import coil.compose.AsyncImage
 
 @Composable
 fun WallpaperListScreen(
-    allWallpapers: List<String>, // 모든 배경화면 URL을 받을 매개변수
-    onWallpaperClick: (String) -> Unit // 클릭 시 호출될 람다 함수
+    allWallpapers: List<String>,
+    onWallpaperClick: (String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),

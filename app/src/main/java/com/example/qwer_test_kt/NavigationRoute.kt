@@ -6,8 +6,4 @@ object Route {
     const val Gomin_detail = "gomin_detail"
     const val Memeber = "Member"
     const val Splash = "splash"
-    const val Gomin_select = "GominSelect"
-    const val WALLPAPER = "wallpaper_screen"
-    const val WIDGET = "widget_screen"
-    const val ICON = "icon_screen"
 }

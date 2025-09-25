@@ -31,7 +31,7 @@ val members = listOf(
     MemberInfo(
         "장나영",
         "기타",
-        nickname = "히나",
+          "히나",
         "2001.01.30",
         R.drawable.gomin_hina_profile2,
         "청량한 기타 사운드를 책임집니다. 🎸"

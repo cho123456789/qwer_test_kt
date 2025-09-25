@@ -11,10 +11,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -248,39 +246,3 @@ fun ConceptCard(
 fun PreviewMainScreen() {
     AppNavGraph()
 }
-
-
-//        enableEdgeToEdge()
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        val qwerText = "QWER"
-//        val spannableString = SpannableString(qwerText)
-//
-//
-//        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-//        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#FFC0CB")), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-//        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#00B0FF")), 2, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-//        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#8BC34A")), 3, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-//        binding.titleTextViewQWER.text = spannableString
-//
-//
-//        binding.cardDiscord.setOnClickListener {
-//           // val intent = Intent(this, PhotoWidgetActivity::class.java)
-//            //startActivity(intent)
-//        }
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//            if (!alarmManager.canScheduleExactAlarms()) {
-//                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-//                intent.data = Uri.parse("package:$packageName")
-//                startActivity(intent)
-//            }
-//        }
-//
-//        val intent = Intent(this, BatteryMonitorService::class.java)
-//        ContextCompat.startForegroundService(this, intent)
-//
-//        SiyeonWidgetProvider().scheduleNextUpdate(this)
-//    }

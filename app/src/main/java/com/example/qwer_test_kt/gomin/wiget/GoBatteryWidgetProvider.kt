@@ -11,7 +11,6 @@ import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import com.example.qwer_test_kt.R
-import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 import com.example.qwer_test_kt.presentation.downloadBitmap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -73,11 +72,13 @@ class GoBatteryWidgetProvider : AppWidgetProvider() {
             updateBatteryWidget(context, appWidgetManager, it)
         }
     }
+
     override fun onEnabled(context: Context) {
         // 위젯의 첫 번째 인스턴스가 추가될 때 호출됩니다.
         super.onEnabled(context)
         startBatteryMonitoringService(context)
     }
+
     override fun onDisabled(context: Context) {
         // 위젯의 마지막 인스턴스가 제거될 때 호출됩니다.
         super.onDisabled(context)
@@ -85,6 +86,7 @@ class GoBatteryWidgetProvider : AppWidgetProvider() {
         val serviceIntent = Intent(context, GoBatteryMonitorService::class.java)
         context.stopService(serviceIntent)
     }
+
     private fun startBatteryMonitoringService(context: Context) {
         val serviceIntent = Intent(context, GoBatteryMonitorService::class.java)
 

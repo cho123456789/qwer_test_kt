@@ -37,7 +37,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
 
         when (intent.action) {
             ACTION_UPDATE_TIME -> {
-                // 시간 업데이트만 실행 (이미지 재다운로드 없이)
                 CoroutineScope(Dispatchers.IO).launch {
                     val glanceIds =
                         GlanceAppWidgetManager(context).getGlanceIds(GoWatchWidgetProvider::class.java)
@@ -45,7 +44,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
                         GoWatchWidgetProvider().update(context, glanceId)
                     }
                 }
-                // 다음 업데이트를 다시 스케줄링
                 scheduleNextUpdate(context)
             }
             // 이 ACTION은 앱 설정에서 이미지 변경 시 호출되도록 설계
@@ -54,7 +52,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
                 val appWidgetIds = appWidgetManager.getAppWidgetIds(
                     android.content.ComponentName(context, GoWatchWidgetReceiver::class.java)
                 )
-                // 이미지 업데이트와 함께 onUpdate 호출
                 onUpdate(context, appWidgetManager, appWidgetIds)
             }
         }
@@ -88,12 +85,9 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
                         downloadBitmap(context, wallpaperUrl)
                     } ?: throw IllegalStateException("비트맵 다운로드 실패")
 
-                    // 비트맵을 임시 파일에 저장
                     val file = withContext(Dispatchers.IO) {
                         saveBitmapToTempFile(context, bitmap)
                     }
-
-                    // 특정 위젯 인스턴스의 상태 업데이트
                     updateAppWidgetState(
                         context = context,
                         definition = PreferencesGlanceStateDefinition,
@@ -178,7 +172,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
         )
     }
 
-    // 이미지 URL에서 비트맵을 다운로드하는 함수
     private suspend fun downloadBitmap(context: Context, url: String): Bitmap? {
         val request = ImageRequest.Builder(context)
             .data(url)

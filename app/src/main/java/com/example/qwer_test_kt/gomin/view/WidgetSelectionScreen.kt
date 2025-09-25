@@ -98,7 +98,6 @@ fun WidgetSelectionDialog(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // 위젯 선택 버튼들 (라디오 버튼 스타일)
                 WidgetButton(
                     text = "배터리 위젯",
                     isSelected = selectedWidgetName == "battery",

@@ -32,6 +32,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
@@ -50,8 +51,8 @@ fun GominjungdokScreen(
     navController: NavHostController,
     viewModel: GominJungdokViewModel = hiltViewModel()
 ) {
-    val members by viewModel.members.collectAsState()
-    val filteredWallpapers by viewModel.filterWallpapers.collectAsState()
+    val members by viewModel.members.collectAsStateWithLifecycle()
+    val filteredWallpapers by viewModel.filterWallpapers.collectAsStateWithLifecycle()
 
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
@@ -104,7 +105,7 @@ fun GominjungdokScreen(
             }
 
             Text(
-                text = qwerAnnotatedString, // 여기에 AnnotatedString 객체를 전달합니다.
+                text = qwerAnnotatedString,
                 fontSize = 75.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = cafe24,
