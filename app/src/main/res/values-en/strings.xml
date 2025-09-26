@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QWER Photo Widget</string>
+
+    <string name="app_widget_description">Register battery widget</string>
+    <string name="app_widget_watch_description">Register clock widget</string>
+
+    <string name="discord_title">Discord</string>
+    <string name="discord_content">The 1st Single Album</string>
+    <string name="discord_date">2023.10.18</string>
+    <string name="discord_tickList_title">Discord (title)</string>
+    <string name="discord_tickList_song1">Stars Harmony</string>
+    <string name="discord_tickList_song2">Riddle Diary</string>
+
+    <string name="MANITO_title">MANITO</string>
+    <string name="MANITO_content">The 1st Mini Album</string>
+    <string name="MANITO_date">2024.04.01</string>
+    <string name="MANITO_tickList_title">Gomin Jungdok (title)</string>
+    <string name="MANITO_tickList_song1">SODA</string>
+    <string name="MANITO_tickList_song2">Declaration of Freedom</string>
+    <string name="MANITO_tickList_song3">Conquest of Earth</string>
+    <string name="MANITO_tickList_song4">Ferris Wheel</string>
+    <string name="MANITO_tickList_song5">Fireworks</string>
+    <string name="MANITO_tickList_song6">Manito</string>
+
+    <string name="Algorithm_title">Algorithm’s Blossom</string>
+    <string name="Algorithm_content">The 2nd Mini Album</string>
+    <string name="Algorithm_date">2024.09.23</string>
+    <string name="Algorithm_tickList_title">My Name is Sunny (title)</string>
+    <string name="Algorithm_tickList_song1">Fake Idol</string>
+    <string name="Algorithm_tickList_song2">Lets Love</string>
+    <string name="Algorithm_tickList_song3">Running</string>
+    <string name="Algorithm_tickList_song4">Goodbye, My Sadness</string>
+    <string name="Algorithm_tickList_song5">Echo</string>
+
+    <string name="dear_title">Im on your side, even if the whole world is in discord</string>
+    <string name="dear_content">The 3rd Mini Album</string>
+    <string name="dear_date">2025.05.06</string>
+    <string name="dear_tickList_title">Holding Back Tears (title)</string>
+    <string name="dear_tickList_song1">Become Happy</string>
+    <string name="dear_tickList_song2">The Search Term is QWER</string>
+    <string name="dear_tickList_song3">OVERDRIVE</string>
+    <string name="dear_tickList_song4">D-Day</string>
+    <string name="dear_tickList_song5">Yours Sincerely</string>
+</resources>

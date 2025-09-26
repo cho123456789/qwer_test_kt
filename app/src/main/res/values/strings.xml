@@ -1,14 +1,47 @@
 <resources>
     <string name="app_name">QWER Photo Widget</string>
-    <string name="Sun">일</string>
-    <string name="Mon">월 </string>
-    <string name="Tue">화</string>
-    <string name="Web">수</string>
-    <string name="Thu">목</string>
-    <string name="Fri">금</string>
-    <string name="Sat">토</string>
 
     <string name="app_widget_description">배터리 위젯 등록</string>
     <string name="app_widget_watch_description">시계 위젯 등록</string>
 
+    <string name="discord_title">Discord</string>
+    <string name="discord_content">The 1st Single Album</string>
+    <string name="discord_date">2023.10.18</string>
+    <string name="discord_tickList_title">Discord (title)</string>
+    <string name="discord_tickList_song1">별의 하모니</string>
+    <string name="discord_tickList_song2">수수께끼 다이어리</string>
+
+
+    <string name="MANITO_title">MANITO</string>
+    <string name="MANITO_content">The 1st Single Album</string>
+    <string name="MANITO_date">2024.04.01</string>
+    <string name="MANITO_tickList_title">고민중독 (title)</string>
+    <string name="MANITO_tickList_song1">SODA</string>
+    <string name="MANITO_tickList_song2">자유선언</string>
+    <string name="MANITO_tickList_song3">지구정복</string>
+    <string name="MANITO_tickList_song4">대관람차</string>
+    <string name="MANITO_tickList_song5">불꽃놀이</string>
+    <string name="MANITO_tickList_song6">마니또</string>
+
+
+    <string name="Algorithm_title">Algorithm’s Blossom</string>
+    <string name="Algorithm_content">The 2st Mini Album</string>
+    <string name="Algorithm_date">2024.09.23</string>
+    <string name="Algorithm_tickList_title">내이름 맑음 (title)</string>
+    <string name="Algorithm_tickList_song1">가짜아이돌</string>
+    <string name="Algorithm_tickList_song2">사랑하자</string>
+    <string name="Algorithm_tickList_song3">달리기</string>
+    <string name="Algorithm_tickList_song4">안녕, 나의 슬픔</string>
+    <string name="Algorithm_tickList_song5">메아리</string>
+
+
+    <string name="dear_title">난 네 편이야, 온 세상이 불협일지라도</string>
+    <string name="dear_content">The 3st Mini Album</string>
+    <string name="dear_date">2025.05.06</string>
+    <string name="dear_tickList_title">눈물참기 (title)</string>
+    <string name="dear_tickList_song1">행복해져라</string>
+    <string name="dear_tickList_song2">검색어는 QWER</string>
+    <string name="dear_tickList_song3">OVERDRIVE</string>
+    <string name="dear_tickList_song4">D-Day</string>
+    <string name="dear_tickList_song5">Yours Sincerely</string>
 </resources>

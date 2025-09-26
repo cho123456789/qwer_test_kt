@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">QWER Photo Widget</string>
+
+    <string name="app_widget_description">バッテリーウィジェット登録</string>
+    <string name="app_widget_watch_description">時計ウィジェット登録</string>
+
+    <string name="discord_title">Discord</string>
+    <string name="discord_content">1st シングルアルバム</string>
+    <string name="discord_date">2023.10.18</string>
+    <string name="discord_tickList_title">Discord (タイトル)</string>
+    <string name="discord_tickList_song1">星のハーモニー</string>
+    <string name="discord_tickList_song2">なぞなぞダイアリー</string>
+
+    <string name="MANITO_title">MANITO</string>
+    <string name="MANITO_content">1nd シングルアルバム</string>
+    <string name="MANITO_date">2024.04.01</string>
+    <string name="MANITO_tickList_title">悩み中毒 (タイトル)</string>
+    <string name="MANITO_tickList_song1">SODA</string>
+    <string name="MANITO_tickList_song2">自由宣言</string>
+    <string name="MANITO_tickList_song3">地球征服</string>
+    <string name="MANITO_tickList_song4">観覧車</string>
+    <string name="MANITO_tickList_song5">花火</string>
+    <string name="MANITO_tickList_song6">マニト</string>
+
+    <string name="Algorithm_title">アルゴリズムの花</string>
+    <string name="Algorithm_content">2nd ミニアルバム</string>
+    <string name="Algorithm_date">2024.09.23</string>
+    <string name="Algorithm_tickList_title">私の名前は晴れ (タイトル)</string>
+    <string name="Algorithm_tickList_song1">偽アイドル</string>
+    <string name="Algorithm_tickList_song2">愛し合おう</string>
+    <string name="Algorithm_tickList_song3">ランニング</string>
+    <string name="Algorithm_tickList_song4">さよなら、私の悲しみ</string>
+    <string name="Algorithm_tickList_song5">こだま</string>
+
+    <string name="dear_title">僕は君の味方だよ、世界中が不協和音だとしても</string>
+    <string name="dear_content">3rd ミニアルバム</string>
+    <string name="dear_date">2025.05.06</string>
+    <string name="dear_tickList_title">涙こらえて (タイトル)</string>
+    <string name="dear_tickList_song1">幸せになれ</string>
+    <string name="dear_tickList_song2">検索ワードは QWER</string>
+    <string name="dear_tickList_song3">OVERDRIVE</string>
+    <string name="dear_tickList_song4">D-Day</string>
+    <string name="dear_tickList_song5">Yours Sincerely</string>
+</resources>
