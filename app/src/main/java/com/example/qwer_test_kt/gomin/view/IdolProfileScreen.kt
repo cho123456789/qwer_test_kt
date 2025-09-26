@@ -1,12 +1,10 @@
 package com.example.qwer_test_kt.gomin.view
 
-import android.R.attr.onClick
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -48,7 +46,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -92,7 +92,7 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
     ) { paddingValues ->
 
         var showMembers by remember { mutableStateOf(false) }
-
+        var selectedAlbumId by remember { mutableStateOf<String?>(null) }
 
         LazyColumn(
             modifier = Modifier
@@ -120,7 +120,7 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
             }
 
             if (showMembers) {
-                item{
+                item {
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = "멤버 정보",
@@ -148,7 +148,13 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
                     )
                 }
                 items(albums) { album ->
-                    AlbumCard(album = album)
+                    AlbumCard(
+                        album = album,
+                        isSelected = selectedAlbumId == album.id,
+                        onCardSelect = {
+                            selectedAlbumId = if (selectedAlbumId == album.id) null else album.id
+                        },
+                    )
                 }
             }
         }
@@ -188,8 +194,6 @@ fun MemberProfile(memberInfo: MemberInfo) {
                         contentScale = ContentScale.Crop
                     )
                 }
-
-                // Nickname, Position, and Likes
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -212,7 +216,6 @@ fun MemberProfile(memberInfo: MemberInfo) {
                     )
                 }
             }
-            // Full Name, Birthday, and Description
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -269,31 +272,48 @@ fun MemberProfile(memberInfo: MemberInfo) {
 
 @Composable
 fun AlbumListScreen() {
+    var selectedAlbumId by remember { mutableStateOf<String?>(null) }
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(top = 8.dp)
     ) {
         items(albums) { album ->
-            AlbumCard(album = album)
+            AlbumCard(
+                album = album,
+                isSelected = selectedAlbumId == album.id,
+                onCardSelect = {
+                    selectedAlbumId = if (selectedAlbumId == album.id) null else album.id
+                },
+            )
         }
     }
 }
 
 @Composable
-fun AlbumCard(album: albumInfo) {
+fun AlbumCard(
+    album: albumInfo,
+    onCardSelect: () -> Unit,
+    isSelected: Boolean
+) {
     var likesCount by remember { mutableStateOf(0) }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5) )
+            .padding(8.dp)
+            .border(
+                width = if (isSelected) 3.dp else 0.dp,
+                color = if (isSelected) Color.Blue else Color.Transparent,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clickable { onCardSelect() },
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5))
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically // Vertically align content
+            verticalAlignment = Alignment.CenterVertically
         ) {
             // Album Image
             Image(
@@ -302,33 +322,36 @@ fun AlbumCard(album: albumInfo) {
                 modifier = Modifier
                     .size(120.dp)
             )
-
-            // Track List and Title
             Column(
                 modifier = Modifier
-                    .weight(1f) // Fills the remaining space
+                    .weight(1f)
                     .padding(start = 16.dp)
             ) {
+                // This part is correct because it's using stringResource()
                 Text(
                     modifier = Modifier.padding(
                         start = 5.dp,
                         top = 5.dp,
                         end = 5.dp,
                         bottom = 5.dp
-                    ), text = album.title,
+                    ),
+                    text = stringResource(id = album.title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
+
                 Spacer(modifier = Modifier.height(4.dp))
+
                 Text(
                     text = buildAnnotatedString {
-                        album.trackList.forEachIndexed { index, track ->
+                        album.trackList.forEachIndexed { index, trackId ->
+                            val trackString = stringResource(id = trackId)
                             if (index == 0) {
                                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                    append(track)
+                                    append(trackString)
                                 }
                             } else {
-                                append(track)
+                                append(trackString)
                             }
                             if (index < album.trackList.size - 1) {
                                 append("\n")
@@ -366,12 +389,14 @@ fun AlbumCard(album: albumInfo) {
 fun IdolProfileScreenWithScaffoldPreview() {
     IdolProfileScreenWithScaffold(navController = NavHostController(LocalContext.current))
 }
-@Preview(showBackground = true)
+
+@Preview(showBackground = true, locale = "KR")
 @Composable
-fun Profile(){
+fun Profile() {
     AlbumListScreen()
 }
-@Preview(showBackground = true)
+
+@Preview(showBackground = true, locale = "fr-rFR", showSystemUi = true)
 @Composable
 fun MemberProfilePreview() {
     MemberProfile(
