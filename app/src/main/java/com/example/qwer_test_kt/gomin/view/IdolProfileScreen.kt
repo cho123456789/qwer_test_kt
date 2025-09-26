@@ -93,6 +93,7 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
 
         var showMembers by remember { mutableStateOf(false) }
         var selectedAlbumId by remember { mutableStateOf<String?>(null) }
+        val uriHandler = LocalUriHandler.current
 
         LazyColumn(
             modifier = Modifier
@@ -154,6 +155,9 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
                         onCardSelect = {
                             selectedAlbumId = if (selectedAlbumId == album.id) null else album.id
                         },
+                        onImageClick = {
+                            uriHandler.openUri(album.musicVideo)
+                        }
                     )
                 }
             }
@@ -284,6 +288,9 @@ fun AlbumListScreen() {
                 onCardSelect = {
                     selectedAlbumId = if (selectedAlbumId == album.id) null else album.id
                 },
+                onImageClick = {
+
+                }
             )
         }
     }
@@ -293,6 +300,7 @@ fun AlbumListScreen() {
 fun AlbumCard(
     album: albumInfo,
     onCardSelect: () -> Unit,
+    onImageClick: () -> Unit,
     isSelected: Boolean
 ) {
     var likesCount by remember { mutableStateOf(0) }
@@ -321,6 +329,7 @@ fun AlbumCard(
                 contentDescription = "${album.title} Album Cover",
                 modifier = Modifier
                     .size(120.dp)
+                    .clickable { onImageClick() }
             )
             Column(
                 modifier = Modifier
