@@ -7,7 +7,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -70,6 +69,7 @@ import com.example.qwer_test_kt.gomin.view.model.members
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IdolProfileScreenWithScaffold(navController: NavController) {
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -93,6 +93,7 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
 
         var showMembers by remember { mutableStateOf(false) }
         var selectedAlbumId by remember { mutableStateOf<String?>(null) }
+        var showCheerGuide by remember { mutableStateOf(false) }
         val uriHandler = LocalUriHandler.current
 
         LazyColumn(
@@ -114,51 +115,72 @@ fun IdolProfileScreenWithScaffold(navController: NavController) {
                         .clip(shape = RoundedCornerShape(20.dp))
                         .clickable {
                             showMembers = !showMembers
+                            showCheerGuide = false
+                            selectedAlbumId = null
                         },
                     contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.height(20.dp))
             }
 
-            if (showMembers) {
-                item {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = "멤버 정보",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        fontFamily = onePop,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
+            when {
+                showMembers -> {
+                    item {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = "멤버 정보",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            fontFamily = onePop,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                    }
+                    // 멤버 프로필 리스트
+                    items(members) { member ->
+                        MemberProfile(member)
+                    }
                 }
-                // 멤버 프로필 리스트
-                items(members) { member ->
-                    MemberProfile(member)
-                }
-            }
 
-            if (!showMembers) {
-                item {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = "앨범 정보",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        fontFamily = onePop,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-                }
-                items(albums) { album ->
-                    AlbumCard(
-                        album = album,
-                        isSelected = selectedAlbumId == album.id,
-                        onCardSelect = {
-                            selectedAlbumId = if (selectedAlbumId == album.id) null else album.id
-                        },
-                        onImageClick = {
-                            uriHandler.openUri(album.musicVideo)
+                else -> {
+                    item {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = "앨범 정보",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            fontFamily = onePop,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                    }
+                    items(albums) { album ->
+                        AlbumCard(
+                            album = album,
+                            isSelected = selectedAlbumId == album.id,
+                            onCardSelect = {
+                                if (selectedAlbumId == album.id) {
+                                    selectedAlbumId = null
+                                    showCheerGuide = false
+                                } else {
+                                    selectedAlbumId = album.id
+                                    showCheerGuide = true
+                                    showMembers = false
+                                }
+                            },
+                            onImageClick = {
+                                uriHandler.openUri(album.musicVideo)
+                            }
+                        )
+
+                        // 선택된 앨범인 경우 응원법 카드 표시
+                        if (selectedAlbumId == album.id && showCheerGuide) {
+                            album.cheerGuide?.let { cheerGuideImage ->
+                                CheerGuideCard(
+                                    albumTitle = stringResource(id = album.title),
+                                    cheerGuideImage = cheerGuideImage
+                                )
+                            }
                         }
-                    )
+                    }
                 }
             }
         }
@@ -275,28 +297,6 @@ fun MemberProfile(memberInfo: MemberInfo) {
 }
 
 @Composable
-fun AlbumListScreen() {
-    var selectedAlbumId by remember { mutableStateOf<String?>(null) }
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(top = 8.dp)
-    ) {
-        items(albums) { album ->
-            AlbumCard(
-                album = album,
-                isSelected = selectedAlbumId == album.id,
-                onCardSelect = {
-                    selectedAlbumId = if (selectedAlbumId == album.id) null else album.id
-                },
-                onImageClick = {
-
-                }
-            )
-        }
-    }
-}
-
-@Composable
 fun AlbumCard(
     album: albumInfo,
     onCardSelect: () -> Unit,
@@ -393,18 +393,80 @@ fun AlbumCard(
     }
 }
 
+@Composable
+fun CheerGuideCard(
+    albumTitle: String,
+    cheerGuideImage: Int
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "$albumTitle 응원법 가이드",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                fontFamily = onePop,
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+
+            Image(
+                painter = painterResource(id = cheerGuideImage),
+                contentDescription = "$albumTitle 응원법 가이드",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(400.dp)
+                    .clip(RoundedCornerShape(12.dp)),
+                contentScale = ContentScale.Fit
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "🎵 함께 응원해요! 🎵",
+                fontSize = 16.sp,
+                fontFamily = onePop,
+                color = Color(0xFF0000FF),
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun IdolProfileScreenWithScaffoldPreview() {
     IdolProfileScreenWithScaffold(navController = NavHostController(LocalContext.current))
 }
-
 @Preview(showBackground = true, locale = "KR")
 @Composable
-fun Profile() {
-    AlbumListScreen()
+fun AlbumListPreview() {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        items(albums) { album ->
+            AlbumCard(
+                album = album,
+                isSelected = false,
+                onCardSelect = { },
+                onImageClick = { }
+            )
+        }
+    }
 }
-
 @Preview(showBackground = true, locale = "fr-rFR", showSystemUi = true)
 @Composable
 fun MemberProfilePreview() {
@@ -415,7 +477,7 @@ fun MemberProfilePreview() {
             "이시연",
             "2000.05.16",
             R.drawable.gomin_siyeon_profile2,
-            "밴드의 메인 보컬을 맡고 있습니다. 🎤"
+            "밴드의 메인 보컬을 맡고 있습니다. "
         )
     )
 }
