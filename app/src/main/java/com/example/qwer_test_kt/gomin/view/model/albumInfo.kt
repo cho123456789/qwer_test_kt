@@ -3,7 +3,7 @@ package com.example.qwer_test_kt.gomin.view.model
 import com.example.qwer_test_kt.R
 
 data class albumInfo(
-    val id: String?,
+    val id: String? ,
     val title: Int,
     val content: Int,
     val date: Int,
