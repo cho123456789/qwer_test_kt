@@ -94,7 +94,7 @@ fun GominjungdokScreen(
             }
 
             val qwerAnnotatedString = buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xFFFFFFFF))) {
+                withStyle(style = SpanStyle(color = Color(0xFF000000))) {
                     append("Q")
                 }
                 withStyle(style = SpanStyle(color = Color(0xFFFFC0CB))) {

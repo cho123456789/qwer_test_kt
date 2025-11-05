@@ -45,6 +45,9 @@ import com.example.qwer_test_kt.gomin.onePop
 import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetProvider
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
+import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetProvider
+import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetReceiver
+import android.util.Log
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -101,7 +104,6 @@ fun WidgetSelectionDialog(
                 WidgetButton(
                     text = "배터리 위젯",
                     isSelected = selectedWidgetName == "battery",
-                    //isSelected = selectedWidgetProvider?.className == GoBatteryWidgetProvider::class.java.name,
                     onClick = {
                         selectedWidgetName = "battery"
                         selectedWidgetProvider =
@@ -113,25 +115,24 @@ fun WidgetSelectionDialog(
 
                 WidgetButton(
                     text = "시계 위젯",
-                    // isSelected = selectedWidgetProvider?.className == GoWatchWidgetProvider::class.java.name,
-                    isSelected = selectedWidgetName == "clock", // <-- 변경된 부분
+                    isSelected = selectedWidgetName == "clock",
                     onClick = {
                         selectedWidgetName = "clock"
                         selectedWidgetProvider =
                             ComponentName(context, GoWatchWidgetReceiver::class.java)
                     }
                 )
-//
-//                Spacer(modifier = Modifier.height(16.dp))
-//
-//                WidgetButton(
-//                    text = "사진 위젯",
-//                    isSelected = selectedWidgetProvider?.className == ChodanWidgetProvider::class.java.name,
-//                    onClick = {
-//                        selectedWidgetProvider =
-//                            ComponentName(context, ChodanWidgetProvider::class.java)
-//                    }
-//                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                WidgetButton(
+                    text = "사진 위젯",
+                    isSelected = selectedWidgetName == "photo",
+                    onClick = {
+                        selectedWidgetName = "photo"
+                        selectedWidgetProvider =
+                            ComponentName(context, PhotoWidgetReceiver::class.java)
+                    }
+                )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -157,7 +158,7 @@ fun WidgetSelectionDialog(
                                 val widgetType = when (it.className) {
                                     GoBatteryWidgetProvider::class.java.name -> "battery"
                                     GoWatchWidgetProvider::class.java.name -> "clock"
-                                    //  ChodanWidgetProvider::class.java.name -> "photo"
+                                    PhotoWidgetReceiver::class.java.name -> "photo"
                                     else -> "unknown"
                                 }
                                 // 위젯 타입과 wallpaperUrl을 함께 전달합니다.
@@ -255,17 +256,30 @@ fun requestPinWidget(
     widgetType: String
 ) {
     val appWidgetManager = AppWidgetManager.getInstance(context)
+
+    // 먼저 위젯 고정이 지원되는지 확인
+    if (!appWidgetManager.isRequestPinAppWidgetSupported) {
+        Toast.makeText(context, "이 런처는 위젯 고정을 지원하지 않습니다.", Toast.LENGTH_LONG).show()
+        Log.e("WidgetSelection", "런처가 위젯 고정을 지원하지 않습니다.")
+        return
+    }
+
+    // 위젯 추가 요청 전에 데이터를 먼저 저장
+    val sharedPrefs = context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
+    sharedPrefs.edit()
+        .putString("widgetWallpaperUrl", wallpaperUrl)
+        .putString("widgetType", widgetType)
+        .apply()
+
+    Log.d("WidgetSelection", "위젯 데이터 저장됨 - URL: $wallpaperUrl, Type: $widgetType")
+
     val success = appWidgetManager.requestPinAppWidget(providerComponent, null, null)
 
     if (success) {
-        val sharedPrefs = context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
-        sharedPrefs.edit()
-            .putString("widgetWallpaperUrl", wallpaperUrl)
-            .putString("widgetType", widgetType)
-            .apply()
         Toast.makeText(context, "위젯이 추가되었습니다!", Toast.LENGTH_SHORT).show()
-
+        Log.d("WidgetSelection", "위젯 추가 성공")
     } else {
-        Toast.makeText(context, "위젯 추가에 실패했습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "위젯 추가를 취소했거나 실패했습니다.", Toast.LENGTH_SHORT).show()
+        Log.e("WidgetSelection", "위젯 추가 실패 - Component: ${providerComponent.className}")
     }
 }
