@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.gms.google-services")
     kotlin("kapt")
 }
 
@@ -74,8 +73,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     // Firebase BOM
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
-    implementation("com.google.firebase:firebase-firestore")
-    implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.glance:glance-appwidget:1.1.1")
     implementation("androidx.glance:glance-appwidget-proto:1.1.1")
     implementation("androidx.datastore:datastore-preferences:1.1.7")
