@@ -138,7 +138,7 @@ fun SplashScreen(navController: NavHostController, viewModel: SplashViewModel = 
             }
 
             // 2x2 사진 그리드 - Supabase의 이미지 사용 (랜덤 프로필 타입)
-            if (profilesState == null) {
+            if (profilesState == null ) {
                 // 로딩 중
                 Box(
                     modifier = Modifier
