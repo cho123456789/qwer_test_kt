@@ -1,6 +1,5 @@
 package com.example.qwer_test_kt.data.model
 
-import com.example.qwer_test_kt.domin.model.Member
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

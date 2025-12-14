@@ -4,8 +4,6 @@ import android.util.Log
 import com.example.qwer_test_kt.data.model.MemberData
 import com.example.qwer_test_kt.data.model.ProfileItemData
 import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.postgrest.query.Columns
-import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
 class MemberRemoteDataSourceImpl @Inject constructor(
