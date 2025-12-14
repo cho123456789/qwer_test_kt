@@ -10,6 +10,17 @@ data class Member(
     val wallpaperImageUrls: List<String>
 )
 
+// 멤버 상세 정보 데이터 모델
+data class MemberDetail(
+    val id: Int,
+    val name: String,
+    val birthday: String,
+    val nickname: String,
+    val position: String,
+    val mbti: String,
+    val profileImg: String
+)
+
 // 프로필 타입별 멤버 데이터 (UI용)
 data class ProfileByType(
     val typeName: String,

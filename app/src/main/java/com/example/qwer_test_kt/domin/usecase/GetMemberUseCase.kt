@@ -1,6 +1,7 @@
 package com.example.qwer_test_kt.domin.usecase
 
 import com.example.qwer_test_kt.domin.model.Member
+import com.example.qwer_test_kt.domin.model.MemberDetail
 import com.example.qwer_test_kt.domin.model.ProfileByType
 import com.example.qwer_test_kt.domin.repository.MemberRepository
 import javax.inject.Inject
@@ -29,5 +30,13 @@ class GetAllProfilesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(): List<ProfileByType> {
         return repository.getAllProfiles()
+    }
+}
+
+class GetMemberDetailsUseCase @Inject constructor(
+    private val memberRepository: MemberRepository
+) {
+    suspend operator fun invoke(): List<MemberDetail> {
+        return memberRepository.getMemberDetails()
     }
 }

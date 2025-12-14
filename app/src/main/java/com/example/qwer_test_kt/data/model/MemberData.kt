@@ -1,5 +1,6 @@
 package com.example.qwer_test_kt.data.model
 
+import com.example.qwer_test_kt.domin.model.MemberDetail
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -44,3 +45,29 @@ data class MemberProfileData(
     val memberName: String,
     val imageUrl: String
 )
+
+// 멤버 상세 정보 데이터 모델 (Supabase qwer_member_detail_table용)
+@Serializable
+data class MemberDetailData(
+    val id: Int,
+    val name: String,
+    val nickname: String,
+    val birthday: String,
+    val position: String,
+    val mbti: String,
+    @SerialName("profile_img")
+    val profileImg: String
+)
+
+// MemberDetailData를 MemberDetail로 변환
+fun MemberDetailData.toMemberDetail(): MemberDetail {
+    return MemberDetail(
+        id = this.id,
+        name = this.name,
+        birthday = this.birthday,
+        nickname = this.nickname,
+        position = this.position,
+        mbti = this.mbti,
+        profileImg = this.profileImg
+    )
+}

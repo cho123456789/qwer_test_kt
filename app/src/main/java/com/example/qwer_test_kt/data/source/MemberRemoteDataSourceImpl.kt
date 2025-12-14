@@ -2,6 +2,7 @@ package com.example.qwer_test_kt.data.source
 
 import android.util.Log
 import com.example.qwer_test_kt.data.model.MemberData
+import com.example.qwer_test_kt.data.model.MemberDetailData
 import com.example.qwer_test_kt.data.model.ProfileItemData
 import io.github.jan.supabase.postgrest.Postgrest
 import javax.inject.Inject
@@ -54,6 +55,28 @@ class MemberRemoteDataSourceImpl @Inject constructor(
 
         } catch (e: Exception) {
             Log.e("MemberRemoteDataSource", "Error fetching all profile items", e)
+            emptyList()
+        }
+    }
+
+    override suspend fun getMemberDetails(): List<MemberDetailData> {
+        return try {
+            val rows = postgrest.from("qwer_profile_info")
+                .select()
+                .decodeList<MemberDetailData>()
+
+            Log.d("MemberRemoteDataSource", "Fetched ${rows.size} member details")
+            rows.forEach {
+                Log.d(
+                    "MemberRemoteDataSource",
+                    "Member: ${it.name}, Position: ${it.position}, MBTI: ${it.mbti}"
+                )
+            }
+            rows
+
+        } catch (e: Exception) {
+            Log.e("MemberRemoteDataSource", "Error fetching member details: ${e.message}", e)
+            e.printStackTrace()
             emptyList()
         }
     }

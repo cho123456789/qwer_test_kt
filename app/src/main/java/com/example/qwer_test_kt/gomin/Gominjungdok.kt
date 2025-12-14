@@ -5,25 +5,36 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
@@ -36,16 +47,22 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.qwer_test_kt.R
 import com.example.qwer_test_kt.Route
+import com.example.qwer_test_kt.domin.model.Member
+import com.example.qwer_test_kt.domin.model.MemberDetail
 import com.example.qwer_test_kt.gomin.view.WallpaperListScreen
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
-
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 
 val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
 val onePop = FontFamily(Font(R.font.onepop))
 val sam = FontFamily(Font(R.font.samliphop))
 
+@OptIn(ExperimentalPagerApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun GominjungdokScreen(
@@ -54,6 +71,8 @@ fun GominjungdokScreen(
 ) {
     val members by viewModel.members.collectAsStateWithLifecycle()
     val filteredWallpapers by viewModel.filterWallpapers.collectAsStateWithLifecycle()
+    val profilesState by viewModel.profiles.collectAsStateWithLifecycle()
+    val memberDetails by viewModel.memberDetails.collectAsStateWithLifecycle()
 
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
@@ -61,6 +80,9 @@ fun GominjungdokScreen(
             Color(0xFFE1BEE7)  // 더 밝은 연보라색
         )
     )
+
+    val pagerState = rememberPagerState()
+
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -74,88 +96,321 @@ fun GominjungdokScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
+            // 멤버 프로필 슬라이드
+            if (memberDetails.isNotEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    HorizontalPager(
+                        count = memberDetails.size,
+                        state = pagerState,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp)
+                    ) { page ->
+                        val memberDetail = memberDetails[page]
+                        MemberProfileCard(memberDetail = memberDetail)
+                    }
 
-            LazyRow(
-                modifier = Modifier.padding(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // "전체" 버튼
-                item {
-                    MemberFilterButton(name = "전체") {
-                        viewModel.filterByMember("전체")
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // 페이지 인디케이터 (간단한 점 표시)
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        repeat(memberDetails.size) { index ->
+                            Box(
+                                modifier = Modifier
+                                    .size(8.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        if (pagerState.currentPage == index)
+                                            Color(0xFFC2185B)
+                                        else
+                                            Color.LightGray
+                                    )
+                            )
+                        }
                     }
                 }
-                // 각 멤버 버튼
-                items(members) { member ->
-                    MemberFilterButton(name = member.name) {
-                        viewModel.filterByMember(member.name)
+            } else {
+                // 로딩 중이거나 데이터가 없을 때 표시
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(260.dp)
+                        .padding(vertical = 16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "멤버 정보를 불러오는 중...",
+                        fontSize = 16.sp,
+                        fontFamily = onePop,
+                        color = Color(0xFF666666)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // 위젯 버튼 레이아웃 - 상단: 사진 위젯, 하단: 수면 & 디데이 (Row)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                // 상단: 큰 사진 위젯 버튼
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = 8.dp,
+                    backgroundColor = Color(0xFFE3F2FD)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Brush.verticalGradient(
+                                    colors = listOf(
+                                        Color(0xFFE3F2FD),
+                                        Color(0xFFBBDEFB)
+                                    )
+                                )
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Text(
+                                text = "📷",
+                                fontSize = 52.sp
+                            )
+                            Text(
+                                text = "사진 위젯",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = onePop,
+                                color = Color(0xFF1565C0)
+                            )
+                        }
+                    }
+                }
+
+                // 하단: 수면 관리 & 디데이 위젯 (Row)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    // 수면 관리 위젯
+                    Card(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(120.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = 8.dp,
+                        backgroundColor = Color(0xFFF0F8FF)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(
+                                    Brush.verticalGradient(
+                                        colors = listOf(
+                                            Color(0xFFF0F8FF),
+                                            Color(0xFFE1F5FE)
+                                        )
+                                    )
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(
+                                    text = "😴",
+                                    fontSize = 36.sp
+                                )
+                                Text(
+                                    text = "수면 관리",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = onePop,
+                                    color = Color(0xFF1565C0)
+                                )
+                            }
+                        }
+                    }
+
+                    // 디데이 설정 위젯
+                    Card(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(120.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = 8.dp,
+                        backgroundColor = Color(0xFFF0F8FF)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(
+                                    Brush.verticalGradient(
+                                        colors = listOf(
+                                            Color(0xFFF0F8FF),
+                                            Color(0xFFE1F5FE)
+                                        )
+                                    )
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(
+                                    text = "📅",
+                                    fontSize = 36.sp
+                                )
+                                Text(
+                                    text = "디데이 설정",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = onePop,
+                                    color = Color(0xFF1565C0)
+                                )
+                            }
+                        }
                     }
                 }
             }
 
-            val qwerAnnotatedString = buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xFF000000))) {
-                    append("Q")
-                }
-                withStyle(style = SpanStyle(color = Color(0xFFFFC0CB))) {
-                    append("W")
-                }
-                withStyle(style = SpanStyle(color = Color(0xFF00B0FF))) {
-                    append("E")
-                }
-                withStyle(style = SpanStyle(color = Color(0xFF8BC34A))) {
-                    append("R")
-                }
-            }
-
-            Text(
-                text = qwerAnnotatedString,
-                fontSize = 75.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = cafe24,
-                modifier = Modifier.padding(top = 20.dp, bottom = 10.dp)
-            )
-
-            Row(
-                modifier = Modifier.padding(top = 20.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "최애 ",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFF9800),
-                    fontFamily = onePop,
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = "사진을 골라주세요",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF212121),
-                    fontFamily = onePop,
-                    textAlign = TextAlign.Center
-                )
-            }
-            WallpaperListScreen(
-                allWallpapers = filteredWallpapers,
-                onWallpaperClick = { wallpaperUrl ->
-                    val encodedUrl = Uri.encode(wallpaperUrl)
-                    navController.navigate("${Route.Gomin_detail}/$encodedUrl")
-                }
-            )
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
 
 @Composable
-fun MemberFilterButton(name: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color.White
+fun MemberProfileCard(memberDetail: MemberDetail) {
+    // 닉네임에 따른 QWER 알파벳과 색상 매핑
+    val (letter, letterColor) = when (memberDetail.nickname) {
+        "쵸단" -> "Q" to Color(0xFF000000)  // 검정
+        "마젠타" -> "W" to Color(0xFFFFC0CB)  // 핑크
+        "히나" -> "E" to Color(0xFF00B0FF)  // 파랑
+        "시연" -> "R" to Color(0xFF8BC34A)  // 초록
+        else -> "" to Color.Black
+    }
+
+    // 겨울 느낌 그라데이션 배경
+    val winterGradient = Brush.linearGradient(
+        colors = listOf(
+            Color(0xFFF0F8FF),  // 앨리스 블루 (밝은 하늘색)
+            Color(0xFFE6F3FF),  // 연한 파란색
+            Color(0xFFFFFFFF)   // 흰색
         )
+    )
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+            .height(220.dp),
+        shape = RoundedCornerShape(20.dp),
+        elevation = 12.dp,
+        backgroundColor = Color(0xFFF0F8FF)  // 앨리스 블루
     ) {
-        Text(text = name, fontFamily = onePop)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(winterGradient)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                // 멤버 사진
+                AsyncImage(
+                    model = memberDetail.profileImg,
+                    contentDescription = memberDetail.name,
+                    modifier = Modifier
+                        .size(140.dp)
+                        .clip(RoundedCornerShape(16.dp)),
+                    contentScale = ContentScale.Crop
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                // 멤버 정보
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    // 닉네임과 QWER 알파벳을 Row로 배치
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = memberDetail.nickname,
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = onePop,
+                            color = Color(0xFF1E3A8A)  // 진한 겨울 파란색
+                        )
+
+                        if (letter.isNotEmpty()) {
+                            Text(
+                                text = letter,
+                                fontSize = 32.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = cafe24,
+                                color = letterColor
+                            )
+                        }
+                    }
+
+                    Text(
+                        text = "👤 ${memberDetail.name}",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = onePop,
+                        color = Color(0xFF64748B)  // 슬레이트 그레이
+                    )
+
+                    Text(
+                        text = "🎸 ${memberDetail.position}",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = onePop,
+                        color = Color(0xFF475569)  // 어두운 슬레이트
+                    )
+
+                    Text(
+                        text = "🎂 ${memberDetail.birthday}",
+                        fontSize = 14.sp,
+                        fontFamily = onePop,
+                        color = Color(0xFF64748B)
+                    )
+
+                    Text(
+                        text = "✨ ${memberDetail.mbti}",
+                        fontSize = 14.sp,
+                        fontFamily = onePop,
+                        color = Color(0xFF64748B)
+                    )
+                }
+            }
+        }
     }
 }

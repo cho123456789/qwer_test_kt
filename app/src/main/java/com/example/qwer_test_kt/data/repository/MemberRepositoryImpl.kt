@@ -1,7 +1,9 @@
 package com.example.qwer_test_kt.data.repository
 
+import com.example.qwer_test_kt.data.model.toMemberDetail
 import com.example.qwer_test_kt.data.source.MemberRemoteDataSource
 import com.example.qwer_test_kt.domin.model.Member
+import com.example.qwer_test_kt.domin.model.MemberDetail
 import com.example.qwer_test_kt.domin.model.ProfileByType
 import com.example.qwer_test_kt.domin.model.toMember
 import com.example.qwer_test_kt.domin.model.toProfileByTypeList
@@ -26,5 +28,10 @@ class MemberRepositoryImpl @Inject constructor(
     override suspend fun getAllProfiles(): List<ProfileByType> {
         val allProfileItems = remoteDataSource.getAllProfileItems()
         return allProfileItems.toProfileByTypeList()
+    }
+
+    override suspend fun getMemberDetails(): List<MemberDetail> {
+        val memberDetailDataList = remoteDataSource.getMemberDetails()
+        return memberDetailDataList.map { it.toMemberDetail() }
     }
 }
