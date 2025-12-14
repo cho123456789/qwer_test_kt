@@ -151,7 +151,7 @@ fun SplashScreen(navController: NavHostController, viewModel: SplashViewModel = 
             } else {
                 // 랜덤으로 선택된 프로필 타입 가져오기
                 val gominProfile = profilesState?.find { it.typeName == "고민중독" }
-                val memberNames = listOf("쵸단", "마젠타", "히나", "시연")
+                val memberNames = listOf("쵸단", "마젠타", "히나", "시연" )
 
                 Column(
                     modifier = Modifier.padding(bottom = 20.dp),
