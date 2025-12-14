@@ -1,30 +1,33 @@
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -34,18 +37,19 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.qwer_test_kt.R
 import com.example.qwer_test_kt.Route
 import com.example.qwer_test_kt.gomin.onePop
-import kotlinx.coroutines.delay
+import com.example.qwer_test_kt.presentation.SplashViewModel
 
-data class Song(val title: String, val artist: String)
 
 @Composable
-fun SplashScreen(navController: NavHostController) {
-    val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
-
+fun SplashScreen(navController: NavHostController, viewModel: SplashViewModel = hiltViewModel()) {
+    val barry = FontFamily(Font(R.font.barry))
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
             Color(0xFFF5F5DC), // 옅은 베이지색
@@ -53,16 +57,16 @@ fun SplashScreen(navController: NavHostController) {
         )
     )
 
-    val songList = listOf(
-        Song(title = "Discord", artist = "QWER"),
-        Song(title = "고민중독", artist = "QWER"),
-        Song(title = "가짜아이돌", artist = "QWER"),
-        Song(title = "눈물참기", artist = "QWER")
-    )
+    // 프로필 타입 목록
+    val profileTypes = listOf("디스코드", "고민중독", "내이름맑음", "눈물참기")
 
-    // 오늘의 추천곡 상태
-    val randomSong = remember { songList.random() }
-    var progress by remember { mutableStateOf(0f) }
+    // 랜덤 프로필 타입 선택
+    val randomProfileType = remember { profileTypes.random() }
+
+    val profilesState by viewModel.profiles.collectAsStateWithLifecycle()
+
+    val commonFontSize = 70.sp
+    val commonFontWeight = FontWeight.Bold
 
     Box(
         modifier = Modifier
@@ -83,129 +87,302 @@ fun SplashScreen(navController: NavHostController) {
                 withStyle(style = SpanStyle(color = Color(0xFF8BC34A))) { append("R") }
             }
 
-            Text(
-                text = qwerAnnotatedString,
-                fontSize = 70.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = cafe24,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            Column(
-                modifier = Modifier.padding(top = 20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            // 🌟 겹치기 위한 Box: QWER 외곽선 구현 🌟
+            Box(
+                modifier = Modifier.padding(bottom = 20.dp),
+                contentAlignment = Alignment.Center
             ) {
+                // 하얀색 테두리 효과를 위한 여러 방향의 그림자
+                val strokeWidth = 8.dp.value
+
+                // 더 많은 방향으로 테두리 생성 (8방향 -> 16방향)
+                val offsets = buildList {
+                    for (angle in 0 until 360 step 22) {
+                        val radian = Math.toRadians(angle.toDouble())
+                        add(
+                            Offset(
+                                (strokeWidth * kotlin.math.cos(radian)).toFloat(),
+                                (strokeWidth * kotlin.math.sin(radian)).toFloat()
+                            )
+                        )
+                    }
+                }
+
+                // 각 방향으로 하얀색 그림자를 그려서 테두리 효과 생성
+                offsets.forEach { offset ->
+                    Text(
+                        text = "QWER",
+                        fontSize = commonFontSize,
+                        fontWeight = commonFontWeight,
+                        fontFamily = barry,
+                        color = Color.White,
+                        letterSpacing = 8.sp,
+                        style = TextStyle(
+                            shadow = Shadow(
+                                color = Color.White,
+                                offset = offset,
+                                blurRadius = 0f
+                            )
+                        )
+                    )
+                }
+
+                // 안쪽 배경 색상 텍스트 (각 글자마다 다른 색상)
                 Text(
-                    text = "Photo",
-                    fontSize = 50.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFFC0CB),
-                    textAlign = TextAlign.Center,
-                    fontFamily = cafe24,
-                )
-                Text(
-                    text = "Widget",
-                    fontSize = 50.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFFC0CB),
-                    textAlign = TextAlign.Center,
-                    fontFamily = cafe24,
+                    text = qwerAnnotatedString,
+                    fontSize = commonFontSize,
+                    fontWeight = commonFontWeight,
+                    fontFamily = barry,
+                    letterSpacing = 8.sp
                 )
             }
-            Spacer(modifier = Modifier.height(60.dp))
 
-            Text(
-                text = "오늘의 추천곡",
-                fontSize = 25.sp,
-                color = Color.Black,
-                fontFamily = onePop,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            // 노래 제목과 아티스트
-            Text(
-                text = "${randomSong.title} - ${randomSong.artist}",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Magenta,
-                fontFamily = onePop,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
+            // 2x2 사진 그리드 - Supabase의 이미지 사용 (랜덤 프로필 타입)
+            if (profilesState == null) {
+                // 로딩 중
+                Box(
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
+                        .size(120.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                // 랜덤으로 선택된 프로필 타입 가져오기
+                val gominProfile = profilesState?.find { it.typeName == "고민중독" }
+                val memberNames = listOf("쵸단", "마젠타", "히나", "시연")
 
-            // 진행률 값을 애니메이션 처리
-            val animatedProgress by animateFloatAsState(
-                targetValue = progress,
-                animationSpec = tween(
-                    durationMillis = 2000, // 2초 동안 애니메이션
-                    easing = LinearEasing
-                ),
-                label = "loadingProgress"
-            )
-            LaunchedEffect(key1 = true) {
-                progress = 1f
-                delay(2000)
-                navController.navigate(Route.Gominjungdok) {
-                    popUpTo(Route.Splash) {
-                        inclusive = true
+                Column(
+                    modifier = Modifier.padding(bottom = 20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // 쵸단
+                        gominProfile?.members?.get(memberNames[0])?.let { imageUrl ->
+                            AsyncImage(
+                                model = imageUrl,
+                                contentDescription = memberNames[0],
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .clip(RoundedCornerShape(16.dp)),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        // 마젠타
+                        gominProfile?.members?.get(memberNames[1])?.let { imageUrl ->
+                            AsyncImage(
+                                model = imageUrl,
+                                contentDescription = memberNames[1],
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .clip(RoundedCornerShape(16.dp)),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // 히나
+                        gominProfile?.members?.get(memberNames[2])?.let { imageUrl ->
+                            AsyncImage(
+                                model = imageUrl,
+                                contentDescription = memberNames[2],
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .clip(RoundedCornerShape(16.dp)),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        // 시연
+                        gominProfile?.members?.get(memberNames[3])?.let { imageUrl ->
+                            AsyncImage(
+                                model = imageUrl,
+                                contentDescription = memberNames[3],
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .clip(RoundedCornerShape(16.dp)),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
                     }
                 }
             }
 
-            LinearProgressIndicator(
-                progress = animatedProgress,
+            Column(
+                modifier = Modifier.padding(top = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Photo 텍스트에 하얀색 테두리 적용 (이모지 제외)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "♪",
+                        fontSize = 35.sp,
+                        color = Color(0xFFFF6B35),
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Box(
+                        contentAlignment = Alignment.Center
+                    ) {
+                        val strokeWidth = 6.dp.value
+                        val offsets = buildList {
+                            for (angle in 0 until 360 step 22) {
+                                val radian = Math.toRadians(angle.toDouble())
+                                add(
+                                    Offset(
+                                        (strokeWidth * kotlin.math.cos(radian)).toFloat(),
+                                        (strokeWidth * kotlin.math.sin(radian)).toFloat()
+                                    )
+                                )
+                            }
+                        }
+
+                        // 각 방향으로 하얀색 그림자를 그려서 테두리 효과 생성
+                        offsets.forEach { offset ->
+                            Text(
+                                text = "Photo",
+                                fontSize = 50.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                                fontFamily = barry,
+                                style = TextStyle(
+                                    shadow = Shadow(
+                                        color = Color.White,
+                                        offset = offset,
+                                        blurRadius = 0f
+                                    )
+                                )
+                            )
+                        }
+
+                        // 원본 색상의 Photo 텍스트
+                        Text(
+                            text = "Photo",
+                            fontSize = 50.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFC2185B),
+                            textAlign = TextAlign.Center,
+                            fontFamily = barry,
+                        )
+                    }
+                    Text(
+                        text = "★",
+                        fontSize = 35.sp,
+                        color = Color(0xFFFFC107),
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Widget 텍스트에 하얀색 테두리 적용 (이모지 제외)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "✦",
+                        fontSize = 35.sp,
+                        color = Color(0xFF9C27B0),
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Box(
+                        contentAlignment = Alignment.Center
+                    ) {
+                        val strokeWidth = 6.dp.value
+                        val offsets = buildList {
+                            for (angle in 0 until 360 step 22) {
+                                val radian = Math.toRadians(angle.toDouble())
+                                add(
+                                    Offset(
+                                        (strokeWidth * kotlin.math.cos(radian)).toFloat(),
+                                        (strokeWidth * kotlin.math.sin(radian)).toFloat()
+                                    )
+                                )
+                            }
+                        }
+
+                        // 각 방향으로 하얀색 그림자를 그려서 테두리 효과 생성
+                        offsets.forEach { offset ->
+                            Text(
+                                text = "Widget",
+                                fontSize = 50.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                                fontFamily = barry,
+                                style = TextStyle(
+                                    shadow = Shadow(
+                                        color = Color.White,
+                                        offset = offset,
+                                        blurRadius = 0f
+                                    )
+                                )
+                            )
+                        }
+
+                        // 원본 색상의 Widget 텍스트
+                        Text(
+                            text = "Widget",
+                            fontSize = 50.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFC2185B),
+                            textAlign = TextAlign.Center,
+                            fontFamily = barry,
+                        )
+                    }
+                    Text(
+                        text = "♫",
+                        fontSize = 35.sp,
+                        color = Color(0xFF00BCD4),
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(60.dp))
+            Button(
+                onClick = {
+                    navController.navigate(Route.Gominjungdok) {
+                        popUpTo(Route.Splash) { inclusive = true }
+                    }
+                },
                 modifier = Modifier
-                    .padding(horizontal = 50.dp)
-                    .height(8.dp)
-                    .clip(RoundedCornerShape(4.dp)),
-                color = Color(0xFFB3E5FC), // 옅은 하늘색
-                backgroundColor = Color(0xFFE0F7FA) // 아주 옅은 민트색
-            )
-//            Row(
-//                modifier = Modifier.padding(top = 20.dp),
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                Button(
-//                    modifier = Modifier
-//                        .padding(horizontal = 10.dp)
-//                        .width(120.dp)
-//                        .height(50.dp),
-//                    onClick = {
-//                        navController.navigate(Route.Memeber)
-//                    },
-//                    shape = RoundedCornerShape(20.dp),
-//                    colors = ButtonDefaults.buttonColors(
-//                        containerColor = Color(0xFFE0B0FF)
-//                    )
-//                ) {
-//                    Text(
-//                        text = "멤버소개",
-//                        fontSize = 18.sp,
-//                        fontFamily = onePop,
-//                        color = Color.White
-//                    )
-//                }
-//                Button(
-//                    modifier = Modifier
-//                        .padding(horizontal = 10.dp)
-//                        .width(120.dp)
-//                        .height(50.dp),
-//                    onClick = {
-//                        navController.navigate(Route.Gominjungdok)
-//                    },
-//                    shape = RoundedCornerShape(20.dp),
-//                    colors = ButtonDefaults.buttonColors(
-//                        containerColor = Color(0xFFB3E5FC)
-//                    )
-//                ) {
-//                    Text(
-//                        text = "위젯기능",
-//                        fontSize = 18.sp,
-//                        fontFamily = onePop,
-//                        color = Color.White
-//                    )
-//                }
-//            }
+                    .width(200.dp)
+                    .height(56.dp),
+                shape = RoundedCornerShape(20.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color(0xFFC2185B),
+                    contentColor = Color.White
+                )
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "📢",
+                        fontSize = 24.sp,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = "입장하기",
+                        fontSize = 20.sp,
+                        fontFamily = onePop,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
     }
 }

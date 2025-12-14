@@ -66,7 +66,8 @@ android {
 }
 
 dependencies {
-
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
     implementation("io.github.jan-tennert.supabase:supabase-kt:2.6.1")
     implementation("io.github.jan-tennert.supabase:postgrest-kt:2.6.1")
     implementation("io.ktor:ktor-client-android:2.3.12")
