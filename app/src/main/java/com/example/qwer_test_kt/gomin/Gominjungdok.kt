@@ -1,8 +1,10 @@
 package com.example.qwer_test_kt.gomin
 
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -33,9 +35,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,6 +49,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.qwer_test_kt.R
+import com.example.qwer_test_kt.Route
+import com.example.qwer_test_kt.domin.model.Member
 import com.example.qwer_test_kt.domin.model.MemberDetail
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -157,97 +165,51 @@ fun GominjungdokScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 위젯 버튼 레이아웃
+            // 위젯 버튼 레이아웃 - 상단: 사진 위젯, 하단: 수면 & 디데이 (Row)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                // 상단: 사진 위젯 & 날씨 위젯 (Row)
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                // 상단: 큰 사진 위젯 버튼
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .clickable { navController.navigate(Route.PhotoWidget) },
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = 8.dp,
+                    backgroundColor = Color(0xFFE3F2FD)
                 ) {
-                    // 사진 위젯
-                    Card(
+                    Box(
                         modifier = Modifier
-                            .weight(1f)
-                            .height(150.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        elevation = 8.dp,
-                        backgroundColor = Color(0xFFE3F2FD)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(
-                                    Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color(0xFFE3F2FD),
-                                            Color(0xFFBBDEFB)
-                                        )
+                            .fillMaxSize()
+                            .background(
+                                Brush.verticalGradient(
+                                    colors = listOf(
+                                        Color(0xFFE3F2FD),
+                                        Color(0xFFBBDEFB)
                                     )
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                Text(
-                                    text = "📷",
-                                    fontSize = 48.sp
                                 )
-                                Text(
-                                    text = "사진 위젯",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    fontFamily = onePop,
-                                    color = Color(0xFF1565C0)
-                                )
-                            }
-                        }
-                    }
-
-                    // 날씨 위젯
-                    Card(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(150.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        elevation = 8.dp,
-                        backgroundColor = Color(0xFFFFF9C4)
+                            ),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(
-                                    Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color(0xFFFFF9C4),
-                                            Color(0xFFFFF59D)
-                                        )
-                                    )
-                                ),
-                            contentAlignment = Alignment.Center
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                Text(
-                                    text = "🌤️",
-                                    fontSize = 48.sp
-                                )
-                                Text(
-                                    text = "날씨 위젯",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    fontFamily = onePop,
-                                    color = Color(0xFFF57F17)
-                                )
-                            }
+                            Text(
+                                text = "📷",
+                                fontSize = 52.sp
+                            )
+                            Text(
+                                text = "사진 위젯",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = onePop,
+                                color = Color(0xFF1565C0)
+                            )
                         }
                     }
                 }
@@ -261,7 +223,7 @@ fun GominjungdokScreen(
                     Card(
                         modifier = Modifier
                             .weight(1f)
-                            .height(150.dp),
+                            .height(120.dp),
                         shape = RoundedCornerShape(16.dp),
                         elevation = 8.dp,
                         backgroundColor = Color(0xFFF0F8FF)
@@ -285,11 +247,11 @@ fun GominjungdokScreen(
                             ) {
                                 Text(
                                     text = "😴",
-                                    fontSize = 48.sp
+                                    fontSize = 36.sp
                                 )
                                 Text(
                                     text = "수면 관리",
-                                    fontSize = 18.sp,
+                                    fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold,
                                     fontFamily = onePop,
                                     color = Color(0xFF1565C0)
@@ -302,7 +264,7 @@ fun GominjungdokScreen(
                     Card(
                         modifier = Modifier
                             .weight(1f)
-                            .height(150.dp),
+                            .height(120.dp),
                         shape = RoundedCornerShape(16.dp),
                         elevation = 8.dp,
                         backgroundColor = Color(0xFFF0F8FF)
@@ -326,11 +288,11 @@ fun GominjungdokScreen(
                             ) {
                                 Text(
                                     text = "📅",
-                                    fontSize = 48.sp
+                                    fontSize = 36.sp
                                 )
                                 Text(
                                     text = "디데이 설정",
-                                    fontSize = 18.sp,
+                                    fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold,
                                     fontFamily = onePop,
                                     color = Color(0xFF1565C0)

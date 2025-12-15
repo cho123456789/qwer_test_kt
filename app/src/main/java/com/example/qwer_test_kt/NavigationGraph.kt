@@ -44,6 +44,11 @@ fun AppNavGraph() {
                 navController = navController
             )
         }
+        composable(Route.PhotoWidget) {
+            PhotoWidgetScreen(
+                navController = navController
+            )
+        }
         composable(
             route = "${Route.Gomin_detail}/{wallpaperUrl}", // 경로 이름 수정
             arguments = listOf(navArgument("wallpaperUrl") { type = NavType.StringType })

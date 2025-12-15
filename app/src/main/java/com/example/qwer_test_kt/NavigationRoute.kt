@@ -6,4 +6,5 @@ object Route {
     const val Gomin_detail = "gomin_detail"
     const val Memeber = "Member"
     const val Splash = "splash"
+    const val PhotoWidget = "photo_widget"
 }
