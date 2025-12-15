@@ -34,6 +34,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -110,7 +111,46 @@ fun PhotoWidgetScreen(
         CategoryInfo("눈물참기", R.drawable.dear_title)
     )
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        backgroundColor = Color.Transparent,
+        topBar = {
+            // Back button at the top left
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color(0xFFE3F2FD),
+                                Color(0xFFBBDEFB),
+                                Color(0xFFE1F5FE)
+                            )
+                        )
+                    )
+                    .padding(top = 40.dp, start = 8.dp, bottom = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = {
+                        // Navigate back to Gominjungdok page
+                        navController.navigate("gominjungdok") {
+                            popUpTo(navController.graph.startDestinationId)
+                            launchSingleTop = true
+                        }
+                    },
+                    modifier = Modifier
+                        .size(44.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "뒤로가기",
+                        tint = Color(0xFF1565C0),
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            }
+        }
+    ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -122,7 +162,7 @@ fun PhotoWidgetScreen(
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Top
             ) {
                 // 상단 제목
                 Text(
@@ -131,7 +171,7 @@ fun PhotoWidgetScreen(
                     fontWeight = FontWeight.Bold,
                     fontFamily = onePop,
                     color = Color(0xFF1565C0),
-                    modifier = Modifier.padding(top = 8.dp)
+                    modifier = Modifier.padding(top = 0.dp)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
