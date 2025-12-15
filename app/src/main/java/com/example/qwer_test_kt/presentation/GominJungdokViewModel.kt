@@ -104,7 +104,6 @@ class GominJungdokViewModel @Inject constructor(
     private fun loadMemberDetails() {
         viewModelScope.launch {
             val details = getMemberDetailsUseCase()
-            // QWER 순서로 정렬
             val qwerOrder = listOf("쵸단", "마젠타", "히나", "시연")
             _memberDetails.value = details.sortedBy { memberDetail ->
                 qwerOrder.indexOf(memberDetail.nickname).takeIf { it >= 0 } ?: Int.MAX_VALUE

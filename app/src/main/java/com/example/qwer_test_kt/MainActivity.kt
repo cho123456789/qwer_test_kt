@@ -183,7 +183,6 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
 
             // 2x2 사진 그리드 - Supabase의 이미지 사용 (랜덤 프로필 타입)
             if (profilesState == null ) {
-                // 로딩 중
                 Box(
                     modifier = Modifier
                         .padding(bottom = 20.dp)
@@ -194,7 +193,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                 }
             } else {
                 // 랜덤으로 선택된 프로필 타입 가져오기
-                val gominProfile = profilesState?.find { it.typeName == "고민중독" }
+                val gominProfile = profilesState?.find { it.typeName == randomProfileType }
                 val memberNames = listOf("쵸단", "마젠타", "히나", "시연" )
 
                 Column(
