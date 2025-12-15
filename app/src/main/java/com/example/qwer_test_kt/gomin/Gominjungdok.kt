@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -167,7 +168,8 @@ fun GominjungdokScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp),
+                        .height(180.dp)
+                        .clickable { navController.navigate(Route.PhotoWidget) },
                     shape = RoundedCornerShape(16.dp),
                     elevation = 8.dp,
                     backgroundColor = Color(0xFFE3F2FD)
