@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,12 +20,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -53,7 +52,6 @@ import com.example.qwer_test_kt.R
 import com.example.qwer_test_kt.Route
 import com.example.qwer_test_kt.domin.model.Member
 import com.example.qwer_test_kt.domin.model.MemberDetail
-import com.example.qwer_test_kt.gomin.view.WallpaperListScreen
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -61,7 +59,7 @@ import com.google.accompanist.pager.rememberPagerState
 
 val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
 val onePop = FontFamily(Font(R.font.onepop))
-val sam = FontFamily(Font(R.font.samliphop))
+val barry = FontFamily(Font(R.font.barry))
 
 @OptIn(ExperimentalPagerApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -93,7 +91,8 @@ fun GominjungdokScreen(
                 .padding(
                     top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
                 ) // StatusBar 높이만큼 패딩
-                .padding(5.dp),
+                .padding(5.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
@@ -102,18 +101,27 @@ fun GominjungdokScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                        .padding(vertical = 5.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    HorizontalPager(
-                        count = memberDetails.size,
-                        state = pagerState,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(250.dp)
-                    ) { page ->
-                        val memberDetail = memberDetails[page]
-                        MemberProfileCard(memberDetail = memberDetail)
+                    BoxWithConstraints(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        // 화면 크기에 따라 카드 크기 계산
+                        val screenWidth = this.maxWidth
+                        val cardWidth = screenWidth.coerceAtMost(700.dp)
+                        val cardHeight = (cardWidth * 0.6f).coerceAtLeast(200.dp).coerceAtMost(250.dp)
+
+                        HorizontalPager(
+                            count = memberDetails.size,
+                            state = pagerState,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(cardHeight)
+                        ) { page ->
+                            val memberDetail = memberDetails[page]
+                            MemberProfileCard(memberDetail = memberDetail)
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -320,97 +328,107 @@ fun MemberProfileCard(memberDetail: MemberDetail) {
         )
     )
 
-    Card(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-            .height(220.dp),
-        shape = RoundedCornerShape(20.dp),
-        elevation = 12.dp,
-        backgroundColor = Color(0xFFF0F8FF)  // 앨리스 블루
+            .padding(horizontal = 16.dp)
     ) {
-        Box(
+        // 화면 크기에 따라 카드 너비 조정: 최대 600dp, 그 이하는 화면에 맞춤
+        val cardWidth = this.maxWidth.coerceAtMost(600.dp)
+        // 카드 높이는 너비의 60%로 설정하되, 최소 200dp, 최대 250dp
+        val cardHeight = (cardWidth * 0.6f).coerceAtLeast(200.dp).coerceAtMost(250.dp)
+
+        Card(
             modifier = Modifier
-                .fillMaxSize()
-                .background(winterGradient)
+                .width(cardWidth)
+                .height(cardHeight)
+                .align(Alignment.Center),
+            shape = RoundedCornerShape(20.dp),
+            elevation = 12.dp,
+            backgroundColor = Color(0xFFF0F8FF)  // 앨리스 블루
         ) {
-            Row(
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                    .background(winterGradient)
             ) {
-                // 멤버 사진
-                AsyncImage(
-                    model = memberDetail.profileImg,
-                    contentDescription = memberDetail.name,
+                Row(
                     modifier = Modifier
-                        .size(140.dp)
-                        .clip(RoundedCornerShape(16.dp)),
-                    contentScale = ContentScale.Crop
-                )
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                // 멤버 정보
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    // 닉네임과 QWER 알파벳을 Row로 배치
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    // 멤버 사진
+                    AsyncImage(
+                        model = memberDetail.profileImg,
+                        contentDescription = memberDetail.name,
+                        modifier = Modifier
+                            .size(140.dp)
+                            .clip(RoundedCornerShape(16.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    // 멤버 정보
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
+                        // 닉네임과 QWER 알파벳을 Row로 배치
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Text(
+                                text = memberDetail.nickname,
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = barry,
+                                color = Color(0xFF1E3A8A)  // 진한 겨울 파란색
+                            )
+
+                            if (letter.isNotEmpty()) {
+                                Text(
+                                    text = letter,
+                                    fontSize = 32.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = barry,
+                                    color = letterColor
+                                )
+                            }
+                        }
+
                         Text(
-                            text = memberDetail.nickname,
-                            fontSize = 28.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = onePop,
-                            color = Color(0xFF1E3A8A)  // 진한 겨울 파란색
+                            text = "👤 ${memberDetail.name}",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Normal,
+                            fontFamily = barry,
+                            color = Color(0xFF64748B)  // 슬레이트 그레이
                         )
 
-                        if (letter.isNotEmpty()) {
-                            Text(
-                                text = letter,
-                                fontSize = 32.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = cafe24,
-                                color = letterColor
-                            )
-                        }
+                        Text(
+                            text = "🎸 ${memberDetail.position}",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium,
+                            fontFamily = barry,
+                            color = Color(0xFF475569)  // 어두운 슬레이트
+                        )
+
+                        Text(
+                            text = "🎂 ${memberDetail.birthday}",
+                            fontSize = 14.sp,
+                            fontFamily = barry,
+                            color = Color(0xFF64748B)
+                        )
+
+                        Text(
+                            text = "✨ ${memberDetail.mbti}",
+                            fontSize = 14.sp,
+                            fontFamily = barry,
+                            color = Color(0xFF64748B)
+                        )
                     }
-
-                    Text(
-                        text = "👤 ${memberDetail.name}",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal,
-                        fontFamily = onePop,
-                        color = Color(0xFF64748B)  // 슬레이트 그레이
-                    )
-
-                    Text(
-                        text = "🎸 ${memberDetail.position}",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Medium,
-                        fontFamily = onePop,
-                        color = Color(0xFF475569)  // 어두운 슬레이트
-                    )
-
-                    Text(
-                        text = "🎂 ${memberDetail.birthday}",
-                        fontSize = 14.sp,
-                        fontFamily = onePop,
-                        color = Color(0xFF64748B)
-                    )
-
-                    Text(
-                        text = "✨ ${memberDetail.mbti}",
-                        fontSize = 14.sp,
-                        fontFamily = onePop,
-                        color = Color(0xFF64748B)
-                    )
                 }
             }
         }
