@@ -17,8 +17,22 @@ constraintlayout = "2.2.0"
 material3Android = "1.3.2"
 navigationCompose = "2.7.7"
 ui = "1.5.0"
-material3 = "1.4.0"
-uiGraphics = "1.9.2"
+moshi-kotlin ="1.14.0"
+moshi = "1.14.0"
+moshi-kotlin-codegen = "1.14.0"
+kotlinx-serialization-json = "1.6.3"
+kotlinx-coroutines-play-services = "1.7.3"
+kotlinx-coroutines-core ="1.6.4"
+
+datastore-preferences = "1.1.7"
+
+glance-appwidget-proto = "1.1.1"
+glance-appwidget = "1.1.1"
+
+ktor-client-android = "2.3.12"
+
+postgrest-kt = "2.6.1"
+supabase-kt = "2.6.1"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
@@ -43,8 +57,26 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
+
+moshi-kotlin = { group = "com.squareup.moshi" , name = "moshi-kotlin", version.ref = "moshi-kotlin"}
+moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi"}
+moshi-kotlin-codegen = { group  = "com.squareup.moshi" , name ="moshi-kotlin-codegen", version.ref = "moshi-kotlin-codegen"}
+
+kotlinx-serialization-json = {group ="org.jetbrains.kotlinx", name = "kotlinx-serialization-json" ,version.ref ="kotlinx-serialization-json"}
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play-services"}
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core"}
+
+datastore-preferences = {group = "androidx.datastore" , name = "datastore-preferences", version.ref = "datastore-preferences"}
+glance-appwidget-proto =  { group = "androidx.glance", name = "glance-appwidget-proto", version.ref = "glance-appwidget-proto"}
+glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance-appwidget"}
+
+ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor-client-android"}
+
+postgrest-kt= { group = "io.github.jan-tennert.supabase", name = "postgrest-kt", version.ref = "postgrest-kt"}
+supabase-kt =  {group = "io.github.jan-tennert.supabase", name = "supabase-kt", version.ref = "supabase-kt"}
+
+ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics"}
+ui = { group = "androidx.compose.ui", name ="ui"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
