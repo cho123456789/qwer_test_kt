@@ -14,6 +14,7 @@ import androidx.navigation.navArgument
 import com.example.qwer_test_kt.gomin.GominjungdokScreen
 import com.example.qwer_test_kt.gomin.view.IdolProfileScreenWithScaffold
 import com.example.qwer_test_kt.gomin.view.WallpaperDetailScreen
+import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

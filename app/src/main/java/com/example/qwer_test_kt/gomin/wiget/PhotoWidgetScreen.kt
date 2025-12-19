@@ -1,12 +1,8 @@
-package com.example.qwer_test_kt
+package com.example.qwer_test_kt.gomin.wiget
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.widget.Toast
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,13 +29,12 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,21 +52,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.example.qwer_test_kt.R
 import com.example.qwer_test_kt.gomin.onePop
 import com.example.qwer_test_kt.presentation.PhotoWidgetViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
-import java.net.URL
 
 // CategoryInfo 데이터 클래스
 data class CategoryInfo(val name: String, val imageRes: Int)
@@ -83,11 +72,7 @@ fun PhotoWidgetScreen(
 ) {
     val currentImage by viewModel.currentImage.collectAsStateWithLifecycle()
     val selectedCategory by viewModel.selectedCategory.collectAsStateWithLifecycle()
-    val profiles by viewModel.profiles.collectAsStateWithLifecycle()
-
-    // 애니메이션을 위한 scale 값
-    val scale = remember { Animatable(1f) }
-    val coroutineScope = rememberCoroutineScope()
+    val imageScale by viewModel.imageScale.collectAsStateWithLifecycle()
 
     // 이미지 확대 다이얼로그 표시 상태
     var showImageDialog by remember { mutableStateOf(false) }
@@ -236,7 +221,7 @@ fun PhotoWidgetScreen(
                                 Card(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .scale(scale.value)
+                                        .scale(imageScale)
                                         .clickable {
                                             if (currentImage != null) {
                                                 showImageDialog = true
@@ -258,7 +243,7 @@ fun PhotoWidgetScreen(
                                                     .build()
                                             )
 
-                                            androidx.compose.foundation.Image(
+                                            Image(
                                                 painter = painter,
                                                 contentDescription = "Selected Photo",
                                                 modifier = Modifier
@@ -300,11 +285,6 @@ fun PhotoWidgetScreen(
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 viewModel.selectRandomImage(categories[0].name)
-                                coroutineScope.launch {
-                                    scale.animateTo(0.9f, animationSpec = tween(100))
-                                    scale.animateTo(1.1f, animationSpec = tween(100))
-                                    scale.animateTo(1f, animationSpec = tween(100))
-                                }
                             }
                         )
                         CategoryButtonWithImage(
@@ -313,11 +293,6 @@ fun PhotoWidgetScreen(
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 viewModel.selectRandomImage(categories[1].name)
-                                coroutineScope.launch {
-                                    scale.animateTo(0.9f, animationSpec = tween(100))
-                                    scale.animateTo(1.1f, animationSpec = tween(100))
-                                    scale.animateTo(1f, animationSpec = tween(100))
-                                }
                             }
                         )
                     }
@@ -333,11 +308,6 @@ fun PhotoWidgetScreen(
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 viewModel.selectRandomImage(categories[2].name)
-                                coroutineScope.launch {
-                                    scale.animateTo(0.9f, animationSpec = tween(100))
-                                    scale.animateTo(1.1f, animationSpec = tween(100))
-                                    scale.animateTo(1f, animationSpec = tween(100))
-                                }
                             }
                         )
                         CategoryButtonWithImage(
@@ -346,11 +316,6 @@ fun PhotoWidgetScreen(
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 viewModel.selectRandomImage(categories[3].name)
-                                coroutineScope.launch {
-                                    scale.animateTo(0.9f, animationSpec = tween(100))
-                                    scale.animateTo(1.1f, animationSpec = tween(100))
-                                    scale.animateTo(1f, animationSpec = tween(100))
-                                }
                             }
                         )
                     }
@@ -363,7 +328,8 @@ fun PhotoWidgetScreen(
             ImageDetailDialog(
                 imageUrl = currentImage!!,
                 onDismiss = { showImageDialog = false },
-                context = context
+                context = context,
+                viewModel = viewModel
             )
         }
     }
@@ -373,10 +339,10 @@ fun PhotoWidgetScreen(
 fun ImageDetailDialog(
     imageUrl: String,
     onDismiss: () -> Unit,
-    context: Context
+    context: Context,
+    viewModel: PhotoWidgetViewModel
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    var isLoading by remember { mutableStateOf(false) }
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -449,49 +415,14 @@ fun ImageDetailDialog(
                     // 배경화면 설정 버튼
                     Button(
                         onClick = {
-                            isLoading = true
-                            coroutineScope.launch {
-                                try {
-                                    // 이미지 다운로드 및 저장
-                                    val contentUri = downloadAndSaveImage(context, imageUrl)
-
-                                    // 배경화면 및 스타일 설정 화면으로 이동하는 Intent
-                                    val intent = Intent(Intent.ACTION_SET_WALLPAPER).apply {
-                                        setDataAndType(contentUri, "image/*")
-                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                        putExtra("mimeType", "image/*")
-                                    }
-
-                                    withContext(Dispatchers.Main) {
-                                        try {
-                                            context.startActivity(intent)
-                                        } catch (e: Exception) {
-                                            // ACTION_SET_WALLPAPER가 실패하면 대체 방법 사용
-                                            val chooserIntent = Intent.createChooser(
-                                                Intent(Intent.ACTION_ATTACH_DATA).apply {
-                                                    addCategory(Intent.CATEGORY_DEFAULT)
-                                                    setDataAndType(contentUri, "image/*")
-                                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                                    putExtra("mimeType", "image/*")
-                                                },
-                                                "배경화면 설정"
-                                            )
-                                            context.startActivity(chooserIntent)
-                                        }
-                                        onDismiss()
-                                    }
-                                } catch (e: Exception) {
-                                    withContext(Dispatchers.Main) {
-                                        Toast.makeText(
-                                            context,
-                                            "설정 실패: ${e.message}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                } finally {
-                                    isLoading = false
+                            viewModel.setWallpaper(
+                                context = context,
+                                imageUrl = imageUrl,
+                                onSuccess = { onDismiss() },
+                                onError = { message ->
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                                 }
-                            }
+                            )
                         },
                         modifier = Modifier
                             .weight(1f)
@@ -521,11 +452,18 @@ fun ImageDetailDialog(
                     // 위젯 설정 버튼
                     Button(
                         onClick = {
-                            Toast.makeText(
-                                context,
-                                "위젯 설정 기능은 준비 중입니다! 🔧",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            viewModel.registerPhotoWidget(
+                                context = context,
+                                imageUrl = imageUrl,
+                                onSuccess = {
+                                    Toast.makeText(context, "위젯이 추가되었습니다!", Toast.LENGTH_SHORT)
+                                        .show()
+                                    onDismiss()
+                                },
+                                onError = { message ->
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                }
+                            )
                         },
                         modifier = Modifier
                             .weight(1f)
@@ -545,42 +483,6 @@ fun ImageDetailDialog(
                     }
                 }
             }
-        }
-    }
-}
-
-// 이미지 다운로드 및 파일 저장 함수
-suspend fun downloadAndSaveImage(context: Context, imageUrl: String): Uri {
-    return withContext(Dispatchers.IO) {
-        try {
-            // 이미지 다운로드
-            val url = URL(imageUrl)
-            val connection = url.openConnection()
-            connection.connect()
-            val inputStream = connection.getInputStream()
-            val bitmap = android.graphics.BitmapFactory.decodeStream(inputStream)
-            inputStream.close()
-
-            // 파일 저장
-            val imagesDir = File(context.cacheDir, "images")
-            if (!imagesDir.exists()) {
-                imagesDir.mkdirs()
-            }
-
-            val imageFile = File(imagesDir, "wallpaper_${System.currentTimeMillis()}.jpg")
-            val outputStream = FileOutputStream(imageFile)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            outputStream.flush()
-            outputStream.close()
-
-            // FileProvider를 통해 Uri 생성
-            FileProvider.getUriForFile(
-                context,
-                "${context.packageName}.fileprovider",
-                imageFile
-            )
-        } catch (e: Exception) {
-            throw e
         }
     }
 }
@@ -615,7 +517,7 @@ fun CategoryButtonWithImage(
                 modifier = Modifier.fillMaxSize()
             ) {
                 // 앨범 이미지
-                androidx.compose.foundation.Image(
+                Image(
                     painter = painterResource(id = categoryInfo.imageRes),
                     contentDescription = categoryInfo.name,
                     modifier = Modifier
