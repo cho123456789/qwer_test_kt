@@ -70,18 +70,18 @@
         <!--                android:resource="@xml/battery_glance_widget_info" />-->
         <!--        </receiver>-->
 
-                <receiver
-                    android:name=".gomin.wiget.GoWatchWidgetReceiver"
-                    android:label="@string/app_widget_watch_description"
-                    android:exported="true">
-                    <intent-filter>
-                        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                        <action android:name="com.example.qwer_test_kt.UPDATE_TIME" />
-                    </intent-filter>
-                    <meta-data
-                        android:name="android.appwidget.provider"
-                        android:resource="@xml/watch_go_widget_info" />
-                </receiver>
+        <receiver
+            android:name=".gomin.wiget.GoWatchWidgetReceiver"
+            android:label="@string/app_widget_watch_description"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.qwer_test_kt.UPDATE_TIME" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/watch_go_widget_info" />
+        </receiver>
 
         <receiver
             android:name=".gomin.wiget.PhotoWidgetReceiver"

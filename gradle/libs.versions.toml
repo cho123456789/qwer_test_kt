@@ -34,6 +34,8 @@ ktor-client-android = "2.3.12"
 postgrest-kt = "2.6.1"
 supabase-kt = "2.6.1"
 
+connect-client = "1.1.0-alpha07"
+
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose" }
@@ -77,6 +79,8 @@ supabase-kt =  {group = "io.github.jan-tennert.supabase", name = "supabase-kt", 
 
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics"}
 ui = { group = "androidx.compose.ui", name ="ui"}
+
+connect-client = { group = "androidx.health.connect", name = "connect-client", version.ref ="connect-client"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -13,6 +13,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.qwer_test_kt.domin.model.ProfileByType
 import com.example.qwer_test_kt.domin.usecase.GetAllProfilesUseCase
 import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetReceiver
+import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
+import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -155,6 +157,112 @@ class PhotoWidgetViewModel @Inject constructor(
 
                     // 사진 위젯 등록
                     val providerComponent = ComponentName(context, PhotoWidgetReceiver::class.java)
+
+                    withContext(Dispatchers.Main) {
+                        val success =
+                            appWidgetManager.requestPinAppWidget(providerComponent, null, null)
+
+                        if (success) {
+                            onSuccess()
+                        } else {
+                            onError("위젯 추가를 취소했거나 실패했습니다.")
+                        }
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        onError("위젯 고정은 Android 8.0 이상에서 지원됩니다.")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    onError("위젯 등록 실패: ${e.message}")
+                }
+            }
+        }
+    }
+
+    fun registerClockWidget(
+        context: Context,
+        imageUrl: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val appWidgetManager = AppWidgetManager.getInstance(context)
+
+                    if (!appWidgetManager.isRequestPinAppWidgetSupported) {
+                        withContext(Dispatchers.Main) {
+                            onError("이 런처는 위젯 고정을 지원하지 않습니다.")
+                        }
+                        return@launch
+                    }
+
+                    // 위젯 데이터 저장
+                    val sharedPrefs =
+                        context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
+                    sharedPrefs.edit()
+                        .putString("widgetWallpaperUrl", imageUrl)
+                        .putString("widgetType", "clock")
+                        .apply()
+
+                    // 시계 위젯 등록
+                    val providerComponent =
+                        ComponentName(context, GoWatchWidgetReceiver::class.java)
+
+                    withContext(Dispatchers.Main) {
+                        val success =
+                            appWidgetManager.requestPinAppWidget(providerComponent, null, null)
+
+                        if (success) {
+                            onSuccess()
+                        } else {
+                            onError("위젯 추가를 취소했거나 실패했습니다.")
+                        }
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        onError("위젯 고정은 Android 8.0 이상에서 지원됩니다.")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    onError("위젯 등록 실패: ${e.message}")
+                }
+            }
+        }
+    }
+
+    fun registerBatteryWidget(
+        context: Context,
+        imageUrl: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val appWidgetManager = AppWidgetManager.getInstance(context)
+
+                    if (!appWidgetManager.isRequestPinAppWidgetSupported) {
+                        withContext(Dispatchers.Main) {
+                            onError("이 런처는 위젯 고정을 지원하지 않습니다.")
+                        }
+                        return@launch
+                    }
+
+                    // 위젯 데이터 저장
+                    val sharedPrefs =
+                        context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
+                    sharedPrefs.edit()
+                        .putString("widgetWallpaperUrl", imageUrl)
+                        .putString("widgetType", "battery")
+                        .apply()
+
+                    // 배터리 위젯 등록
+                    val providerComponent =
+                        ComponentName(context, GoBatteryWidgetProvider::class.java)
 
                     withContext(Dispatchers.Main) {
                         val success =

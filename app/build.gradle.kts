@@ -31,8 +31,8 @@ android {
         )
 
         applicationId = "com.example.qwer_test_kt"
-        minSdk = 24
-        targetSdk = 35
+        minSdk = 26
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -66,6 +66,8 @@ android {
 }
 
 dependencies {
+
+    implementation(libs.connect.client)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.supabase.kt)
@@ -84,20 +86,20 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    implementation (libs.coil.compose)
-    implementation (libs.accompanist.pager)
+    implementation(libs.coil.compose)
+    implementation(libs.accompanist.pager)
     implementation(libs.androidx.material3.android)
     val compose_bom = platform("androidx.compose:compose-bom:2023.10.01")
     implementation(compose_bom)
     androidTestImplementation(compose_bom)
     implementation(libs.androidx.navigation.compose)
     debugImplementation(libs.androidx.ui.tooling)
-    implementation (libs.androidx.activity.compose)
-    implementation (libs.androidx.ui)
-    implementation (libs.androidx.material)
-    implementation (libs.androidx.ui.tooling.preview)
-    implementation (libs.androidx.lifecycle.runtime.ktx)
-    implementation (libs.androidx.runtime.livedata)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -38,6 +38,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.qwer_test_kt.gomin.onePop
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
@@ -48,6 +49,7 @@ fun WallpaperDetailScreen(
     wallpaperUrl: String,
     onBackPressed: () -> Unit,
     viewModel: GominJungdokViewModel,
+    navController: NavController
 ) {
     val scrollState = rememberScrollState()
 
@@ -90,12 +92,13 @@ fun WallpaperDetailScreen(
             contentScale = ContentScale.Crop
         )
         WallpaperAndWidgetRow(
-            viewModel = viewModel, // Pass the instance
+            viewModel = viewModel,
             context = context,
             wallpaperUrl = wallpaperUrl,
+            navController = navController,
             onSetWidgetClicked = {
                 showWidgetSelectionDialog = true
-            } // Pass the lambda
+            }
         )
         if (showWidgetSelectionDialog) {
             WidgetSelectionDialog(
@@ -105,7 +108,8 @@ fun WallpaperDetailScreen(
                 onWidgetSelected = {
                     showWidgetSelectionDialog = false
                 },
-                wallpaperUrl = wallpaperUrl
+                wallpaperUrl = wallpaperUrl,
+                navController = navController
             )
         }
     }
@@ -117,6 +121,7 @@ fun WallpaperAndWidgetRow(
     viewModel: GominJungdokViewModel,
     context: Context,
     wallpaperUrl: String,
+    navController: NavController,
     onSetWidgetClicked: () -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
@@ -178,7 +183,8 @@ fun WallpaperAndWidgetRow(
                 onWidgetSelected = {
                     showDialog = false
                 },
-                wallpaperUrl = wallpaperUrl
+                wallpaperUrl = wallpaperUrl,
+                navController = navController
             )
         }
     }

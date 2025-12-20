@@ -7,4 +7,5 @@ object Route {
     const val Memeber = "Member"
     const val Splash = "splash"
     const val PhotoWidget = "photo_widget"
+    const val Sleep = "sleep"
 }

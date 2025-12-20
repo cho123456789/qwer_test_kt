@@ -48,13 +48,16 @@ import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetProvider
 import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetReceiver
 import android.util.Log
+import androidx.navigation.NavController
+import com.example.qwer_test_kt.Route
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WidgetSelectionDialog(
     onDismissRequest: () -> Unit,
     onWidgetSelected: () -> Unit,
-    wallpaperUrl: String
+    wallpaperUrl: String,
+    navController: NavController
 ) {
     val context = LocalContext.current
     var selectedWidgetProvider by remember { mutableStateOf<ComponentName?>(null) }

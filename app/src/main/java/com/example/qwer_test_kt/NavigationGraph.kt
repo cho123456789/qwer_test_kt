@@ -62,7 +62,8 @@ fun AppNavGraph() {
                     onBackPressed = {
                         navController.popBackStack()
                     },
-                    viewModel = hiltViewModel()
+                    viewModel = hiltViewModel(),
+                    navController = navController
                 )
             }
         }
