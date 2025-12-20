@@ -31,8 +31,9 @@ class PhotoWidgetReceiver : GlanceAppWidgetReceiver() {
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
-        val sharedPrefs = context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
-        val wallpaperUrl = sharedPrefs.getString("widgetWallpaperUrl", "") ?: ""
+        // WidgetPreferencesManager 사용
+        val widgetPrefs = WidgetPreferencesManager.getInstance(context)
+        val wallpaperUrl = widgetPrefs.getWallpaperUrl() ?: ""
 
         if (wallpaperUrl.isEmpty()) {
             Log.e("PhotoWidgetReceiver", "배경화면 URL이 비어있습니다. 업데이트를 건너뜁니다.")

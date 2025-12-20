@@ -28,9 +28,9 @@ class GoBatteryWidgetProvider : AppWidgetProvider() {
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
-        val sharedPrefs = context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
-        val wallpaperUrl = sharedPrefs.getString("widgetWallpaperUrl", null)
-        val widgetType = sharedPrefs.getString("widgetType", null)
+        val widgetPrefs = WidgetPreferencesManager.getInstance(context)
+        val wallpaperUrl = widgetPrefs.getWallpaperUrl()
+        val widgetType = widgetPrefs.getWidgetType()
 
         val views = RemoteViews(context.packageName, R.layout.battery_go_widget)
 

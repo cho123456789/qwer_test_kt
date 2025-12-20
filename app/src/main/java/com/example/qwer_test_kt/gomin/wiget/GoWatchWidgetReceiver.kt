@@ -35,27 +35,33 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        when (intent.action) {
-            ACTION_UPDATE_TIME -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val glanceIds =
-                        GlanceAppWidgetManager(context).getGlanceIds(GoWatchWidgetProvider::class.java)
-                    glanceIds.forEach { glanceId ->
-                        GoWatchWidgetProvider().update(context, glanceId)
-                    }
+        val action = intent.action
+        Log.d("GoWatchWidgetReceiver", "onReceive - action: $action")
+
+        // WidgetPreferencesManager 사용
+        val widgetPrefs = WidgetPreferencesManager.getInstance(context)
+        val wallpaperUrl = widgetPrefs.getWallpaperUrl() ?: ""
+        val widgetType = widgetPrefs.getWidgetType()
+
+        if ((action == "com.example.qwer_test_kt.UPDATE_IMAGE" || action == Intent.ACTION_BOOT_COMPLETED)
+            && wallpaperUrl.isNotEmpty()
+        ) {
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            val appWidgetIds = appWidgetManager.getAppWidgetIds(
+                android.content.ComponentName(context, GoWatchWidgetReceiver::class.java)
+            )
+            onUpdate(context, appWidgetManager, appWidgetIds)
+        } else if (action == ACTION_UPDATE_TIME) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val glanceIds =
+                    GlanceAppWidgetManager(context).getGlanceIds(GoWatchWidgetProvider::class.java)
+                glanceIds.forEach { glanceId ->
+                    GoWatchWidgetProvider().update(context, glanceId)
                 }
-                scheduleNextUpdate(context)
             }
-            // 이 ACTION은 앱 설정에서 이미지 변경 시 호출되도록 설계
-            ACTION_UPDATE_IMAGE -> {
-                val appWidgetManager = AppWidgetManager.getInstance(context)
-                val appWidgetIds = appWidgetManager.getAppWidgetIds(
-                    android.content.ComponentName(context, GoWatchWidgetReceiver::class.java)
-                )
-                onUpdate(context, appWidgetManager, appWidgetIds)
-            }
+            scheduleNextUpdate(context)
         }
-}
+    }
 
     override fun onUpdate(
         context: Context,
@@ -66,8 +72,8 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
         // 위젯이 처음 추가될 때만 알람을 설정하도록 변경
         scheduleNextUpdate(context)
 
-        val sharedPrefs = context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
-        val wallpaperUrl = sharedPrefs.getString("widgetWallpaperUrl", "") ?: ""
+        val widgetPrefs = WidgetPreferencesManager.getInstance(context)
+        val wallpaperUrl = widgetPrefs.getWallpaperUrl() ?: ""
 
         if (wallpaperUrl.isEmpty()) {
             Log.e("GoWatchWidgetReceiver", "배경화면 URL이 비어있습니다. 업데이트를 건너뜁니다.")

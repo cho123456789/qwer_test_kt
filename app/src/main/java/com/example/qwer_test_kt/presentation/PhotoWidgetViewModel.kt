@@ -15,6 +15,7 @@ import com.example.qwer_test_kt.domin.usecase.GetAllProfilesUseCase
 import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
+import com.example.qwer_test_kt.gomin.wiget.WidgetPreferencesManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -147,13 +148,10 @@ class PhotoWidgetViewModel @Inject constructor(
                         return@launch
                     }
 
-                    // 위젯 데이터 저장
-                    val sharedPrefs =
-                        context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
-                    sharedPrefs.edit()
-                        .putString("widgetWallpaperUrl", imageUrl)
-                        .putString("widgetType", "photo")
-                        .apply()
+                    // WidgetPreferencesManager 사용
+                    val widgetPrefs = WidgetPreferencesManager.getInstance(context)
+                    widgetPrefs.setWallpaperUrl(imageUrl)
+                    widgetPrefs.setWidgetType("photo")
 
                     // 사진 위젯 등록
                     val providerComponent = ComponentName(context, PhotoWidgetReceiver::class.java)
@@ -199,13 +197,10 @@ class PhotoWidgetViewModel @Inject constructor(
                         return@launch
                     }
 
-                    // 위젯 데이터 저장
-                    val sharedPrefs =
-                        context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
-                    sharedPrefs.edit()
-                        .putString("widgetWallpaperUrl", imageUrl)
-                        .putString("widgetType", "clock")
-                        .apply()
+                    // WidgetPreferencesManager 사용
+                    val widgetPrefs = WidgetPreferencesManager.getInstance(context)
+                    widgetPrefs.setWallpaperUrl(imageUrl)
+                    widgetPrefs.setWidgetType("clock")
 
                     // 시계 위젯 등록
                     val providerComponent =
@@ -252,13 +247,10 @@ class PhotoWidgetViewModel @Inject constructor(
                         return@launch
                     }
 
-                    // 위젯 데이터 저장
-                    val sharedPrefs =
-                        context.getSharedPreferences("WidgetData", Context.MODE_PRIVATE)
-                    sharedPrefs.edit()
-                        .putString("widgetWallpaperUrl", imageUrl)
-                        .putString("widgetType", "battery")
-                        .apply()
+                    // WidgetPreferencesManager 사용
+                    val widgetPrefs = WidgetPreferencesManager.getInstance(context)
+                    widgetPrefs.setWallpaperUrl(imageUrl)
+                    widgetPrefs.setWidgetType("battery")
 
                     // 배터리 위젯 등록
                     val providerComponent =
