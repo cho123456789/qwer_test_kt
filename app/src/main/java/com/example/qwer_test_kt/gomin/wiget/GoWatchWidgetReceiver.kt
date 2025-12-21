@@ -18,6 +18,7 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import coil.imageLoader
 import coil.request.ImageRequest
+import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

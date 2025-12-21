@@ -11,10 +11,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.qwer_test_kt.gomin.GominjungdokScreen
-import com.example.qwer_test_kt.gomin.view.IdolProfileScreenWithScaffold
-import com.example.qwer_test_kt.gomin.view.WallpaperDetailScreen
-import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetScreen
+import com.example.qwer_test_kt.gomin.wiget.screen.GominjungdokScreen
+import com.example.qwer_test_kt.gomin.wiget.screen.WallpaperDetailScreen
+import com.example.qwer_test_kt.gomin.wiget.screen.PhotoWidgetScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -37,11 +36,6 @@ fun AppNavGraph() {
         }
         composable(Route.Splash) {
             SplashScreen(
-                navController = navController
-            )
-        }
-        composable(Route.Memeber) {
-            IdolProfileScreenWithScaffold(
                 navController = navController
             )
         }

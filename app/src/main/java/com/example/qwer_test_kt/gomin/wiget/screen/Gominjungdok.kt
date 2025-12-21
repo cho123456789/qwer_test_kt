@@ -1,4 +1,4 @@
-package com.example.qwer_test_kt.gomin
+package com.example.qwer_test_kt.gomin.wiget.screen
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -45,7 +45,6 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.qwer_test_kt.R
 import com.example.qwer_test_kt.domin.model.MemberDetail
-import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetContent
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -78,12 +77,12 @@ fun GominjungdokScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(gradientBackground)
+                .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
                 .padding(
                     top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
                 ) // StatusBar 높이만큼 패딩
-                .padding(5.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(5.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
@@ -217,22 +216,26 @@ fun MemberProfileCard(memberDetail: MemberDetail) {
                     horizontalArrangement = Arrangement.Start
                 ) {
                     // 멤버 사진
-                    AsyncImage(
-                        model = memberDetail.profileImg,
-                        contentDescription = memberDetail.name,
+                    Box(
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(0.45f)
-                            .clip(RoundedCornerShape(12.dp)),
-                        contentScale = ContentScale.Crop
-                    )
+                            .clip(RoundedCornerShape(12.dp))
+                    ) {
+                        AsyncImage(
+                            model = memberDetail.profileImg,
+                            contentDescription = memberDetail.name,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
 
                     Spacer(modifier = Modifier.width(12.dp))
 
                     // 멤버 정보
                     Column(
                         modifier = Modifier.weight(0.55f),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
                         // 닉네임과 QWER 알파벳을 Row로 배치
                         Row(

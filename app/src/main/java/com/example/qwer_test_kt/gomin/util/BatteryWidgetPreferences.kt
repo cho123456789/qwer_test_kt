@@ -1,4 +1,4 @@
-package com.example.qwer_test_kt.gomin
+package com.example.qwer_test_kt.gomin.util
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -1,4 +1,4 @@
-package com.example.qwer_test_kt.gomin.view
+package com.example.qwer_test_kt.gomin.wiget.screen
 
 import android.content.Context
 import android.os.Build
@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.qwer_test_kt.gomin.onePop
+import com.example.qwer_test_kt.gomin.wiget.dialog.WidgetSelectionDialog
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)

@@ -28,7 +28,7 @@ import androidx.glance.text.TextStyle
 import com.example.qwer_test_kt.WidgetEntryPoint
 import com.example.qwer_test_kt.domin.model.BatteryInfo
 import com.example.qwer_test_kt.domin.model.WidgetData
-import com.example.qwer_test_kt.gomin.BatteryWidgetStateDefinition
+import com.example.qwer_test_kt.gomin.util.BatteryWidgetStateDefinition
 import com.example.qwer_test_kt.presentation.downloadBitmap
 import dagger.hilt.android.EntryPointAccessors
 

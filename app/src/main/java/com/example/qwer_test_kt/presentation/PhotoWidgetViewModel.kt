@@ -15,7 +15,7 @@ import com.example.qwer_test_kt.domin.usecase.GetAllProfilesUseCase
 import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
-import com.example.qwer_test_kt.gomin.wiget.WidgetPreferencesManager
+import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

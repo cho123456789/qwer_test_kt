@@ -2,7 +2,6 @@ package com.example.qwer_test_kt.gomin.wiget
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
@@ -13,6 +12,7 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import coil.imageLoader
 import coil.request.ImageRequest
+import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

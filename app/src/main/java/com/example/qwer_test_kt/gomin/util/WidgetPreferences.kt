@@ -1,4 +1,4 @@
-package com.example.qwer_test_kt.gomin.wiget
+package com.example.qwer_test_kt.gomin.util
 
 import android.annotation.SuppressLint
 import android.content.Context
