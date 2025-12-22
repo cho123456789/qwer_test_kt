@@ -32,13 +32,6 @@ data class ProfileItemData(
     val imageUrl: String
 )
 
-// 조인된 프로필 데이터 (타입별로 그룹화)
-@Serializable
-data class ProfileByTypeData(
-    val typeName: String,
-    val members: List<MemberProfileData>
-)
-
 // 멤버별 프로필 데이터
 @Serializable
 data class MemberProfileData(

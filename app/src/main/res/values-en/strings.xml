@@ -6,6 +6,7 @@
     <string name="app_widget_watch_description">Register clock widget</string>
 
     <string name="app_widget_photo_description">Register Photo widget</string>
+    <string name="app_widget_dday_description">Register D-Day widget</string>
     <string name="discord_title">Discord</string>
     <string name="discord_content">The 1st Single Album</string>
     <string name="discord_date">2023.10.18</string>

@@ -20,9 +20,13 @@ class SplashViewModel @Inject constructor(
     val profiles: StateFlow<List<ProfileByType>?> = _profiles.asStateFlow()
 
     init {
+        initProfiles()
+    }
+
+    private fun initProfiles() {
         viewModelScope.launch {
-            val result = getAllProfilesUseCase.invoke()
-            _profiles.value = result
+            _profiles.value = getAllProfilesUseCase()
         }
     }
 }
+

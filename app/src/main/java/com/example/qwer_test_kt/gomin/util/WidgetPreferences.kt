@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 
 /**
  * 위젯 관련 SharedPreferences 키 정의
@@ -14,10 +15,27 @@ object WidgetPreferenceKeys {
     const val KEY_WIDGET_TYPE = "widgetType"
     const val KEY_WIDGET_POSITION = "widgetPosition"
     const val KEY_TEXT_COLOR = "widgetTextColor"
+    const val KEY_DDAY_TITLE = "widgetDdayTitle"
+    const val KEY_DDAY_DATE = "widgetDdayDate"
 
     // 기본값
     const val DEFAULT_POSITION = "0.5,0.5,1.0"
     const val DEFAULT_TEXT_COLOR = "#FFFFFF" // 흰색
+}
+
+/**
+ * Glance 위젯에서 사용하는 DataStore Preferences Key 정의
+ * (SharedPreferences와 별도로 사용)
+ */
+object WidgetKeys {
+    // 시계 위젯 이미지 URL 키
+    val WatchImageUrlKey = stringPreferencesKey("watch_widget_image_url")
+
+    // 디데이 위젯 이미지 URL 키
+    val DdayImageUrlKey = stringPreferencesKey("dday_widget_image_url")
+
+    // 사진 위젯 이미지 URL 키 (필요시 추가)
+    val PhotoImageUrlKey = stringPreferencesKey("photo_widget_image_url")
 }
 
 /**
@@ -89,6 +107,34 @@ class WidgetPreferencesManager(private val context: Context) {
      */
     fun setTextColor(colorHex: String) {
         prefs.edit { putString(WidgetPreferenceKeys.KEY_TEXT_COLOR, colorHex) }
+    }
+
+    /**
+     * D-Day 제목 가져오기
+     */
+    fun getDdayTitle(): String? {
+        return prefs.getString(WidgetPreferenceKeys.KEY_DDAY_TITLE, null)
+    }
+
+    /**
+     * D-Day 제목 저장
+     */
+    fun setDdayTitle(title: String) {
+        prefs.edit { putString(WidgetPreferenceKeys.KEY_DDAY_TITLE, title) }
+    }
+
+    /**
+     * D-Day 날짜 가져오기 (timestamp)
+     */
+    fun getDdayDate(): Long {
+        return prefs.getLong(WidgetPreferenceKeys.KEY_DDAY_DATE, 0L)
+    }
+
+    /**
+     * D-Day 날짜 저장 (timestamp)
+     */
+    fun setDdayDate(date: Long) {
+        prefs.edit { putLong(WidgetPreferenceKeys.KEY_DDAY_DATE, date) }
     }
 
     /**

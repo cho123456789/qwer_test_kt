@@ -43,7 +43,7 @@ import androidx.navigation.NavController
 import com.example.qwer_test_kt.gomin.wiget.screen.onePop
 import com.example.qwer_test_kt.gomin.view.WidgetButton
 import com.example.qwer_test_kt.gomin.view.requestPinWidget
-import com.example.qwer_test_kt.gomin.wiget.GoBatteryWidgetProvider
+import com.example.qwer_test_kt.gomin.wiget.GoDdayWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetReceiver
 
@@ -66,6 +66,7 @@ fun WidgetSelectionDialog(
     )
     var selectedWidgetName by remember { mutableStateOf<String?>(null) }
     var showClockPositionDialog by remember { mutableStateOf(false) }
+    var showDdaySetupDialog by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
@@ -113,12 +114,12 @@ fun WidgetSelectionDialog(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     WidgetButton(
-                        text = "배터리 위젯",
-                        isSelected = selectedWidgetName == "battery",
+                        text = "디데이 위젯",
+                        isSelected = selectedWidgetName == "dday",
                         onClick = {
-                            selectedWidgetName = "battery"
+                            selectedWidgetName = "dday"
                             selectedWidgetProvider =
-                                ComponentName(context, GoBatteryWidgetProvider::class.java)
+                                ComponentName(context, GoDdayWidgetReceiver::class.java)
                         }
                     )
 
@@ -165,24 +166,31 @@ fun WidgetSelectionDialog(
                         Button(
                             onClick = {
                                 selectedWidgetProvider?.let {
-                                    // 시계 위젯인 경우 위치 선택 다이얼로그 표시
-                                    if (selectedWidgetName == "clock") {
-                                        showClockPositionDialog = true
-                                    } else {
-                                        // 다른 위젯은 바로 등록
-                                        val widgetType = when (it.className) {
-                                            GoBatteryWidgetProvider::class.java.name -> "battery"
-                                            PhotoWidgetReceiver::class.java.name -> "photo"
-                                            else -> "unknown"
+                                    when (selectedWidgetName) {
+                                        "dday" -> {
+                                            // 디데이 위젯인 경우 설정 다이얼로그 표시
+                                            showDdaySetupDialog = true
                                         }
-                                        requestPinWidget(
-                                            context,
-                                            it,
-                                            wallpaperUrl,
-                                            widgetType,
-                                            "center"
-                                        )
-                                        onWidgetSelected()
+                                        "clock" -> {
+                                            // 시계 위젯인 경우 위치 선택 다이얼로그 표시
+                                            showClockPositionDialog = true
+                                        }
+
+                                        else -> {
+                                            // 다른 위젯은 바로 등록
+                                            val widgetType = when (it.className) {
+                                                PhotoWidgetReceiver::class.java.name -> "photo"
+                                                else -> "unknown"
+                                            }
+                                            requestPinWidget(
+                                                context,
+                                                it,
+                                                wallpaperUrl,
+                                                widgetType,
+                                                "center"
+                                            )
+                                            onWidgetSelected()
+                                        }
                                     }
                                 }
                             },
@@ -198,6 +206,21 @@ fun WidgetSelectionDialog(
                 }
             }
         }
+    }
+
+    // 디데이 설정 다이얼로그
+    if (showDdaySetupDialog) {
+        DdaySetupDialog(
+            wallpaperUrl = wallpaperUrl,
+            onDismiss = { showDdaySetupDialog = false },
+            onSetupComplete = { position ->
+                selectedWidgetProvider?.let {
+                    requestPinWidget(context, it, wallpaperUrl, "dday", position)
+                    showDdaySetupDialog = false
+                    onWidgetSelected()
+                }
+            }
+        )
     }
 
     // 시계 위치 선택 다이얼로그

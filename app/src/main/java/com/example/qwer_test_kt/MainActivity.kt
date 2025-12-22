@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -49,14 +50,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.qwer_test_kt.gomin.wiget.screen.onePop
-import com.example.qwer_test_kt.gomin.wiget.BatteryChangeReceiver
 import com.example.qwer_test_kt.presentation.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private var batteryChangeReceiver: BatteryChangeReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,17 +63,6 @@ class MainActivity : AppCompatActivity() {
                 AppNavGraph()
             }
         }
-        // 배터리 브로드캐스트 동적 등록
-        batteryChangeReceiver = BatteryChangeReceiver()
-        val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        registerReceiver(batteryChangeReceiver, filter)
-    }
-
-    override fun onDestroy() {
-        // 안전하게 리시버 해제
-        batteryChangeReceiver?.let { unregisterReceiver(it) }
-        batteryChangeReceiver = null
-        super.onDestroy()
     }
 }
 
@@ -93,7 +80,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
     )
 
     // 프로필 타입 목록
-    val profileTypes = listOf("디스코드", "고민중독", "내이름맑음", "눈물참기")
+    val profileTypes = stringArrayResource(R.array.profile_types).toList()
 
     // 랜덤 프로필 타입 선택
     val randomProfileType = remember { profileTypes.random() }

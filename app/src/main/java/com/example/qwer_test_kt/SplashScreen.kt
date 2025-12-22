@@ -41,6 +41,7 @@ fun SplashScreen(navController: NavHostController, viewModel: SplashViewModel = 
 
     val profilesState by viewModel.profiles.collectAsStateWithLifecycle()
 
+
     // 로딩 완료 시 자동으로 메인 페이지로 이동
     LaunchedEffect(profilesState) {
         if (profilesState != null) {

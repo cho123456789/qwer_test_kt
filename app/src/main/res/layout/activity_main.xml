@@ -93,7 +93,7 @@
                     android:layout_height="match_parent"
                     android:contentDescription="Discord 컨셉 이미지"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/discord" />
+                    android:src="@drawable/discord_song" />
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -38,37 +38,19 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".gomin.wiget.GoBatteryMonitorService"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
 
         <receiver
-            android:name=".gomin.wiget.GoBatteryWidgetProvider"
-            android:exported="true"
-            android:label="@string/app_widget_description">
+            android:name=".gomin.wiget.GoDdayWidgetReceiver"
+            android:label="@string/app_widget_dday_description"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="com.example.qwer_test_kt.UPDATE_DDAY" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/battery_go_widget_info" />
+                android:resource="@xml/dday_go_widget_info" />
         </receiver>
-
-        <!--        <receiver-->
-        <!--            android:name=".gomin.wiget.BatteryGlanceWidgetReceiver"-->
-        <!--            android:label="@string/app_widget_description"-->
-        <!--            android:exported="true">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
-        <!--            </intent-filter>-->
-        <!--            <meta-data-->
-        <!--                android:name="android.appwidget.provider"-->
-        <!--                android:resource="@xml/battery_glance_widget_info" />-->
-        <!--        </receiver>-->
 
         <receiver
             android:name=".gomin.wiget.GoWatchWidgetReceiver"
@@ -94,11 +76,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/photo_widget_info" />
         </receiver>
-
-        <service
-            android:name=".gomin.wiget.BatteryUpdateService"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

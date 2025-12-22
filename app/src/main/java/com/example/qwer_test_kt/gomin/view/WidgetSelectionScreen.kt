@@ -133,17 +133,34 @@ fun requestPinWidget(
         //Toast.makeText(context, "위젯이 추가되었습니다!", Toast.LENGTH_SHORT).show()
         Log.d("WidgetSelection", "위젯 추가 성공")
 
-        // 시계 위젯인 경우 즉시 업데이트
-        if (widgetType == "clock") {
-            // 브로드캐스트를 통해 위젯 강제 업데이트
-            Handler(getMainLooper()).postDelayed({
-                val updateIntent =
-                    android.content.Intent(context, GoWatchWidgetReceiver::class.java).apply {
-                        action = "com.example.qwer_test_kt.UPDATE_IMAGE"
-                    }
-                context.sendBroadcast(updateIntent)
-                Log.d("WidgetSelection", "위젯 업데이트 브로드캐스트 전송")
-            }, 1000) // 1초 후 업데이트 (위젯 등록 완료 대기)
+        // 위젯 타입에 따라 즉시 업데이트
+        when (widgetType) {
+            "clock" -> {
+                // 시계 위젯인 경우 즉시 업데이트
+                Handler(getMainLooper()).postDelayed({
+                    val updateIntent =
+                        android.content.Intent(context, GoWatchWidgetReceiver::class.java).apply {
+                            action = "com.example.qwer_test_kt.UPDATE_IMAGE"
+                        }
+                    context.sendBroadcast(updateIntent)
+                    Log.d("WidgetSelection", "시계 위젯 업데이트 브로드캐스트 전송")
+                }, 1000) // 1초 후 업데이트 (위젯 등록 완료 대기)
+            }
+
+            "dday" -> {
+                // 디데이 위젯인 경우 즉시 업데이트
+                Handler(getMainLooper()).postDelayed({
+                    val updateIntent =
+                        android.content.Intent(
+                            context,
+                            com.example.qwer_test_kt.gomin.wiget.GoDdayWidgetReceiver::class.java
+                        ).apply {
+                            action = "com.example.qwer_test_kt.UPDATE_DDAY"
+                        }
+                    context.sendBroadcast(updateIntent)
+                    Log.d("WidgetSelection", "디데이 위젯 업데이트 브로드캐스트 전송")
+                }, 1000) // 1초 후 업데이트 (위젯 등록 완료 대기)
+            }
         }
     } else {
         Toast.makeText(context, "위젯 추가를 취소했거나 실패했습니다.", Toast.LENGTH_SHORT).show()
