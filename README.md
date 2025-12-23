@@ -1,9 +1,10 @@
 <div align="center">
-<h2>📸 QWER Photo Widget</h2>
+<h1>📸 QWER Photo Widget</h1>
 </div>
 
 <p align="center">
-  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84/%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84.jpg?raw=true" width="70%">
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84/%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%842.jpg?raw=true" width="70%">
+  <br>
   <br>
   <strong>"일상의 코드(Chord)에 QWER의 색을 입히다"</strong>
 </p>
