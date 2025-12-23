@@ -1,7 +1,9 @@
-# 📸 QWER Photo Widget
+<div align="center">
+<h2>📸 QWER Photo Widget</h2>
+</div>
 
 <p align="center">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_6uP9yH2UeL8X9C1u6_4Vj7Y0uX0gW1XyYw&s" width="100%">
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84/%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84.jpg?raw=true" width="70%">
   <br>
   <strong>"일상의 코드(Chord)에 QWER의 색을 입히다"</strong>
 </p>
