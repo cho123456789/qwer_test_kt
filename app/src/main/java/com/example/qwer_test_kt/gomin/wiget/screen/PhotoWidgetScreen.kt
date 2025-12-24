@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -47,7 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.example.qwer_test_kt.R
 import com.example.qwer_test_kt.gomin.wiget.dialog.ImageDetailDialog
@@ -225,20 +226,45 @@ fun PhotoWidgetContent(
                                 contentAlignment = Alignment.Center
                             ) {
                                 if (currentImage != null) {
-                                    val painter = rememberAsyncImagePainter(
+                                    SubcomposeAsyncImage(
                                         model = ImageRequest.Builder(context)
                                             .data(currentImage)
                                             .crossfade(true)
-                                            .build()
-                                    )
-
-                                    Image(
-                                        painter = painter,
+                                            .build(),
                                         contentDescription = "Selected Photo",
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .clip(RoundedCornerShape(14.dp)),
-                                        contentScale = ContentScale.Crop
+                                        contentScale = ContentScale.Crop,
+                                        loading = {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .background(Color(0xFFE3F2FD)),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                CircularProgressIndicator(
+                                                    color = Color(0xFF1565C0),
+                                                    modifier = Modifier.size(50.dp),
+                                                    strokeWidth = 4.dp
+                                                )
+                                            }
+                                        },
+                                        error = {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .background(Color(0xFFF5F5F5)),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Text(
+                                                    text = "이미지 로드 실패",
+                                                    fontSize = 14.sp,
+                                                    color = Color.Gray,
+                                                    fontFamily = barry
+                                                )
+                                            }
+                                        }
                                     )
                                 } else {
                                     Box(
