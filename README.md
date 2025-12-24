@@ -95,18 +95,17 @@
 ## 🏗 3. Project Structure & Timeline
 
 ### System Architecture
-
-
-* **UI Layer:** Jetpack Compose 기반의 선언형 UI
-* **Domain/Data Layer:** MVVM 패턴을 적용하여 비즈니스 로직과 UI 분리
-* **Widget Engine:** `AppWidgetProvider` & `RemoteViews`를 통한 홈 화면 연동
-* **Networking:** `Retrofit2` & `Coil`을 이용한 이미지 스트리밍
+* **UI Layer:** `Jetpack Compose` 기반의 선언형 UI
+* **Domain/Data Layer:** `Clean Architecture` 비즈니스 로직과 UI 분리
+* **Widget Engine:** `GlanceAppWidget` & `GlanceAppWidgetReceiver`를 통한  위젯 데이터 연동 및 UI 표시
+* **Networking:** `Data Store` & `Coil`을 이용한 이미지 데이터 변환 및 저장 
+* **DataBase:** `Supabase` `SQL Database` 를 통하여 사용자 데이터 관리
 
 ### Development Timeline
-1.  **Phase 1 (기획):** 아이돌 컨셉 분석 및 AI 디자인 시스템 구축
-2.  **Phase 2 (개발):** 위젯 핵심 로직 및 API 연동
-3.  **Phase 3 (고도화):** `WorkManager`를 이용한 백그라운드 동기화 및 캐싱
-4.  **Phase 4 (안정화):** 메모리 최적화 및 디바이스 테스트
+1.  **Phase 1 (기획):** 아이돌 컨셉 분석 및 디자인 분석
+2.  **Phase 2 (개발):** 위젯 핵심 로직 및 DB 연동 및 위젯 데이터 전송 수정
+3.  **Phase 3 (고도화):** 위젯 요소 크기 및 글자 위치 변경 추가
+4.  **Phase 4 (안정화):** 디바이스 UI 테스트 
 
 ---
 
@@ -129,10 +128,8 @@
 - **Language:** Kotlin
 - **UI:** Jetpack Compose
 - **Async:** Coroutines, Flow
-- **Network:** Retrofit2, OkHttp3
 - **Image:** Coil (Widget Image Loading)
-- **Local DB:** Room
-- **Jetpack:** WorkManager, ViewModel, LiveData
+- **Jetpack:** GlanceAppWidget, GlanceAppWidgetReceiver
 
 ---
 
