@@ -39,9 +39,9 @@
 단순히 돌아가는 코드를 만드는 것에 그치지 않고, 기술과 팬심이 하나의 앙상블을 이룰 때까지 **수십 번의 빌드업과 갈아엎기를 주저하지 않았습니다.** <br>
 
 **시행착오의 기록:**
-* **Architecture Re-design:** MVVM 패턴의 엄격한 적용을 위해 프로젝트 초기 구조를 5회 이상 전면 재설계
-* **UI/UX Refinement:** AI 디자인과 Jetpack Compose 간의 최적의 조화를 위해 수십 번의 레이아웃 갈아엎기를 반복
-* **Performance Tuning:** 위젯 메모리 누수를 잡기 위해 비트맵 처리 로직을 수 차례 백지화 후 재구현
+* **Architecture Re-design:** MVVM 패턴보다 **jectpack Compose** 와 **Clean Architecture** 를 통한 관심사 분리 및 의존도를 낮추기 위한 노력 
+* **UI/UX Refinement:**  **QWER** 컨셉과 **Photo Widget** 이랑 기능의 컨셉에 맞는 최적의 조화를 위해 수십 번의 레이아웃 갈아엎기를 반복
+* **Performance Tuning:** 위젯에 사진 및 데이터 전달을 위한 **Coli 활용한 bitmap 변환** 및 **Glance DataStore** 데이터 전달 방식 구현 
 ---
 
 
