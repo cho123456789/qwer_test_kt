@@ -112,18 +112,21 @@
 ## 🚀 4. Key Features & Tech Stack
 
 ### 핵심 기능
-* **🖼️ 실시간 이미지 위젯 (Live Image Widget)**
-  - 홈 화면에서 최애의 모습을 바로 확인할 수 있는 고해상도 위젯을 제공합니다.
-  - **WorkManager**를 통해 배터리 소모를 최소화하면서 설정된 주기에 따라 이미지를 자동으로 갱신합니다.
 
-* **📸 스마트 사진 갤러리 (Photo Management)**
-  - AI 디자인 가이드가 적용된 세련된 UI로 아티스트의 사진을 감상하고 관리할 수 있습니다.
-  - **Coil** 라이브러리를 활용하여 대용량 이미지도 메모리 부하 없이 부드럽게 로딩합니다.
+### 🚀 Key Features (핵심 기능)
 
-* **📅 팬덤 맞춤형 디데이 (D-Day Setting)**
-  - 컴백일, 데뷔 기념일, 공연 일정 등 소중한 기념일을 위젯에서 바로 확인합니다.
-  - **Material 3** 디자인이 적용된 디데이 설정 기능을 통해 위젯의 시각적 요소를 사용자가 커스텀할 수 있습니다.
+---
 
+### 🚀 Key Features (핵심 기능)
+
+| 기능 화면 | 상세 설명 |
+| :--- | :--- |
+| <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_133815_QWER%20Photo%20Widget.jpg?raw=true" width="260" /> | **📸 위젯 홈 화면 (Photo Management)**<br><br>• **감성적인 UI/UX:** QWER 멤버 소개와 더불어 각 앨범 컨셉 버튼을 제공합니다. 버튼 클릭 시 **랜덤 이미지 추출** 방식을 도입하여 사용자 접근성과 재미 요소를 극대화했습니다.<br>• **메모리 최적화:** `Coil` 라이브러리의 리사이징 기능을 활용하여 고해상도 이미지 로딩 시에도 메모리 부하를 방지하고 부드러운 스크롤 성능을 보장합니다. |
+| <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251223_142929_QWER%20Photo%20Widget.jpg?raw=true" width="260" /> | **🖼️ 실시간 이미지 위젯 (Live Image Widget)**<br><br>• **홈 화면의 생동감:** 앱을 실행하지 않아도 홈 화면에서 최애의 모습을 즉시 확인할 수 있는 고해상도 위젯 기능을 제공합니다.<br>• **지능형 백그라운드 갱신:** `WorkManager`를 도입하여 배터리 소모를 최소화하면서, 설정된 주기마다 아티스트의 이미지를 자동으로 최신화합니다. |
+| <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/%EB%94%94%EB%8D%B0%EC%9D%B4%EC%98%88%EC%8B%9C.jpg?raw=true" width="260" /> | **📅 팬덤 맞춤형 디데이 (Fandom D-Day)**<br><br>• **소중한 순간의 기록:** 컴백일, 데뷔 기념일, 공연 등 QWER과 팬덤의 주요 일정을 위젯에서 실시간으로 카운트다운합니다.<br>• **Material 3 스타일링:** 최신 `Material Design 3` 기반의 UI를 제공하여, 사용자가 위젯의 시각적 테마와 디데이 레이아웃을 취향에 맞게 커스텀할 수 있습니다. |
+
+
+---
 ### 기술 스택
 - **Language:** Kotlin
 - **UI:** Jetpack Compose
@@ -146,8 +149,7 @@
 ---
 
 ## 📅 6. Future Plans
-* **Jetpack Glance:** 위젯 코드를 Compose 기반의 Glance로 마이그레이션 진행 예정
-* **FCM Push:** 실시간 사진 업로드 알림 기능 추가
+* **Date Base :** 사진 데이터 수집 및 추가  
 * **Interactive Widget:** 위젯 내에서 좋아요 및 간단한 메모 기능 구현
 
 ---
