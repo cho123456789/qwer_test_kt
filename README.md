@@ -142,12 +142,18 @@
 ---
 
 ## 📅 6. Future Plans
-* **Date Base :** 사진 데이터 수집 및 추가  
-* **Interactive Widget:** 위젯 내에서 좋아요 및 간단한 메모 기능 구현
-
+* **🗂️ Data Expansion (데이터베이스 고도화)**
+  * QWER의 활동에 맞춘 신규 앨범 컨셉 및 고화질 아티스트 사진 데이터를 지속적으로 수집하고 업데이트할 예정입니다.
+    
+* **🔧 Stability & UX Optimization (안정성 및 UX 최적화)**
+  * 실사용자 피드백을 바탕으로 한 예외 처리 및 버그 수정 작업을 진행합니다.
+  * 위젯 배치 및 설정 과정의 뎁스(Depth)를 줄여 더욱 직관적인 **UX 접근성**을 확보할 계획입니다.
+    
+* **🎁 Community Release (팬덤 공유 및 배포)**
+  * 베타 테스트 및 서비스 안정화 단계가 완료되는 대로,<br>
+  * **QWER 공식 팬카페 및 커뮤니티**를 통해 팬분들에게 무료로 배포하여 소중한 피드백을 나눌 예정입니다.
 ---
 
 ## 🧑‍💻 Author
-* **Name:** [본인 이름]
-* **Contact:** [이메일 주소]
-* **GitHub:** [@본인 계정명](https://github.com/본인계정)
+* **Contact:** [dkdkdodo123@gmail.com]
+* **GitHub:** [@cho][https://github.com/cho123456789]
