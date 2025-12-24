@@ -9,7 +9,10 @@
   <strong>"일상의 코드(Chord)에 QWER의 색을 입히다"</strong>
 </p>
 
-> **QWER Photo Widget**은 아티스트 **QWER**을 향한 팬심을 안드로이드의 최신 기술로 구현한 커스텀 위젯 서비스입니다. 단순히 사진을 보여주는 것을 넘어, 팬과 아티스트를 잇는 가장 가까운 연결고리를 홈 화면에 제공합니다.
+<div align="center">
+ <h3>QWER</h3>을 향한 팬심을 안드로이드의 최신 기술로 구현한 커스텀 위젯 서비스입니다. <br> 단순히 사진을 보여주는 것을 넘어, 팬과 아티스트를 잇는 가장 가까운 연결고리를 홈 화면에 제공합니다.
+</div>
+<br>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white"/>
