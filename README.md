@@ -31,15 +31,15 @@
 > **"최고의 무대를 위해 다른 아티스트의 공연을 분석하는 아티스트처럼"**
 * 더 완성도 높은 **조화로운 합**을 구현하기 위해 시중에 출시된 다양한 K-POP 및 위젯 앱들을 연구했습니다.
 
-#### 📱 1) Case Study: [QWER 배경화면] Android 앱 분석
+#### 📱 1) Case Study: [QWER 포토위젯] iOS 앱 분석
 <div align="center">
-  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_110257_QWER%20Wallpapers.jpg?raw=true" width="160" />
-  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_110315_QWER%20Wallpapers.jpg?raw=true" width="160" />
-  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_120720_QWER%20Wallpapers.jpg?raw=true" width="160" />
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/IMG_0037.PNG?raw=true" width="160" />
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/IMG_0038.PNG?raw=true" width="160" />
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/IMG_0039.PNG?raw=true" width="160" />
 </div>
 
-#### 🎯 핵심 연구 과제: 배경화면 설정 인터페이스
-> 아티스트 사진 탐색부터 실제 디바이스 적용까지의 **UX 프로세스**를 집중 분석했습니다.
+#### 🎯 핵심 연구 과제: 위젯 설정 인터페이스 및 기능 
+> **위젯에 대한 기능** 및  **UX 프로세스**를 집중 분석했습니다.
 
 * **💡 기능적 영감 (Inspiration)**
   * 기존 앱의 직관적인 설정 방식에서 핵심 아이디어를 얻었습니다.
