@@ -122,7 +122,7 @@
 | 기능 화면 | 상세 설명 |
 | :--- | :--- |
 | <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_133815_QWER%20Photo%20Widget.jpg?raw=true" width="260" /> | **📸 위젯 홈 화면 (Photo Management)**<br><br>• **감성적인 UI/UX:** QWER 멤버 소개와 더불어 각 앨범 컨셉 버튼을 제공합니다. 버튼 클릭 시 **랜덤 이미지 추출** 방식을 도입하여 사용자 접근성과 재미 요소를 극대화했습니다.<br><br> • **메모리 최적화:** `Coil` 라이브러리의 **자동 캐싱 기능**을 활용하여 캐싱된 이미지 재활용 및 BitMap 데이터로 직접 변환 |
-| <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_133056_QWER%20Photo%20Widget.jpg?raw=true" width="260" /> | **🖼️ 이미지 배경화면 등록 (Live Image & Custom)**<br><br>• **사용자 정의 배경화면 커스텀:** 단순히 이미지를 적용하는 것을 넘어, 사용자가 원하는 구도와 위치에 맞춰 최적화된 배경화면을 구성할 수 있습니다.<br><br>• **One-Stop 시스템:** 단 한 번의 설정으로 **홈 화면과 잠금 화면을 동시에 등록**할 수 있는 편의성을 제공하며, 디바이스의 해상도에 맞춰 이미지가 자연스럽게 배치되도록 인터페이스를 설계했습니다.|
+| <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_140033_Wallpaper%20and%20style.jpg?raw=true" width="260" /> | **🖼️ 이미지 배경화면 등록 (Live Image & Custom)**<br><br>• **사용자 정의 배경화면 커스텀:** 단순히 이미지를 적용하는 것을 넘어, 사용자가 원하는 구도와 위치에 맞춰 최적화된 배경화면을 구성할 수 있습니다.<br><br>• **One-Stop 시스템:** 단 한 번의 설정으로 **홈 화면과 잠금 화면을 동시에 등록**할 수 있는 편의성을 제공하며, 디바이스의 해상도에 맞춰 이미지가 자연스럽게 배치되도록 인터페이스를 설계했습니다.|
 | <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/%EB%94%94%EB%8D%B0%EC%9D%B4%EC%98%88%EC%8B%9C.jpg?raw=true" width="260" /> | **📅 팬덤 맞춤형 디데이 (Fandom D-Day)**<br><br>• **소중한 순간의 기록:** 컴백일, 데뷔 기념일, 공연 등 QWER과 팬덤의 주요 일정을 위젯에서 실시간으로 카운트다운합니다.<br>• **Material 3 스타일링:** 최신 `Material Design 3` 기반의 UI를 제공하여, 사용자가 위젯의 시각적 테마와 디데이 레이아웃을 취향에 맞게 커스텀할 수 있습니다. |
 
 
