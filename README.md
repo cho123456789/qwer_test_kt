@@ -24,18 +24,31 @@
 
  좋아하는 아티스트의 사진을 찾아보고 저장하는 즐거움은 팬이라면 누구나 공감할 것입니다. 저는 여기서 한 걸음 더 나아가고자 했습니다.
  
- 번거롭게 앱을 켜지 않아도, 스마트폰을 켜는 그 짧은 찰나에 **QWER의 에너지**를 마주할 수 있다면 어떨까요? 최애의 모습을 단지 데이터로 저장하는 것이 아니라, **Android 홈 화면**이라는 가장 가까운 공간에 생동감 있게 배치하고자 하는 진심에서 이 프로젝트를 시작하였습니다!
+ 번거롭게 앱을 켜지 않아도, 스마트폰을 켜는 그 짧은 찰나에 **QWER의 에너지**를 마주할 수 있다면 어떨까요?
+ 최애의 모습을 단지 데이터로 저장하는 것이 아니라, **Android 홈 화면**이라는 가장 가까운 공간에 생동감 있게 배치하고자 하는 진심에서 이 프로젝트를 시작하였습니다!
  
-### 🔍 Benchmarking (벤치마킹 분석)
+### 🔍 Market Analysis & Benchmarking
 > **"최고의 무대를 위해 다른 아티스트의 공연을 분석하는 아티스트처럼"**
-> 
-> 더 완성도 높은 **조화로운 합**을 구현하기 위해 시중에 출시된 다양한 K-POP 포토위젯 앱들을 철저히 연구했습니다. 팬들이 무엇에 열광하고 어디서 불편함을 느끼는지 파악하는 것이 제 프로젝트의 첫 번째 '합주 연습'이었습니다.
-> 
-> * **직관적인 UX:** 팬들이 단 한 번의 터치로 최애를 볼 수 있는 간결한 인터페이스 분석
-> * **실시간 동기화:** 아티스트의 새로운 모습이 지연 없이 반영되는 데이터 처리 방식 연구
-> * **감성 포인트:** 단순한 기능 나열이 아닌, 팬심을 자극하는 레이아웃과 디자인 디테일 벤치마킹
-> 
-> 기존 앱들의 장점을 흡수하고 저만의 **AI 디자인 역량**과 **정교한 안드로이드 기술력**을 더해, QWER만의 감성을 담은 유일무이한 위젯을 완성했습니다.
+* 더 완성도 높은 **조화로운 합**을 구현하기 위해 시중에 출시된 다양한 K-POP 및 위젯 앱들을 연구했습니다.
+
+#### 📱 Case Study: QWER 배경화면 앱 분석
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/07bad57c-4df2-4f9c-8870-0922beac1167" width="160" />
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_110257_QWER%20Wallpapers.jpg?raw=true" width="160" />
+  <img src="https://github.com/user-attachments/assets/084abd92-7335-40b0-8330-ebfdd5e8dd9a" width="160" />
+</div>
+
+#### 🎯 핵심 연구 과제: 배경화면 설정 인터페이스
+> 아티스트 사진 탐색부터 실제 디바이스 적용까지의 **UX 프로세스**를 집중 분석했습니다.
+
+* **💡 기능적 영감 (Inspiration)**
+  * 기존 앱의 직관적인 설정 방식에서 핵심 아이디어를 얻었습니다.
+  * 복잡한 과정을 생략하고, **단 한 번의 터치**로 최애의 모습을 적용할 수 있는 최적화된 동선을 위젯 서비스에 녹여냈습니다.
+
+* **✨ 차별화 포인트 (Differentiation)**
+  * **Dual-Registration:** 홈 화면과 잠금 화면을 개별적으로 설정해야 하는 번거로움을 해결하여 **동시 등록 편의성**을 제공합니다.
+  * **Personalized Custom:** 단순한 이미지 배치를 넘어, 사용자의 취향에 맞춰 배경화면을 직접 편집할 수 있는 **고도화된 커스텀 기능**을 추가했습니다
+  
 ---
 
 ## 📅 2. Project Timeline & Passion
@@ -52,32 +65,6 @@
 * **Architecture Re-design:** MVVM 패턴보다 **jectpack Compose** 와 **Clean Architecture** 를 통한 관심사 분리 및 의존도를 낮추기 위한 노력 
 * **UI/UX Refinement:**  **QWER** 컨셉과 **Photo Widget** 이랑 기능의 컨셉에 맞는 최적의 조화를 위해 수십 번의 레이아웃 갈아엎기를 반복
 * **Performance Tuning:** 위젯에 사진 및 데이터 전달을 위한 **Coli 활용한 bitmap 변환** 및 **Glance DataStore** 데이터 전달 방식 구현 
----
-
-
-### 🔍 Market Analysis & Benchmarking
-기존의 K-POP 포토위젯 앱들이 가진 **직관적인 UI**와 **실시간 이미지 업데이트** 기능을 철저히 분석하고 벤치마킹했습니다.
-
-#### 📱 Case Study: QWER 배경화면 앱 분석
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/07bad57c-4df2-4f9c-8870-0922beac1167" width="160" />
-  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_110257_QWER%20Wallpapers.jpg?raw=true" width="160" />
-  <img src="https://github.com/user-attachments/assets/084abd92-7335-40b0-8330-ebfdd5e8dd9a" width="160" />
-</div>
-
-<br>
-
-#### 🎯 핵심 연구 과제: 배경화면 설정 인터페이스
-> 아티스트 사진 탐색부터 실제 디바이스 적용까지의 **UX 프로세스**를 집중 분석했습니다.
-
-* **💡 기능적 영감 (Inspiration)**
-  * 기존 앱의 직관적인 설정 방식에서 핵심 아이디어를 얻었습니다.
-  * 복잡한 과정을 생략하고, **단 한 번의 터치**로 최애의 모습을 적용할 수 있는 최적화된 동선을 위젯 서비스에 녹여냈습니다.
-
-* **✨ 차별화 포인트 (Differentiation)**
-  * **Dual-Registration:** 홈 화면과 잠금 화면을 개별적으로 설정해야 하는 번거로움을 해결하여 **동시 등록 편의성**을 제공합니다.
-  * **Personalized Custom:** 단순한 이미지 배치를 넘어, 사용자의 취향에 맞춰 배경화면을 직접 편집할 수 있는 **고도화된 커스텀 기능**을 추가했습니다
-  
 ---
 
 ## 🏗 3. Project Structure & Timeline
