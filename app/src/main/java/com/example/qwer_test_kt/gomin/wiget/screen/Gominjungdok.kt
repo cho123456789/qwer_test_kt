@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -42,7 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.example.qwer_test_kt.R
 import com.example.qwer_test_kt.domin.model.MemberDetail
 import com.example.qwer_test_kt.presentation.GominJungdokViewModel
@@ -220,13 +221,42 @@ fun MemberProfileCard(memberDetail: MemberDetail) {
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(0.45f)
-                            .clip(RoundedCornerShape(12.dp))
+                            .clip(RoundedCornerShape(12.dp)),
+                        contentAlignment = Alignment.Center
                     ) {
-                        AsyncImage(
+                        SubcomposeAsyncImage(
                             model = memberDetail.profileImg,
                             contentDescription = memberDetail.name,
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
+                            contentScale = ContentScale.Crop,
+                            loading = {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(Color(0xFFE3F2FD)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CircularProgressIndicator(
+                                        color = Color(0xFF1565C0),
+                                        modifier = Modifier.size(40.dp)
+                                    )
+                                }
+                            },
+                            error = {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(Color(0xFFF5F5F5)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = "이미지 로드 실패",
+                                        fontSize = 10.sp,
+                                        color = Color.Gray,
+                                        fontFamily = barry
+                                    )
+                                }
+                            }
                         )
                     }
 
