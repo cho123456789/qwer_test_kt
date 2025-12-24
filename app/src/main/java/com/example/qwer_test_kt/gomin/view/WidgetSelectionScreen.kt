@@ -29,7 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.qwer_test_kt.gomin.wiget.screen.onePop
+import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
 import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 
@@ -91,7 +91,7 @@ fun WidgetButton(
                 // 위젯 이름
                 Text(
                     text = text,
-                    fontFamily = onePop,
+                    fontFamily = barry,
                     color = contentColor
                 )
             }

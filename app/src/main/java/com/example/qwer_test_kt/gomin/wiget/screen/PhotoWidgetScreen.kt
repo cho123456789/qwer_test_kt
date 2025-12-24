@@ -380,7 +380,7 @@ fun CategoryButtonWithImage(
                     text = categoryInfo.name,
                     fontSize = 11.sp,
                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                    fontFamily = onePop,
+                    fontFamily = barry,
                     color = if (isSelected) Color(0xFF0D47A1) else Color(0xFF1565C0),
                     textAlign = TextAlign.Center,
                     maxLines = 1

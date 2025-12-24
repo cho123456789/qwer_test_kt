@@ -148,7 +148,7 @@ fun GominjungdokScreen(
                     Text(
                         text = "멤버 정보를 불러오는 중...",
                         fontSize = 16.sp,
-                        fontFamily = onePop,
+                        fontFamily = barry,
                         color = Color(0xFF666666)
                     )
                 }

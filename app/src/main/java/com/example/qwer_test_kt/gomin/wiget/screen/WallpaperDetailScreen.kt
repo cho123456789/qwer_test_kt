@@ -151,7 +151,7 @@ fun WallpaperAndWidgetRow(
         ) {
             Text(
                 text = "배경화면 등록",
-                fontFamily = onePop,
+                fontFamily = barry,
                 fontSize = 18.sp
             )
         }
@@ -171,7 +171,7 @@ fun WallpaperAndWidgetRow(
         ) {
             Text(
                 text = "위젯 등록",
-                fontFamily = onePop,
+                fontFamily = barry,
                 fontSize = 18.sp
             )
         }

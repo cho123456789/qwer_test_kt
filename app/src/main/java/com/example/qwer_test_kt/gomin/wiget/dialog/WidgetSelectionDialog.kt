@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.example.qwer_test_kt.gomin.wiget.screen.onePop
+import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.gomin.view.WidgetButton
 import com.example.qwer_test_kt.gomin.view.requestPinWidget
 import com.example.qwer_test_kt.gomin.wiget.GoDdayWidgetReceiver
@@ -94,7 +94,7 @@ fun WidgetSelectionDialog(
                         Text(
                             text = "위젯 스타일 선택",
                             fontSize = 20.sp,
-                            fontFamily = onePop,
+                            fontFamily = barry,
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center,
                             color = Color(0xFF1E3A8A)  // 진한 겨울 파란색
@@ -160,7 +160,7 @@ fun WidgetSelectionDialog(
                                 contentColor = Color(0xFF1565C0)  // 진한 파란색
                             )
                         ) {
-                            Text(text = "취소", fontFamily = onePop)
+                            Text(text = "취소", fontFamily = barry)
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                         Button(
@@ -200,7 +200,7 @@ fun WidgetSelectionDialog(
                                 contentColor = Color.White
                             )
                         ) {
-                            Text(text = "확인", fontFamily = onePop)
+                            Text(text = "확인", fontFamily = barry)
                         }
                     }
                 }

@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.qwer_test_kt.gomin.wiget.screen.onePop
+import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -134,7 +134,7 @@ fun DdaySetupDialog(
                     Text(
                         text = "디데이 위젯 설정",
                         fontSize = 20.sp,
-                        fontFamily = onePop,
+                        fontFamily = barry,
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center,
                         color = Color(0xFF1E3A8A)
@@ -157,8 +157,8 @@ fun DdaySetupDialog(
                 OutlinedTextField(
                     value = ddayTitle,
                     onValueChange = { ddayTitle = it },
-                    label = { Text("디데이 제목 (선택)", fontFamily = onePop) },
-                    placeholder = { Text("예: 콘서트까지", fontFamily = onePop) },
+                    label = { Text("디데이 제목 (선택)", fontFamily = barry) },
+                    placeholder = { Text("예: 콘서트까지", fontFamily = barry) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(0xFF1565C0),
@@ -194,7 +194,7 @@ fun DdaySetupDialog(
                 ) {
                     Text(
                         text = "목표 날짜: ${dateFormat.format(selectedDate.time)}",
-                        fontFamily = onePop
+                        fontFamily = barry
                     )
                 }
 
@@ -205,7 +205,7 @@ fun DdaySetupDialog(
                     Text(
                         text = "글자 크기: ${String.format("%.1f", textScale)}x",
                         fontSize = 14.sp,
-                        fontFamily = onePop,
+                        fontFamily = barry,
                         color = Color.Black.copy(alpha = 0.8f),
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
@@ -230,7 +230,7 @@ fun DdaySetupDialog(
                     Text(
                         text = "텍스트 색상",
                         fontSize = 14.sp,
-                        fontFamily = onePop,
+                        fontFamily = barry,
                         color = Color.Black.copy(alpha = 0.8f),
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
@@ -273,7 +273,7 @@ fun DdaySetupDialog(
                 Text(
                     text = "디데이 위치를 드래그하여 조정하세요",
                     fontSize = 14.sp,
-                    fontFamily = onePop,
+                    fontFamily = barry,
                     color = Color.Black.copy(alpha = 0.7f),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
@@ -306,13 +306,13 @@ fun DdaySetupDialog(
                                     fontSize = (60 * textScale).sp,
                                     fontWeight = FontWeight.Bold,
                                     color = selectedColor,
-                                    fontFamily = onePop
+                                    fontFamily = barry
                                 )
                                 Text(
                                     text = dateText,
                                     fontSize = (18 * textScale).sp,
                                     color = selectedColor,
-                                    fontFamily = onePop
+                                    fontFamily = barry
                                 )
                             } else {
                                 Text(
@@ -320,13 +320,13 @@ fun DdaySetupDialog(
                                     fontSize = (60 * textScale).sp,
                                     fontWeight = FontWeight.Bold,
                                     color = selectedColor,
-                                    fontFamily = onePop
+                                    fontFamily = barry
                                 )
                                 Text(
                                     text = dateText,
                                     fontSize = (18 * textScale).sp,
                                     color = selectedColor,
-                                    fontFamily = onePop
+                                    fontFamily = barry
                                 )
                             }
                         }
@@ -347,7 +347,7 @@ fun DdaySetupDialog(
                             contentColor = Color(0xFF1565C0)
                         )
                     ) {
-                        Text(text = "취소", fontFamily = onePop)
+                        Text(text = "취소", fontFamily = barry)
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
@@ -391,7 +391,7 @@ fun DdaySetupDialog(
                             contentColor = Color.White
                         )
                     ) {
-                        Text(text = "확인", fontFamily = onePop)
+                        Text(text = "확인", fontFamily = barry)
                     }
                 }
             }

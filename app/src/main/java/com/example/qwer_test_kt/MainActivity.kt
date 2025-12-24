@@ -49,7 +49,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.example.qwer_test_kt.gomin.wiget.screen.onePop
+import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.presentation.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -463,7 +463,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                     Text(
                         text = "입장하기",
                         fontSize = 20.sp,
-                        fontFamily = onePop,
+                        fontFamily = barry,
                         fontWeight = FontWeight.Bold
                     )
                 }

@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.qwer_test_kt.gomin.wiget.screen.onePop
+import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 import com.example.qwer_test_kt.gomin.wiget.dialog.WidgetPositionPreview
 import java.text.SimpleDateFormat
@@ -119,7 +119,7 @@ fun ClockPositionDialog(
                     Text(
                         text = "시계 위치 조정",
                         fontSize = 20.sp,
-                        fontFamily = onePop,
+                        fontFamily = barry,
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center,
                         color = Color(0xFF1E3A8A)
@@ -142,7 +142,7 @@ fun ClockPositionDialog(
                 Text(
                     text = "시계를 드래그하여 원하는 위치로 이동하세요",
                     fontSize = 14.sp,
-                    fontFamily = onePop,
+                    fontFamily = barry,
                     color = Color.Black.copy(alpha = 0.7f),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
@@ -157,7 +157,7 @@ fun ClockPositionDialog(
                     Text(
                         text = "글자 크기: ${String.format("%.1f", textScale)}x",
                         fontSize = 14.sp,
-                        fontFamily = onePop,
+                        fontFamily = barry,
                         color = Color.Black.copy(alpha = 0.8f),
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
@@ -184,7 +184,7 @@ fun ClockPositionDialog(
                     Text(
                         text = "텍스트 색상",
                         fontSize = 14.sp,
-                        fontFamily = onePop,
+                        fontFamily = barry,
                         color = Color.Black.copy(alpha = 0.8f),
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
@@ -247,14 +247,14 @@ fun ClockPositionDialog(
                                 text = dateStr,
                                 fontSize = (14 * textScale).sp,
                                 color = selectedColor,
-                                fontFamily = onePop
+                                fontFamily = barry
                             )
                             Text(
                                 text = timeStr,
                                 fontSize = (32 * textScale).sp,
                                 fontWeight = FontWeight.Bold,
                                 color = selectedColor,
-                                fontFamily = onePop
+                                fontFamily = barry
                             )
                         }
                     }
@@ -274,7 +274,7 @@ fun ClockPositionDialog(
                             contentColor = Color(0xFF1565C0)
                         )
                     ) {
-                        Text(text = "취소", fontFamily = onePop)
+                        Text(text = "취소", fontFamily = barry)
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
@@ -315,7 +315,7 @@ fun ClockPositionDialog(
                             contentColor = Color.White
                         )
                     ) {
-                        Text(text = "확인", fontFamily = onePop)
+                        Text(text = "확인", fontFamily = barry)
                     }
                 }
             }

@@ -45,7 +45,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.qwer_test_kt.gomin.wiget.screen.onePop
+import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.presentation.PhotoWidgetViewModel
 
 @Composable
@@ -159,7 +159,7 @@ fun ImageDetailDialog(
                                 text = "배경화면",
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
-                                fontFamily = onePop
+                                fontFamily = barry
                             )
                         }
                     }
@@ -182,7 +182,7 @@ fun ImageDetailDialog(
                             text = "위젯",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
-                            fontFamily = onePop
+                            fontFamily = barry
                         )
                     }
                 }
