@@ -109,15 +109,7 @@
 
 ---
 
-## 🚀 4. Key Features & Tech Stack
-
-### 핵심 기능
-
-### 🚀 Key Features (핵심 기능)
-
----
-
-### 🚀 Key Features (핵심 기능)
+## 🚀 4.Key Features (핵심 기능)
 
 | 기능 화면 | 상세 설명 |
 | :--- | :--- |
