@@ -49,10 +49,29 @@ class GoWatchWidgetProvider : GlanceAppWidget() {
             val wallpaperPath = prefs[ImageUrlKey]
             val isLoading = prefs[IsLoadingKey] ?: false
 
+            // GlanceId로부터 appWidgetId 가져오기
+            val appWidgetId = try {
+                androidx.glance.appwidget.GlanceAppWidgetManager(context).getAppWidgetId(id)
+            } catch (e: Exception) {
+                Log.e("GoWatchWidgetProvider", "Failed to get appWidgetId: ${e.message}")
+                -1
+            }
+
             // WidgetPreferencesManager에서 위치 정보 읽기
             val widgetPrefs = WidgetPreferencesManager.getInstance(context)
-            val positionString = widgetPrefs.getWidgetPosition()
-            val textColorHex = widgetPrefs.getTextColor()
+
+            // 위젯 ID별 데이터 가져오기, 없으면 공유 데이터 사용 (fallback)
+            val positionString = if (appWidgetId != -1) {
+                widgetPrefs.getWidgetPosition(appWidgetId)
+            } else {
+                widgetPrefs.getWidgetPosition()
+            }
+
+            val textColorHex = if (appWidgetId != -1) {
+                widgetPrefs.getTextColor(appWidgetId)
+            } else {
+                widgetPrefs.getTextColor()
+            }
 
             var widgetBitmap: Bitmap? = null
             if (!wallpaperPath.isNullOrEmpty()) {

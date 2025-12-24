@@ -14,6 +14,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.provideContent
 import androidx.glance.currentState
 import androidx.glance.layout.Alignment
@@ -44,11 +45,40 @@ class GoDdayWidgetProvider : GlanceAppWidget() {
             val prefs = currentState<Preferences>()
             val wallpaperPath = prefs[WidgetKeys.DdayImageUrlKey]
 
+            // GlanceId로부터 appWidgetId 가져오기
+            val appWidgetId = try {
+                GlanceAppWidgetManager(context).getAppWidgetId(id)
+            } catch (e: Exception) {
+                Log.e("GoDdayWidgetProvider", "Failed to get appWidgetId: ${e.message}")
+                -1
+            }
+
             val widgetPrefs = WidgetPreferencesManager.getInstance(context)
-            val positionString = widgetPrefs.getWidgetPosition()
-            val textColorHex = widgetPrefs.getTextColor()
-            val ddayTitle = widgetPrefs.getDdayTitle()
-            val ddayDate = widgetPrefs.getDdayDate()
+
+            // 위젯 ID별 데이터 가져오기, 없으면 공유 데이터 사용 (fallback)
+            val positionString = if (appWidgetId != -1) {
+                widgetPrefs.getWidgetPosition(appWidgetId)
+            } else {
+                widgetPrefs.getWidgetPosition()
+            }
+
+            val textColorHex = if (appWidgetId != -1) {
+                widgetPrefs.getTextColor(appWidgetId)
+            } else {
+                widgetPrefs.getTextColor()
+            }
+
+            val ddayTitle = if (appWidgetId != -1) {
+                widgetPrefs.getDdayTitle(appWidgetId)
+            } else {
+                widgetPrefs.getDdayTitle()
+            }
+
+            val ddayDate = if (appWidgetId != -1) {
+                widgetPrefs.getDdayDate(appWidgetId)
+            } else {
+                widgetPrefs.getDdayDate()
+            }
 
             var widgetBitmap: Bitmap? = null
             if (!wallpaperPath.isNullOrEmpty()) {

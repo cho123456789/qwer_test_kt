@@ -1,11 +1,12 @@
 package com.example.qwer_test_kt.gomin.view
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Build
-import android.os.Handler
-import android.os.Looper.getMainLooper
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -32,6 +33,50 @@ import androidx.compose.ui.unit.dp
 import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
 import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
+
+// BroadcastReceiver to handle widget pin success
+class WidgetPinSuccessReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        Log.d("WidgetPinSuccess", "위젯이 홈 화면에 성공적으로 추가되었습니다!")
+        Toast.makeText(context, "위젯이 바탕화면에 생성되었습니다", Toast.LENGTH_SHORT).show()
+
+        // 위젯 타입 가져오기
+        val widgetType = intent.getStringExtra("widgetType") ?: ""
+
+        // 위젯 타입에 따라 업데이트 - delay 없이 바로 전송
+        when (widgetType) {
+            "clock" -> {
+                val updateIntent = Intent(context, GoWatchWidgetReceiver::class.java).apply {
+                    action = "com.example.qwer_test_kt.UPDATE_IMAGE"
+                }
+                context.sendBroadcast(updateIntent)
+                Log.d("WidgetPinSuccess", "시계 위젯 업데이트 브로드캐스트 전송")
+            }
+
+            "dday" -> {
+                val updateIntent = Intent(
+                    context,
+                    com.example.qwer_test_kt.gomin.wiget.GoDdayWidgetReceiver::class.java
+                ).apply {
+                    action = "com.example.qwer_test_kt.UPDATE_DDAY"
+                }
+                context.sendBroadcast(updateIntent)
+                Log.d("WidgetPinSuccess", "디데이 위젯 업데이트 브로드캐스트 전송")
+            }
+
+            "photo" -> {
+                val updateIntent = Intent(
+                    context,
+                    com.example.qwer_test_kt.gomin.wiget.PhotoWidgetReceiver::class.java
+                ).apply {
+                    action = "com.example.qwer_test_kt.UPDATE_PHOTO"
+                }
+                context.sendBroadcast(updateIntent)
+                Log.d("WidgetPinSuccess", "사진 위젯 업데이트 브로드캐스트 전송")
+            }
+        }
+    }
+}
 
 @Composable
 fun WidgetButton(
@@ -127,43 +172,25 @@ fun requestPinWidget(
         "위젯 데이터 저장됨 - URL: $wallpaperUrl, Type: $widgetType, Position: $position"
     )
 
-    val success = appWidgetManager.requestPinAppWidget(providerComponent, null, null)
+    // PendingIntent 생성 - 사용자가 "Add to Home Screen" 버튼을 눌렀을 때 호출됨
+    val successIntent = Intent(context, WidgetPinSuccessReceiver::class.java).apply {
+        putExtra("widgetType", widgetType)
+    }
+
+    val successCallback = PendingIntent.getBroadcast(
+        context,
+        0,
+        successIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+
+    val success = appWidgetManager.requestPinAppWidget(providerComponent, null, successCallback)
 
     if (success) {
-        //Toast.makeText(context, "위젯이 추가되었습니다!", Toast.LENGTH_SHORT).show()
-        Log.d("WidgetSelection", "위젯 추가 성공")
-
-        // 위젯 타입에 따라 즉시 업데이트
-        when (widgetType) {
-            "clock" -> {
-                // 시계 위젯인 경우 즉시 업데이트
-                Handler(getMainLooper()).postDelayed({
-                    val updateIntent =
-                        android.content.Intent(context, GoWatchWidgetReceiver::class.java).apply {
-                            action = "com.example.qwer_test_kt.UPDATE_IMAGE"
-                        }
-                    context.sendBroadcast(updateIntent)
-                    Log.d("WidgetSelection", "시계 위젯 업데이트 브로드캐스트 전송")
-                }, 1000) // 1초 후 업데이트 (위젯 등록 완료 대기)
-            }
-
-            "dday" -> {
-                // 디데이 위젯인 경우 즉시 업데이트
-                Handler(getMainLooper()).postDelayed({
-                    val updateIntent =
-                        android.content.Intent(
-                            context,
-                            com.example.qwer_test_kt.gomin.wiget.GoDdayWidgetReceiver::class.java
-                        ).apply {
-                            action = "com.example.qwer_test_kt.UPDATE_DDAY"
-                        }
-                    context.sendBroadcast(updateIntent)
-                    Log.d("WidgetSelection", "디데이 위젯 업데이트 브로드캐스트 전송")
-                }, 1000) // 1초 후 업데이트 (위젯 등록 완료 대기)
-            }
-        }
+        Log.d("WidgetSelection", "위젯 추가 요청 성공 - 사용자 확인 대기 중")
+        // 사용자가 "Add to Home Screen"을 누르면 successCallback이 호출됩니다
     } else {
-        Toast.makeText(context, "위젯 추가를 취소했거나 실패했습니다.", Toast.LENGTH_SHORT).show()
-        Log.e("WidgetSelection", "위젯 추가 실패 - Component: ${providerComponent.className}")
+        Toast.makeText(context, "위젯 추가 요청에 실패했습니다.", Toast.LENGTH_SHORT).show()
+        Log.e("WidgetSelection", "위젯 추가 요청 실패 - Component: ${providerComponent.className}")
     }
 }

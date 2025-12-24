@@ -93,6 +93,107 @@ class WidgetPreferencesManager(private val context: Context) {
     }
 
     /**
+     * 특정 위젯 ID에 대한 모든 데이터 저장
+     */
+    fun saveWidgetData(widgetId: Int, wallpaperUrl: String, widgetType: String, position: String) {
+        prefs.edit {
+            putString("${WidgetPreferenceKeys.KEY_WALLPAPER_URL}_$widgetId", wallpaperUrl)
+            putString("${WidgetPreferenceKeys.KEY_WIDGET_TYPE}_$widgetId", widgetType)
+            putString("${WidgetPreferenceKeys.KEY_WIDGET_POSITION}_$widgetId", position)
+        }
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 배경 이미지 URL 가져오기
+     */
+    fun getWallpaperUrl(widgetId: Int): String? {
+        return prefs.getString("${WidgetPreferenceKeys.KEY_WALLPAPER_URL}_$widgetId", null)
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 위젯 타입 가져오기
+     */
+    fun getWidgetType(widgetId: Int): String? {
+        return prefs.getString("${WidgetPreferenceKeys.KEY_WIDGET_TYPE}_$widgetId", null)
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 위젯 위치 가져오기
+     */
+    fun getWidgetPosition(widgetId: Int): String {
+        return prefs.getString(
+            "${WidgetPreferenceKeys.KEY_WIDGET_POSITION}_$widgetId",
+            WidgetPreferenceKeys.DEFAULT_POSITION
+        ) ?: WidgetPreferenceKeys.DEFAULT_POSITION
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 텍스트 색상 가져오기
+     */
+    fun getTextColor(widgetId: Int): String {
+        return prefs.getString(
+            "${WidgetPreferenceKeys.KEY_TEXT_COLOR}_$widgetId",
+            WidgetPreferenceKeys.DEFAULT_TEXT_COLOR
+        ) ?: WidgetPreferenceKeys.DEFAULT_TEXT_COLOR
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 텍스트 색상 저장
+     */
+    fun setTextColor(widgetId: Int, colorHex: String) {
+        prefs.edit { putString("${WidgetPreferenceKeys.KEY_TEXT_COLOR}_$widgetId", colorHex) }
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 D-Day 제목 가져오기
+     */
+    fun getDdayTitle(widgetId: Int): String? {
+        return prefs.getString("${WidgetPreferenceKeys.KEY_DDAY_TITLE}_$widgetId", null)
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 D-Day 제목 저장
+     */
+    fun setDdayTitle(widgetId: Int, title: String) {
+        prefs.edit { putString("${WidgetPreferenceKeys.KEY_DDAY_TITLE}_$widgetId", title) }
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 D-Day 날짜 가져오기
+     */
+    fun getDdayDate(widgetId: Int): Long {
+        return prefs.getLong("${WidgetPreferenceKeys.KEY_DDAY_DATE}_$widgetId", 0L)
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 D-Day 날짜 저장
+     */
+    fun setDdayDate(widgetId: Int, date: Long) {
+        prefs.edit { putLong("${WidgetPreferenceKeys.KEY_DDAY_DATE}_$widgetId", date) }
+    }
+
+    /**
+     * 특정 위젯 ID에 대한 데이터 삭제
+     */
+    fun clearWidgetData(widgetId: Int) {
+        prefs.edit {
+            remove("${WidgetPreferenceKeys.KEY_WALLPAPER_URL}_$widgetId")
+            remove("${WidgetPreferenceKeys.KEY_WIDGET_TYPE}_$widgetId")
+            remove("${WidgetPreferenceKeys.KEY_WIDGET_POSITION}_$widgetId")
+            remove("${WidgetPreferenceKeys.KEY_TEXT_COLOR}_$widgetId")
+            remove("${WidgetPreferenceKeys.KEY_DDAY_TITLE}_$widgetId")
+            remove("${WidgetPreferenceKeys.KEY_DDAY_DATE}_$widgetId")
+        }
+    }
+
+    /**
+     * 모든 위젯 데이터 삭제
+     */
+    fun clearAll() {
+        prefs.edit { clear() }
+    }
+
+    /**
      * 텍스트 색상 가져오기 (hex 형식)
      */
     fun getTextColor(): String {
@@ -146,13 +247,6 @@ class WidgetPreferencesManager(private val context: Context) {
             putString(WidgetPreferenceKeys.KEY_WIDGET_TYPE, widgetType)
             putString(WidgetPreferenceKeys.KEY_WIDGET_POSITION, position)
         }
-    }
-
-    /**
-     * 모든 위젯 데이터 삭제
-     */
-    fun clearAll() {
-        prefs.edit { clear() }
     }
 
     companion object {

@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.util.Log
@@ -74,42 +75,131 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
         scheduleNextUpdate(context)
 
         val widgetPrefs = WidgetPreferencesManager.getInstance(context)
-        val wallpaperUrl = widgetPrefs.getWallpaperUrl() ?: ""
-
-        if (wallpaperUrl.isEmpty()) {
-            Log.e("GoWatchWidgetReceiver", "배경화면 URL이 비어있습니다. 업데이트를 건너뜁니다.")
-            return
-        }
-
         val scope = CoroutineScope(Dispatchers.IO)
-        scope.launch {
-            val glanceIds = GlanceAppWidgetManager(context)
-                .getGlanceIds(GoWatchWidgetProvider::class.java)
 
-            glanceIds.forEach { glanceId ->
+        // 각 위젯 ID에 대해 개별적으로 처리
+        appWidgetIds.forEach { appWidgetId ->
+            scope.launch {
                 try {
-                    val bitmap = withContext(Dispatchers.IO) {
-                        downloadBitmap(context, wallpaperUrl)
-                    } ?: throw IllegalStateException("비트맵 다운로드 실패")
+                    // 각 위젯 ID에 해당하는 배경화면 URL 가져오기
+                    var wallpaperUrl = widgetPrefs.getWallpaperUrl(appWidgetId)
 
-                    val file = withContext(Dispatchers.IO) {
-                        saveBitmapToTempFile(context, bitmap)
-                    }
-                    updateAppWidgetState(
-                        context = context,
-                        definition = PreferencesGlanceStateDefinition,
-                        glanceId = glanceId
-                    ) { prefs ->
-                        prefs.toMutablePreferences().apply {
-                            this[ImageUrlKey] = file.absolutePath
+                    // 위젯 ID별 데이터가 없으면 임시 공유 데이터 사용 (새로 추가된 위젯)
+                    if (wallpaperUrl.isNullOrEmpty()) {
+                        wallpaperUrl = widgetPrefs.getWallpaperUrl()
+                        val widgetType = widgetPrefs.getWidgetType()
+                        val position = widgetPrefs.getWidgetPosition()
+                        val textColor = widgetPrefs.getTextColor()
+
+                        if (!wallpaperUrl.isNullOrEmpty()) {
+                            // 임시 데이터를 이 위젯 ID로 저장 (모든 관련 데이터 포함)
+                            widgetPrefs.saveWidgetData(
+                                appWidgetId,
+                                wallpaperUrl,
+                                widgetType ?: "clock",
+                                position
+                            )
+                            widgetPrefs.setTextColor(appWidgetId, textColor)
+                            Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId}에 모든 데이터 저장 완료")
+                        } else {
+                            Log.e(
+                                "GoWatchWidgetReceiver",
+                                "위젯 ID ${appWidgetId}: 배경화면 URL이 비어있습니다."
+                            )
+                            return@launch
                         }
                     }
-                    GoWatchWidgetProvider().update(context, glanceId)
 
+                    Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 업데이트 시작: $wallpaperUrl")
+
+                    // appWidgetId에 해당하는 glanceId 가져오기
+                    val glanceId = GlanceAppWidgetManager(context)
+                        .getGlanceIdBy(appWidgetId)
+
+                    try {
+                        // 이미지 파일 캐시 확인 - 이미 있으면 다운로드 스킵
+                        val cachedFile =
+                            File(context.cacheDir, "watch_wallpaper_${appWidgetId}.jpg")
+
+                        // URL 변경 확인을 위한 해시 파일
+                        val hashFile = File(context.cacheDir, "watch_wallpaper_${appWidgetId}.hash")
+                        val currentHash = wallpaperUrl.hashCode().toString()
+                        val cachedHash = if (hashFile.exists()) hashFile.readText() else ""
+
+                        val imageFile = if (cachedFile.exists() && currentHash == cachedHash) {
+                            Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId}: 캐시된 이미지 사용")
+                            cachedFile
+                        } else {
+                            if (cachedFile.exists()) {
+                                Log.d(
+                                    "GoWatchWidgetReceiver",
+                                    "위젯 ID ${appWidgetId}: URL 변경 감지, 새 이미지 다운로드"
+                                )
+                                cachedFile.delete()
+                            } else {
+                                Log.d(
+                                    "GoWatchWidgetReceiver",
+                                    "위젯 ID ${appWidgetId}: 새 이미지 다운로드 중..."
+                                )
+                            }
+
+                            val bitmap = withContext(Dispatchers.IO) {
+                                downloadBitmap(context, wallpaperUrl)
+                            } ?: throw IllegalStateException("비트맵 다운로드 실패")
+
+                            val savedFile = withContext(Dispatchers.IO) {
+                                saveBitmapToCacheFile(context, bitmap, appWidgetId)
+                            }
+
+                            // URL 해시 저장
+                            hashFile.writeText(currentHash)
+                            savedFile
+                        }
+
+                        updateAppWidgetState(
+                            context = context,
+                            definition = PreferencesGlanceStateDefinition,
+                            glanceId = glanceId
+                        ) { prefs ->
+                            prefs.toMutablePreferences().apply {
+                                this[ImageUrlKey] = imageFile.absolutePath
+                            }
+                        }
+                        GoWatchWidgetProvider().update(context, glanceId)
+
+                        Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 업데이트 완료")
+
+                    } catch (e: Exception) {
+                        Log.e("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 배경화면 업데이트 실패", e)
+                    }
                 } catch (e: Exception) {
-                    Log.e("GoWatchWidgetReceiver", "위젯 배경화면 업데이트 실패", e)
+                    Log.e("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 처리 중 오류", e)
                 }
             }
+        }
+    }
+
+    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
+        super.onDeleted(context, appWidgetIds)
+
+        val widgetPrefs = WidgetPreferencesManager.getInstance(context)
+        appWidgetIds.forEach { appWidgetId ->
+            widgetPrefs.clearWidgetData(appWidgetId)
+
+            // 캐시된 이미지 파일도 삭제
+            val cachedFile = File(context.cacheDir, "watch_wallpaper_${appWidgetId}.jpg")
+            if (cachedFile.exists()) {
+                cachedFile.delete()
+                Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 캐시 이미지 삭제")
+            }
+
+            // 해시 파일도 삭제
+            val hashFile = File(context.cacheDir, "watch_wallpaper_${appWidgetId}.hash")
+            if (hashFile.exists()) {
+                hashFile.delete()
+            }
+
+            Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 데이터 삭제 완료")
         }
     }
 
@@ -183,19 +273,51 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
         val request = ImageRequest.Builder(context)
             .data(url)
             .allowHardware(false)
+            .size(1080, 1920) // 위젯에 적합한 크기로 제한
             .build()
         val result = context.imageLoader.execute(request)
         return (result.drawable as? BitmapDrawable)?.bitmap
     }
 
-    private fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
-        val tempFile = File(context.cacheDir, "wallpaper_temp_${System.currentTimeMillis()}.png")
-        val fos = FileOutputStream(tempFile)
-        // PNG로 저장하여 품질 저하 방지 (100% 품질)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+    private fun saveBitmapToCacheFile(context: Context, bitmap: Bitmap, widgetId: Int): File {
+        val cacheFile = File(context.cacheDir, "watch_wallpaper_${widgetId}.jpg")
+
+        // 기존 파일이 있으면 삭제
+        if (cacheFile.exists()) {
+            cacheFile.delete()
+        }
+
+        // 위젯에 적합한 크기로 리사이징 (더 빠른 로딩)
+        val maxWidth = 1080
+        val maxHeight = 1920
+        val scaledBitmap = if (bitmap.width > maxWidth || bitmap.height > maxHeight) {
+            val scale = minOf(
+                maxWidth.toFloat() / bitmap.width,
+                maxHeight.toFloat() / bitmap.height
+            )
+            val newWidth = (bitmap.width * scale).toInt()
+            val newHeight = (bitmap.height * scale).toInt()
+            Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+        } else {
+            bitmap
+        }
+
+        val fos = FileOutputStream(cacheFile)
+        // JPEG 사용으로 파일 크기 대폭 감소 (빠른 로딩)
+        scaledBitmap.compress(CompressFormat.JPEG, 85, fos)
         fos.flush()
         fos.close()
-        return tempFile
+
+        // 리사이징한 비트맵이 원본과 다르면 메모리 해제
+        if (scaledBitmap != bitmap) {
+            scaledBitmap.recycle()
+        }
+
+        Log.d(
+            "GoWatchWidgetReceiver",
+            "이미지 캐시 저장: ${cacheFile.absolutePath} (크기: ${cacheFile.length() / 1024}KB)"
+        )
+        return cacheFile
     }
 
     companion object {
