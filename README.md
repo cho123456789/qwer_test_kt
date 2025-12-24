@@ -131,14 +131,26 @@
 
 ## 🛠 5. Troubleshooting
 
-### ✅ RemoteViews 메모리 초과 문제 해결
-* **Issue:** 고화질 이미지 로딩 시 `TransactionTooLargeException` 발생
-* **Solution:** `Coil`의 리사이징 기능을 활용해 위젯 크기에 맞게 비트맵을 최적화(Downsampling)하고, `RGB_565` 포맷을 사용하여 메모리 점유율을 50% 절감했습니다.
+### ✅ Widget 컴포넌트의 상태 관리 제약
 
-### ✅ 백그라운드 업데이트 지연 해결
-* **Issue:** Doze 모드 등 OS 정책으로 인한 위젯 업데이트 누락
-* **Solution:** `WorkManager`에 네트워크 연결 상태 제약 조건을 설정하여, 최적의 타이밍에 데이터가 갱신되도록 로직을 고도화했습니다.
+* **Issue:** 위젯은 Activity와 달리 별도의 프로세스(SystemUI)에서 실행되므로, `ViewModel`을 통한 직접적인 상태 공유 및 실시간 데이터 바인딩이 불가능함.
 
+* **Solution:** * `Jetpack DataStore (Preferences)`를 도입하여 경량 데이터를 영속적으로 저장.
+  * 위젯 갱신 시점에 `DataStore`에서 최신 상태를 로드하여 프로세스 간 데이터 일관성을 확보했습니다.
+
+### ✅ RemoteViews 메모리 초과 및 고화질 이미지 처리
+
+* **Issue:** 고화질 아티스트 이미지 사용 시 위젯의 메모리 할당량 한계(약 1-2MB)를 초과하여 `RemoteViews` 업데이트 실패 및 성능 저하 발생.
+
+* **Solution:** * **Coil 최적화:** `Coil` 라이브러리의 리사이징 및 **Downsampling** 기능을 활용하여, 위젯의 실제 크기에 최적화된 비트맵만 메모리에 적재.
+  * **메모리 가드:** 위젯 이미지 전송 전 비트맵 크기를 체크하고 최적화하여 안정적인 렌더링을 구현했습니다.
+
+### ✅ AppWidgetProvider의 동적 레이아웃 구현 한계
+
+* **Issue:** 전통적인 XML 방식의 위젯 개발 시, 사용자의 커스텀 설정(텍스트 위치 변경 등)에 따른 동적 레이아웃 업데이트 로직이 복잡해지고 유지보수가 어려움.
+
+* **Solution:** * **Jetpack Glance 도입:** `GlanceAppWidget`을 활용하여 선언형 UI(Compose) 스타일로 위젯을 재설계.
+  * 복잡한 XML 연동 없이 Kotlin 코드만으로 레이아웃 상태를 효율적으로 관리하고, 동적인 UI 변경 사항을 직관적으로 반영할 수 있는 구조를 구축했습니다.
 ---
 
 ## 📅 6. Future Plans
