@@ -61,7 +61,7 @@
 #### 📱 Case Study: QWER 배경화면 앱 분석
 <div align="center">
   <img src="https://github.com/user-attachments/assets/07bad57c-4df2-4f9c-8870-0922beac1167" width="160" />
-  <img src="https://github.com/user-attachments/assets/f599fb30-bca9-4a88-9e1e-e67e594dfe32" width="160" />
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_110257_QWER%20Wallpapers.jpg?raw=true" width="160" />
   <img src="https://github.com/user-attachments/assets/084abd92-7335-40b0-8330-ebfdd5e8dd9a" width="160" />
 </div>
 
