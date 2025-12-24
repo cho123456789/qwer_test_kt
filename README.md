@@ -31,7 +31,7 @@
 > **"최고의 무대를 위해 다른 아티스트의 공연을 분석하는 아티스트처럼"**
 * 더 완성도 높은 **조화로운 합**을 구현하기 위해 시중에 출시된 다양한 K-POP 및 위젯 앱들을 연구했습니다.
 
-#### 📱 Case Study: [QWER 배경화면] Android 앱 분석
+#### 📱 1) Case Study: [QWER 배경화면] Android 앱 분석
 <div align="center">
   <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_110257_QWER%20Wallpapers.jpg?raw=true" width="160" />
   <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_110315_QWER%20Wallpapers.jpg?raw=true" width="160" />
@@ -43,7 +43,26 @@
 
 * **💡 기능적 영감 (Inspiration)**
   * 기존 앱의 직관적인 설정 방식에서 핵심 아이디어를 얻었습니다.
-  * 복잡한 과정을 생략하고, **단 한 번의 터치**로 최애의 모습을 적용할 수 있는 최적화된 동선을 위젯 서비스에 녹여냈습니다.
+  * 복잡한 과정을 생략하고, **단 한 번의 터치**로 최애의 모습을 적용할 수 있는서비스에 녹여냈습니다.
+
+* **✨ 차별화 포인트 (Differentiation)**
+  * **Dual-Registration:** 홈 화면과 잠금 화면을 개별적으로 설정해야 하는 번거로움을 해결하여 **동시 등록 편의성**을 제공합니다.
+  * **Personalized Custom:** 사용자의 취향에 맞춰 배경화면을 직접 편집할 수 있는 **고도화된 커스텀 기능**을 추가했습니다
+
+
+#### 📱 2) Case Study: [QWER 배경화면] Android 앱 분석
+<div align="center">
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_110257_QWER%20Wallpapers.jpg?raw=true" width="160" />
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_110315_QWER%20Wallpapers.jpg?raw=true" width="160" />
+  <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_120720_QWER%20Wallpapers.jpg?raw=true" width="160" />
+</div>
+
+#### 🎯 핵심 연구 과제: 배경화면 설정 인터페이스
+> 아티스트 사진 탐색부터 실제 디바이스 적용까지의 **UX 프로세스**를 집중 분석했습니다.
+
+* **💡 기능적 영감 (Inspiration)**
+  * 기존 앱의 직관적인 설정 방식에서 핵심 아이디어를 얻었습니다.
+  * 복잡한 과정을 생략하고, **단 한 번의 터치**로 최애의 모습을 적용할 수 있는서비스에 녹여냈습니다.
 
 * **✨ 차별화 포인트 (Differentiation)**
   * **Dual-Registration:** 홈 화면과 잠금 화면을 개별적으로 설정해야 하는 번거로움을 해결하여 **동시 등록 편의성**을 제공합니다.
