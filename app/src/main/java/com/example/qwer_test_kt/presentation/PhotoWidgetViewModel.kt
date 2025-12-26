@@ -45,9 +45,6 @@ class PhotoWidgetViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
-    private val _imageScale = MutableStateFlow(1f)
-    val imageScale: StateFlow<Float> = _imageScale.asStateFlow()
-
     init {
         // 초기 로드: 디스코드 테이블에서 데이터 가져오기
         loadImagesByType("디스코드")
@@ -64,7 +61,6 @@ class PhotoWidgetViewModel @Inject constructor(
                 // 이미지가 있으면 랜덤으로 선택
                 if (images.isNotEmpty()) {
                     _currentImage.value = images.random().imageUrl
-                    playImageAnimation()
                 }
             } catch (e: Exception) {
                 android.util.Log.e("PhotoWidgetViewModel", "Error loading images for $typeName", e)
@@ -78,16 +74,6 @@ class PhotoWidgetViewModel @Inject constructor(
     fun selectRandomImage(category: String) {
         _selectedCategory.value = category
         loadImagesByType(category)
-    }
-
-    private fun playImageAnimation() {
-        viewModelScope.launch {
-            _imageScale.value = 0.9f
-            delay(100)
-            _imageScale.value = 1.1f
-            delay(100)
-            _imageScale.value = 1f
-        }
     }
 
     fun setWallpaper(

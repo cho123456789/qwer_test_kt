@@ -34,7 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -131,7 +130,6 @@ fun PhotoWidgetContent(
 ) {
     val currentImage by viewModel.currentImage.collectAsStateWithLifecycle()
     val selectedCategory by viewModel.selectedCategory.collectAsStateWithLifecycle()
-    val imageScale by viewModel.imageScale.collectAsStateWithLifecycle()
     var showImageDialog by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
@@ -211,7 +209,6 @@ fun PhotoWidgetContent(
                         Card(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .scale(imageScale)
                                 .clickable {
                                     if (currentImage != null) {
                                         showImageDialog = true
