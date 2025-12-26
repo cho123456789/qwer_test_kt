@@ -104,7 +104,7 @@ class GominJungdokViewModel @Inject constructor(
     private fun loadMemberDetails() {
         viewModelScope.launch {
             val details = getMemberDetailsUseCase()
-            val qwerOrder = listOf("쵸단", "마젠타", "히나", "시연")
+            val qwerOrder = listOf("쵸단", "마젠타", "히나", "시연","단체")
             _memberDetails.value = details.sortedBy { memberDetail ->
                 qwerOrder.indexOf(memberDetail.nickname).takeIf { it >= 0 } ?: Int.MAX_VALUE
             }

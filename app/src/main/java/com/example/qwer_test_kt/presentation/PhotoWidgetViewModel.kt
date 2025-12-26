@@ -10,8 +10,8 @@ import android.os.Build
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.qwer_test_kt.domin.model.ProfileByType
-import com.example.qwer_test_kt.domin.usecase.GetAllProfilesUseCase
+import com.example.qwer_test_kt.data.model.MemberMainData
+import com.example.qwer_test_kt.domin.usecase.GetMainImagesByTypeUseCase
 import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetReceiver
@@ -30,11 +30,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhotoWidgetViewModel @Inject constructor(
-    private val getAllProfilesUseCase: GetAllProfilesUseCase
+    private val getMainImagesByTypeUseCase: GetMainImagesByTypeUseCase
 ) : ViewModel() {
 
-    private val _profiles = MutableStateFlow<List<ProfileByType>?>(null)
-    val profiles: StateFlow<List<ProfileByType>?> = _profiles.asStateFlow()
+    private val _currentTypeImages = MutableStateFlow<List<MemberMainData>>(emptyList())
+    val currentTypeImages: StateFlow<List<MemberMainData>> = _currentTypeImages.asStateFlow()
 
     private val _currentImage = MutableStateFlow<String?>(null)
     val currentImage: StateFlow<String?> = _currentImage.asStateFlow()
@@ -49,27 +49,35 @@ class PhotoWidgetViewModel @Inject constructor(
     val imageScale: StateFlow<Float> = _imageScale.asStateFlow()
 
     init {
+        // 초기 로드: 디스코드 테이블에서 데이터 가져오기
+        loadImagesByType("디스코드")
+    }
+
+    // 특정 타입의 테이블에서 이미지 로드
+    private fun loadImagesByType(typeName: String) {
         viewModelScope.launch {
-            val result = getAllProfilesUseCase.invoke()
-            _profiles.value = result
-            // 프로필 데이터가 로드된 후 초기 이미지 설정
-            if (result != null && result.isNotEmpty()) {
-                selectRandomImage("디스코드")
+            _isLoading.value = true
+            try {
+                val images = getMainImagesByTypeUseCase.invoke(typeName)
+                _currentTypeImages.value = images
+
+                // 이미지가 있으면 랜덤으로 선택
+                if (images.isNotEmpty()) {
+                    _currentImage.value = images.random().imageUrl
+                    playImageAnimation()
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("PhotoWidgetViewModel", "Error loading images for $typeName", e)
+            } finally {
+                _isLoading.value = false
             }
         }
     }
 
+    // 카테고리 선택 시 해당 테이블에서 새로 데이터 로드
     fun selectRandomImage(category: String) {
         _selectedCategory.value = category
-        val profile = _profiles.value?.find { it.typeName == category }
-        profile?.let {
-            val images = it.members.values.toList()
-            if (images.isNotEmpty()) {
-                _currentImage.value = images.random()
-                // 이미지 선택 시 애니메이션 실행
-                playImageAnimation()
-            }
-        }
+        loadImagesByType(category)
     }
 
     private fun playImageAnimation() {

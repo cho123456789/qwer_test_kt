@@ -1,10 +1,29 @@
 package com.example.qwer_test_kt.domin.usecase
 
+import com.example.qwer_test_kt.data.model.MemberMainData
 import com.example.qwer_test_kt.domin.model.Member
 import com.example.qwer_test_kt.domin.model.MemberDetail
 import com.example.qwer_test_kt.domin.model.ProfileByType
 import com.example.qwer_test_kt.domin.repository.MemberRepository
 import javax.inject.Inject
+
+// 메인 이미지 가져오기
+class GetMainImageUseCase @Inject constructor(
+    private val repository: MemberRepository
+) {
+    suspend operator fun invoke(): List<MemberMainData> {
+        return repository.getMainImage()
+    }
+}
+
+// 타입별 메인 이미지 가져오기 (각 테이블에서)
+class GetMainImagesByTypeUseCase @Inject constructor(
+    private val repository: MemberRepository
+) {
+    suspend operator fun invoke(typeName: String): List<MemberMainData> {
+        return repository.getMainImagesByType(typeName)
+    }
+}
 
 // 비즈니스 로직 처리
 class GetMemberUseCase @Inject constructor(

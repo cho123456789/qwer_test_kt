@@ -1,5 +1,6 @@
 package com.example.qwer_test_kt.data.repository
 
+import com.example.qwer_test_kt.data.model.MemberMainData
 import com.example.qwer_test_kt.data.model.toMemberDetail
 import com.example.qwer_test_kt.data.source.MemberRemoteDataSource
 import com.example.qwer_test_kt.domin.model.Member
@@ -14,6 +15,13 @@ import javax.inject.Inject
 class MemberRepositoryImpl @Inject constructor(
     private val remoteDataSource: MemberRemoteDataSource
 ) : MemberRepository {
+    override suspend fun getMainImage(): List<MemberMainData> {
+        return remoteDataSource.getAllMemberMainImages()
+    }
+
+    override suspend fun getMainImagesByType(typeName: String): List<MemberMainData> {
+        return remoteDataSource.getMemberMainImagesByType(typeName)
+    }
 
     override suspend fun getMember(): List<Member> {
         val memberDataList = remoteDataSource.getMemberDataList()

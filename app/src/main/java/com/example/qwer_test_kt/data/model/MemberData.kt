@@ -12,14 +12,6 @@ data class MemberData(
     val wallPaperImageUrls: List<String>
 )
 
-// 프로필 타입 테이블 (디스코드, 고민중독, 내이름맑음, 눈물참기)
-@Serializable
-data class ProfileTypeData(
-    val id: Int,
-    @SerialName("type_name")
-    val typeName: String
-)
-
 // 프로필 아이템 테이블 (멤버별 이미지)
 @Serializable
 data class ProfileItemData(
@@ -32,12 +24,15 @@ data class ProfileItemData(
     val imageUrl: String
 )
 
-// 멤버별 프로필 데이터
 @Serializable
-data class MemberProfileData(
-    val memberName: String,
-    val imageUrl: String
+data class MemberMainData(
+    val id: Int,
+    @SerialName("name")
+    val name: String,
+    @SerialName("image_url")
+    val imageUrl: String,
 )
+
 
 // 멤버 상세 정보 데이터 모델 (Supabase qwer_member_detail_table용)
 @Serializable
