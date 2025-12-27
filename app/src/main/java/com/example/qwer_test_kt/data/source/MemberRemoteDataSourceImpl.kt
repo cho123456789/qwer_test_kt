@@ -80,21 +80,6 @@ class MemberRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMemberDataList(): List<MemberData> {
-        return try {
-            val rows = postgrest.from("qwer_table")
-                .select()
-                .decodeList<MemberData>()
-
-            Log.d("MemberRemoteDataSource", "Grouped into ${rows.size} members")
-            rows
-
-        } catch (e: Exception) {
-            Log.e("MemberRemoteDataSource", "Error fetching members", e)
-            emptyList()
-        }
-    }
-
     override suspend fun getProfileItemsByType(typeName: String): List<ProfileItemData> {
         return try {
             val rows = postgrest.from("qwer_profile_item_table")

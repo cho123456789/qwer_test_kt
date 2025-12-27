@@ -1,7 +1,5 @@
 package com.example.qwer_test_kt
 
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -49,7 +47,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.presentation.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -160,7 +157,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
             }
 
             // 2x2 사진 그리드 - Supabase의 이미지 사용 (랜덤 프로필 타입)
-            if (profilesState == null ) {
+            if (profilesState == null) {
                 Box(
                     modifier = Modifier
                         .padding(bottom = 20.dp)
@@ -172,7 +169,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
             } else {
                 // 랜덤으로 선택된 프로필 타입 가져오기
                 val gominProfile = profilesState?.find { it.typeName == randomProfileType }
-                val memberNames = listOf("쵸단", "마젠타", "히나", "시연" )
+                val memberNames = listOf("쵸단", "마젠타", "히나", "시연")
 
                 Column(
                     modifier = Modifier.padding(bottom = 20.dp),

@@ -9,7 +9,6 @@ import com.example.qwer_test_kt.domin.model.ProfileByType
 interface MemberRepository {
     suspend fun getMainImage() : List<MemberMainData>
     suspend fun getMainImagesByType(typeName: String): List<MemberMainData>
-    suspend fun getMember(): List<Member>
     suspend fun getProfilesByType(typeName: String): ProfileByType?
     suspend fun getAllProfiles(): List<ProfileByType>
     suspend fun getMemberDetails(): List<MemberDetail>

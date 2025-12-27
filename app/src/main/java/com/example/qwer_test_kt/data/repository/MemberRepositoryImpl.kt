@@ -23,11 +23,6 @@ class MemberRepositoryImpl @Inject constructor(
         return remoteDataSource.getMemberMainImagesByType(typeName)
     }
 
-    override suspend fun getMember(): List<Member> {
-        val memberDataList = remoteDataSource.getMemberDataList()
-        return memberDataList.map { it.toMember() }
-    }
-
     override suspend fun getProfilesByType(typeName: String): ProfileByType? {
         val profileItems = remoteDataSource.getProfileItemsByType(typeName)
         return profileItems.toProfileByTypeList().firstOrNull()

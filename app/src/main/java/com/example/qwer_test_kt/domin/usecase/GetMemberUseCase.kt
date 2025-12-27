@@ -25,15 +25,6 @@ class GetMainImagesByTypeUseCase @Inject constructor(
     }
 }
 
-// 비즈니스 로직 처리
-class GetMemberUseCase @Inject constructor(
-    private val repository: MemberRepository
-) {
-    suspend operator fun invoke(): List<Member> {
-        return repository.getMember()
-    }
-}
-
 // 특정 타입의 프로필 데이터 가져오기 (디스코드, 고민중독, 내이름맑음, 눈물참기)
 class GetProfilesByTypeUseCase @Inject constructor(
     private val repository: MemberRepository
