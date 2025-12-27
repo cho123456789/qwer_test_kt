@@ -41,9 +41,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -236,6 +239,13 @@ fun DdaySetupDialog(
                         fontSize = 14.sp,
                         fontFamily = barry,
                         color = Color.Black.copy(alpha = 0.8f),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "💡 배경이 밝으면 어두운 색, 어두우면 밝은 색을 선택하세요",
+                        fontSize = 11.sp,
+                        fontFamily = barry,
+                        color = Color(0xFF1565C0),
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
@@ -244,14 +254,14 @@ fun DdaySetupDialog(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         val colors = listOf(
-                            Color.White,
-                            Color.Black,
-                            Color.Red,
-                            Color(0xFFFF69B4),
-                            Color(0xFF4169E1),
-                            Color(0xFFFFD700),
-                            Color(0xFF32CD32),
-                            Color(0xFF9370DB)
+                            Color.White,           // 흰색
+                            Color.Black,           // 검정
+                            Color(0xFFFF3B30),    // 밝은 빨강
+                            Color(0xFFFF69B4),    // 핫핑크
+                            Color(0xFF00D4FF),    // 밝은 하늘색 (네온)
+                            Color(0xFFFFD700),    // 골드
+                            Color(0xFF00FF00),    // 네온 그린
+                            Color(0xFFFF00FF)     // 네온 마젠타
                         )
 
                         colors.forEach { color ->
@@ -276,7 +286,7 @@ fun DdaySetupDialog(
                 // 배경 이미지 프리뷰 영역
                 Text(
                     text = "디데이 위치를 드래그하여 조정하세요",
-                    fontSize = 14.sp,
+                    fontSize = 12.sp,
                     fontFamily = barry,
                     color = Color.Black.copy(alpha = 0.7f),
                     textAlign = TextAlign.Center,
@@ -307,24 +317,45 @@ fun DdaySetupDialog(
                             if (ddayTitle.isNotEmpty()) {
                                 Text(
                                     text = ddayTitle,
-                                    fontSize = (14 * textScale).sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = selectedColor,
-                                    fontFamily = barry
+                                    style = TextStyle(
+                                        fontSize = (14 * textScale).sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = selectedColor,
+                                        fontFamily = barry,
+                                        shadow = Shadow(
+                                            color = Color.Black.copy(alpha = 0.7f),
+                                            offset = Offset(2f, 2f),
+                                            blurRadius = 6f
+                                        )
+                                    )
                                 )
                             }
                             Text(
                                 text = ddayText,
-                                fontSize = (40 * textScale).sp,
-                                fontWeight = FontWeight.Bold,
-                                color = selectedColor,
-                                fontFamily = barry
+                                style = TextStyle(
+                                    fontSize = (40 * textScale).sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = selectedColor,
+                                    fontFamily = barry,
+                                    shadow = Shadow(
+                                        color = Color.Black.copy(alpha = 0.7f),
+                                        offset = Offset(3f, 3f),
+                                        blurRadius = 10f
+                                    )
+                                )
                             )
                             Text(
                                 text = dateText,
-                                fontSize = (12 * textScale).sp,
-                                color = selectedColor,
-                                fontFamily = barry
+                                style = TextStyle(
+                                    fontSize = (12 * textScale).sp,
+                                    color = selectedColor,
+                                    fontFamily = barry,
+                                    shadow = Shadow(
+                                        color = Color.Black.copy(alpha = 0.7f),
+                                        offset = Offset(2f, 2f),
+                                        blurRadius = 6f
+                                    )
+                                )
                             )
                         }
                     }
