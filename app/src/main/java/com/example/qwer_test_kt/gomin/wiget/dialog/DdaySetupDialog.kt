@@ -307,32 +307,25 @@ fun DdaySetupDialog(
                             if (ddayTitle.isNotEmpty()) {
                                 Text(
                                     text = ddayTitle,
-                                    fontSize = (60 * textScale).sp,
+                                    fontSize = (14 * textScale).sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = selectedColor,
-                                    fontFamily = barry
-                                )
-                                Text(
-                                    text = dateText,
-                                    fontSize = (18 * textScale).sp,
-                                    color = selectedColor,
-                                    fontFamily = barry
-                                )
-                            } else {
-                                Text(
-                                    text = ddayText,
-                                    fontSize = (60 * textScale).sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = selectedColor,
-                                    fontFamily = barry
-                                )
-                                Text(
-                                    text = dateText,
-                                    fontSize = (18 * textScale).sp,
                                     color = selectedColor,
                                     fontFamily = barry
                                 )
                             }
+                            Text(
+                                text = ddayText,
+                                fontSize = (40 * textScale).sp,
+                                fontWeight = FontWeight.Bold,
+                                color = selectedColor,
+                                fontFamily = barry
+                            )
+                            Text(
+                                text = dateText,
+                                fontSize = (12 * textScale).sp,
+                                color = selectedColor,
+                                fontFamily = barry
+                            )
                         }
                     }
                 }
