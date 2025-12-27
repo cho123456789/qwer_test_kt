@@ -323,9 +323,9 @@ fun DdaySetupDialog(
                                         color = selectedColor,
                                         fontFamily = barry,
                                         shadow = Shadow(
-                                            color = Color.Black.copy(alpha = 0.7f),
-                                            offset = Offset(2f, 2f),
-                                            blurRadius = 6f
+                                            color = Color.Black,
+                                            offset = Offset(0f, 0f),
+                                            blurRadius = 8f
                                         )
                                     )
                                 )
@@ -338,9 +338,9 @@ fun DdaySetupDialog(
                                     color = selectedColor,
                                     fontFamily = barry,
                                     shadow = Shadow(
-                                        color = Color.Black.copy(alpha = 0.7f),
-                                        offset = Offset(3f, 3f),
-                                        blurRadius = 10f
+                                        color = Color.Black,
+                                        offset = Offset(0f, 0f),
+                                        blurRadius = 12f
                                     )
                                 )
                             )
@@ -348,12 +348,13 @@ fun DdaySetupDialog(
                                 text = dateText,
                                 style = TextStyle(
                                     fontSize = (12 * textScale).sp,
+                                    fontWeight = FontWeight.Bold,
                                     color = selectedColor,
                                     fontFamily = barry,
                                     shadow = Shadow(
-                                        color = Color.Black.copy(alpha = 0.7f),
-                                        offset = Offset(2f, 2f),
-                                        blurRadius = 6f
+                                        color = Color.Black,
+                                        offset = Offset(0f, 0f),
+                                        blurRadius = 8f
                                     )
                                 )
                             )

@@ -239,7 +239,7 @@ private fun WidgetLayout(
             // 일반 시계 표시 - 새로운 레이아웃
             Column(
                 modifier = GlanceModifier.padding(16.dp),
-                horizontalAlignment = horizontalAlignment,
+                horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
             ) {
                 // 오전/오후 + 시간 (한 줄에 표시)
                 Row(
@@ -249,7 +249,7 @@ private fun WidgetLayout(
                     Text(
                         text = amPm,
                         style = TextStyle(
-                            fontWeight = FontWeight.Normal,
+                            fontWeight = FontWeight.Bold,
                             color = ColorProvider(color = textColor),
                             fontSize = (14 * textScale).sp
                         ),
@@ -278,7 +278,7 @@ private fun WidgetLayout(
                     Text(
                         text = dateStr,
                         style = TextStyle(
-                            fontWeight = FontWeight.Normal,
+                            fontWeight = FontWeight.Bold,
                             color = ColorProvider(color = textColor),
                             fontSize = (14 * textScale).sp
                         ),

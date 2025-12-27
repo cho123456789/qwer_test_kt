@@ -256,7 +256,9 @@ fun ClockPositionDialog(
                             imageOffsetY = imgOffsetY
                         }
                     ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
                             // 오전/오후 + 시간 (한 줄에 표시)
                             Row(
                                 verticalAlignment = Alignment.Bottom,
@@ -266,14 +268,14 @@ fun ClockPositionDialog(
                                     text = amPm,
                                     style = TextStyle(
                                         fontSize = (12 * textScale).sp,
-                                        fontWeight = FontWeight.Normal,
+                                        fontWeight = FontWeight.Bold,
                                         color = selectedColor,
                                         fontFamily = barry,
                                         textAlign = TextAlign.Center,
                                         shadow = Shadow(
-                                            color = Color.Black.copy(alpha = 0.7f),
-                                            offset = Offset(2f, 2f),
-                                            blurRadius = 6f
+                                            color = Color.Black,
+                                            offset = Offset(0f, 0f),
+                                            blurRadius = 8f
                                         )
                                     )
                                 )
@@ -287,9 +289,9 @@ fun ClockPositionDialog(
                                         fontFamily = barry,
                                         textAlign = TextAlign.Center,
                                         shadow = Shadow(
-                                            color = Color.Black.copy(alpha = 0.7f),
-                                            offset = Offset(3f, 3f),
-                                            blurRadius = 10f
+                                            color = Color.Black,
+                                            offset = Offset(0f, 0f),
+                                            blurRadius = 12f
                                         )
                                     )
                                 )
@@ -303,14 +305,14 @@ fun ClockPositionDialog(
                                     text = dateStr,
                                     style = TextStyle(
                                         fontSize = (14 * textScale).sp,
-                                        fontWeight = FontWeight.Normal,
+                                        fontWeight = FontWeight.Bold,
                                         color = selectedColor,
                                         fontFamily = barry,
                                         textAlign = TextAlign.Center,
                                         shadow = Shadow(
-                                            color = Color.Black.copy(alpha = 0.7f),
-                                            offset = Offset(2f, 2f),
-                                            blurRadius = 6f
+                                            color = Color.Black,
+                                            offset = Offset(0f, 0f),
+                                            blurRadius = 8f
                                         )
                                     )
                                 )
@@ -320,9 +322,9 @@ fun ClockPositionDialog(
                                     style = TextStyle(
                                         fontSize = (20 * textScale).sp,
                                         shadow = Shadow(
-                                            color = Color.Black.copy(alpha = 0.7f),
-                                            offset = Offset(2f, 2f),
-                                            blurRadius = 6f
+                                            color = Color.Black,
+                                            offset = Offset(0f, 0f),
+                                            blurRadius = 8f
                                         )
                                     )
                                 )
