@@ -26,6 +26,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -149,7 +150,7 @@ fun PhotoWidgetContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        // 중앙 이미지 카드 (클릭 가능) - 겨울 느낌 테두리
+        // 중앙 이미지 (클릭 가능) - 겨울 느낌 테두리
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -160,7 +161,7 @@ fun PhotoWidgetContent(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(320.dp)
+                    .height(500.dp)
                     .background(
                         brush = Brush.linearGradient(
                             colors = listOf(
@@ -205,70 +206,98 @@ fun PhotoWidgetContent(
                             )
                             .padding(2.dp)
                     ) {
-                        // 실제 이미지 카드
-                        Card(
+                        // 실제 이미지
+                        Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .clickable {
-                                    if (currentImage != null) {
-                                        showImageDialog = true
-                                    }
-                                },
-                            shape = RoundedCornerShape(14.dp),
-                            elevation = 8.dp,
-                            backgroundColor = Color.White
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(Color.White)
                         ) {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                if (currentImage != null) {
-                                    SubcomposeAsyncImage(
-                                        model = ImageRequest.Builder(context)
-                                            .data(currentImage)
-                                            .crossfade(true)
-                                            .build(),
-                                        contentDescription = "Selected Photo",
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .clip(RoundedCornerShape(14.dp)),
-                                        contentScale = ContentScale.Crop,
-                                        loading = {
-                                            Box(
-                                                modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .background(Color(0xFFE3F2FD)),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                CircularProgressIndicator(
-                                                    color = Color(0xFF1565C0),
-                                                    modifier = Modifier.size(50.dp),
-                                                    strokeWidth = 4.dp
-                                                )
-                                            }
-                                        },
-                                        error = {
-                                            Box(
-                                                modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .background(Color(0xFFF5F5F5)),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Text(
-                                                    text = "이미지 로드 실패",
-                                                    fontSize = 14.sp,
-                                                    color = Color.Gray,
-                                                    fontFamily = barry
-                                                )
-                                            }
+                            if (currentImage != null) {
+                                SubcomposeAsyncImage(
+                                    model = ImageRequest.Builder(context)
+                                        .data(currentImage)
+                                        .crossfade(true)
+                                        .build(),
+                                    contentDescription = "Selected Photo",
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(RoundedCornerShape(14.dp)),
+                                    contentScale = ContentScale.Crop,
+                                    loading = {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .background(Color(0xFFE3F2FD)),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            CircularProgressIndicator(
+                                                color = Color(0xFF1565C0),
+                                                modifier = Modifier.size(50.dp),
+                                                strokeWidth = 4.dp
+                                            )
                                         }
-                                    )
-                                } else {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .background(Color(0xFFF5F5F5))
-                                    )
+                                    },
+                                    error = {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .background(Color(0xFFF5F5F5)),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = "이미지 로드 실패",
+                                                fontSize = 14.sp,
+                                                color = Color.Gray,
+                                                fontFamily = barry
+                                            )
+                                        }
+                                    }
+                                )
+                            } else {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(Color(0xFFF5F5F5))
+                                )
+                            }
+
+                            // Magnifying glass (zoom) button with widget registration text at the bottom right corner
+                            if (currentImage != null) {
+                                Card(
+                                    modifier = Modifier
+                                        .align(Alignment.BottomEnd)
+                                        .padding(8.dp)
+                                        .clickable { showImageDialog = true },
+                                    shape = RoundedCornerShape(20.dp),
+                                    backgroundColor = Color.White.copy(alpha = 0.9f),
+                                    elevation = 4.dp
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(
+                                            horizontal = 10.dp,
+                                            vertical = 6.dp
+                                        ),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Search,
+                                            contentDescription = "확대 및 위젯 등록",
+                                            tint = Color(0xFF1565C0),
+                                            modifier = Modifier.size(18.dp)
+                                        )
+
+                                        Spacer(modifier = Modifier.size(4.dp))
+
+                                        Text(
+                                            text = "위젯 등록",
+                                            fontSize = 10.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            fontFamily = barry,
+                                            color = Color(0xFF1565C0)
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -278,6 +307,40 @@ fun PhotoWidgetContent(
         }
 
         Spacer(modifier = Modifier.height(12.dp))
+
+        // 안내 문구
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp),
+            shape = RoundedCornerShape(12.dp),
+            backgroundColor = Color.White.copy(alpha = 0.9f),
+            elevation = 2.dp
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "🎲",
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+                Text(
+                    text = "각 컨셉을 누르면 랜덤 이미지가 표시됩니다",
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = barry,
+                    color = Color(0xFF1565C0),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         // 카테고리 버튼들 (앨범 이미지 포함)
         Column(
@@ -332,6 +395,7 @@ fun PhotoWidgetContent(
                 )
             }
         }
+        Spacer(modifier = Modifier.height(20.dp)) // Add padding at the bottom
     }
 
     // 이미지 확대 다이얼로그
