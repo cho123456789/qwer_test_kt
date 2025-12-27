@@ -89,8 +89,12 @@ fun ClockPositionDialog(
         now.get(java.util.Calendar.MINUTE)
     }
     val timeStr = remember {
-        "$amPm ${String.format("%02d", hour)}:${String.format("%02d", minute)}"
+        "${hour}:${String.format("%02d", minute)}"
     }
+
+    // 시간대에 따른 아이콘 결정 (6시~18시: ☀️, 18시~6시: 🌙)
+    val currentHour = remember { now.get(java.util.Calendar.HOUR_OF_DAY) }
+    val weatherIcon = remember { if (currentHour in 6..17) "☀️" else "🌙" }
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -252,34 +256,77 @@ fun ClockPositionDialog(
                             imageOffsetY = imgOffsetY
                         }
                     ) {
-                        Column {
-                            Text(
-                                text = dateStr,
-                                fontSize = (14 * textScale).sp,
-                                color = selectedColor,
-                                fontFamily = barry,
-                                style = TextStyle(
-                                    shadow = Shadow(
-                                        color = Color.Black.copy(alpha = 0.5f),
-                                        offset = Offset(2f, 2f),
-                                        blurRadius = 6f
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            // 오전/오후 + 시간 (한 줄에 표시)
+                            Row(
+                                verticalAlignment = Alignment.Bottom,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = amPm,
+                                    style = TextStyle(
+                                        fontSize = (12 * textScale).sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = selectedColor,
+                                        fontFamily = barry,
+                                        textAlign = TextAlign.Center,
+                                        shadow = Shadow(
+                                            color = Color.Black.copy(alpha = 0.7f),
+                                            offset = Offset(2f, 2f),
+                                            blurRadius = 6f
+                                        )
                                     )
                                 )
-                            )
-                            Text(
-                                text = timeStr,
-                                fontSize = (32 * textScale).sp,
-                                fontWeight = FontWeight.Bold,
-                                color = selectedColor,
-                                fontFamily = barry,
-                                style = TextStyle(
-                                    shadow = Shadow(
-                                        color = Color.Black.copy(alpha = 0.5f),
-                                        offset = Offset(2f, 2f),
-                                        blurRadius = 6f
+                                Spacer(modifier = Modifier.width((4 * textScale).dp))
+                                Text(
+                                    text = timeStr,
+                                    style = TextStyle(
+                                        fontSize = (35 * textScale).sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = selectedColor,
+                                        fontFamily = barry,
+                                        textAlign = TextAlign.Center,
+                                        shadow = Shadow(
+                                            color = Color.Black.copy(alpha = 0.7f),
+                                            offset = Offset(3f, 3f),
+                                            blurRadius = 10f
+                                        )
                                     )
                                 )
-                            )
+                            }
+                            // 날짜 + 날씨 아이콘 (한 줄에 표시)
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = dateStr,
+                                    style = TextStyle(
+                                        fontSize = (14 * textScale).sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = selectedColor,
+                                        fontFamily = barry,
+                                        textAlign = TextAlign.Center,
+                                        shadow = Shadow(
+                                            color = Color.Black.copy(alpha = 0.7f),
+                                            offset = Offset(2f, 2f),
+                                            blurRadius = 6f
+                                        )
+                                    )
+                                )
+                                Spacer(modifier = Modifier.width((4 * textScale).dp))
+                                Text(
+                                    text = weatherIcon,
+                                    style = TextStyle(
+                                        fontSize = (20 * textScale).sp,
+                                        shadow = Shadow(
+                                            color = Color.Black.copy(alpha = 0.7f),
+                                            offset = Offset(2f, 2f),
+                                            blurRadius = 6f
+                                        )
+                                    )
+                                )
+                            }
                         }
                     }
                 }

@@ -22,6 +22,7 @@ import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.ContentScale
+import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
 import androidx.glance.state.GlanceStateDefinition
@@ -133,6 +134,10 @@ private fun WidgetLayout(
     val hour = if (now.get(Calendar.HOUR) == 0) 12 else now.get(Calendar.HOUR)
     val minute = now.get(Calendar.MINUTE)
 
+    // 시간대에 따른 아이콘 결정 (6시~18시: ☀️, 18시~6시: 🌙)
+    val currentHour = now.get(Calendar.HOUR_OF_DAY)
+    val weatherIcon = if (currentHour in 6..17) "☀️" else "🌙"
+
     // Hex 문자열을 Color로 변환
     val textColor = try {
         Log.d("GoWatchWidgetProvider", "저장된 색상 Hex: $textColorHex")
@@ -231,27 +236,66 @@ private fun WidgetLayout(
                 )
             }
         } else {
-            // 일반 시계 표시
+            // 일반 시계 표시 - 새로운 레이아웃
             Column(
                 modifier = GlanceModifier.padding(16.dp),
                 horizontalAlignment = horizontalAlignment,
             ) {
-                Text(
-                    text = dateStr,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        color = ColorProvider(color = textColor),
-                        fontSize = (12 * textScale).sp
-                    ),
-                )
-                Text(
-                    text = "$amPm ${String.format("%02d", hour)}:${String.format("%02d", minute)}",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        color = ColorProvider(color = textColor),
-                        fontSize = (25 * textScale).sp
+                // 오전/오후 + 시간 (한 줄에 표시)
+                Row(
+                    verticalAlignment = Alignment.Vertical.Bottom,
+                    horizontalAlignment = Alignment.Horizontal.CenterHorizontally
+                ) {
+                    Text(
+                        text = amPm,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Normal,
+                            color = ColorProvider(color = textColor),
+                            fontSize = (14 * textScale).sp
+                        ),
                     )
-                )
+                    Text(
+                        text = " ",
+                        style = TextStyle(
+                            fontSize = (6 * textScale).sp
+                        )
+                    )
+                    Text(
+                        text = "${hour}:${String.format("%02d", minute)}",
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            color = ColorProvider(color = textColor),
+                            fontSize = (35 * textScale).sp
+                        )
+                    )
+                }
+
+                // 날짜 + 날씨 아이콘 (한 줄에 표시)
+                Row(
+                    verticalAlignment = Alignment.Vertical.CenterVertically,
+                    horizontalAlignment = Alignment.Horizontal.CenterHorizontally
+                ) {
+                    Text(
+                        text = dateStr,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Normal,
+                            color = ColorProvider(color = textColor),
+                            fontSize = (14 * textScale).sp
+                        ),
+                    )
+                    Text(
+                        text = " ",
+                        style = TextStyle(
+                            fontSize = (4 * textScale).sp
+                        )
+                    )
+                    Text(
+                        text = weatherIcon,
+                        style = TextStyle(
+                            fontSize = (20 * textScale).sp
+                        )
+                    )
+                }
             }
         }
     }
