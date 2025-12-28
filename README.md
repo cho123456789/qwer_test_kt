@@ -18,6 +18,7 @@
   <img src="https://img.shields.io/badge/Platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white"/>
   <img src="https://img.shields.io/badge/Language-Kotlin-7F52FF?style=flat-square&logo=kotlin&logoColor=white"/>
   <img src="https://img.shields.io/badge/AI Assistant-Firebender-FF6C37?style=flat-square&logo=openai&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Security-ProGuard-red?style=flat-square&logo=security&logoColor=white"/>
 </p>
 
 ## 🌟 1. Project Inspiration & Benchmarking
@@ -113,10 +114,10 @@
 
 | 기능 화면 | 상세 설명 |
 | :--- | :--- |
-| <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_133815_QWER%20Photo%20Widget.jpg?raw=true" width="260" /> | **📸 위젯 홈 화면 (Photo Management)**<br><br>• **감성적인 UI/UX:** QWER 멤버 소개와 더불어 각 앨범 컨셉 버튼을 제공합니다. 버튼 클릭 시 **랜덤 이미지 추출** 방식을 도입하여 사용자 접근성과 재미 요소를 극대화했습니다.<br><br> • **메모리 최적화:** `Coil` 라이브러리의 **자동 캐싱 기능**을 활용하여 캐싱된 이미지 재활용 및 BitMap 데이터로 직접 변환 |
-| <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_140033_Wallpaper%20and%20style.jpg?raw=true" width="260" /> | **🖼️ 이미지 배경화면 등록 (Live Image & Custom)**<br><br>• **사용자 정의 배경화면 커스텀:** 단순히 이미지를 적용하는 것을 넘어, 사용자가 원하는 구도와 위치에 맞춰 최적화된 배경화면을 구성할 수 있습니다.<br><br>• **One-Stop 시스템:** 단 한 번의 설정으로 **홈 화면과 잠금 화면을 동시에 등록**할 수 있는 편의성을 제공하며, 디바이스의 해상도에 맞춰 이미지가 자연스럽게 배치되도록 인터페이스를 설계했습니다.|
-| <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251223_142942_QWER%20Photo%20Widget.jpg?raw=true" width="260" /> | **📅 맞춤형 위젯 커스텀 (Fandom D-Day & Edit)**<br><br>• **UI/UX Personalization:** 정형화된 위젯에서 벗어나, 사용자가 선택한 사진 위에 **글자 크기, 색상, 위치를 직접 지정**할 수 있는 자유로운 커스텀 환경을 제공합니다.<br><br> • **시각적 접근성 강화:** 배경 이미지의 톤에 맞춰 텍스트 가독성을 확보할 수 있도록 설계하여, 팬들이 자신만의 감성으로 가장 '조화로운' 위젯을 완성할 수 있게 구현했습니다. |
-| <img src="https://github.com/cho123456789/qwer_data/blob/main/%EA%B8%B0%ED%83%80/Screenshot_20251224_142128_One%20UI%20Home.jpg?raw=true" width="260" /> | **📅 다채로운 위젯 라인업 (Multi-Widget System)**<br><br>• **다양한 위젯 모드 지원:** **기본 포토 위젯**부터 팬덤 필수 기능인 **디데이 설정 위젯**, 실시간성을 강조한 **시계 위젯**까지 폭넓은 옵션을 제공합니다.<br><br>• **인터렉티브 새로고침:** 시계 위젯의 경우, 사용자가 위젯을 클릭하는 즉시 최신 데이터로 업데이트되는 **실시간 동기화 인터렉션**을 구현하여 편의성과 정확성을 높였습니다. |
+| <img src="https://github.com/user-attachments/assets/57f91c7c-9c4b-4d96-870c-befe4cc9ca5f" width="260" /> | **📸 위젯 홈 화면 (Photo Management)**<br><br>• **감성적인 UI/UX:** QWER 멤버 소개와 더불어 각 앨범 컨셉 버튼을 제공합니다. 버튼 클릭 시 **랜덤 이미지 추출** 방식을 도입하여 사용자 접근성과 재미 요소를 극대화했습니다.<br><br> • **메모리 최적화:** `Coil` 라이브러리의 **자동 캐싱 기능**을 활용하여 캐싱된 이미지 재활용 및 BitMap 데이터로 직접 변환 |
+| <img src="https://github.com/user-attachments/assets/090fc2f3-03e6-4c7a-9df1-2f6d92f5ba3b" width="260" width="260" /> | **🖼️ 이미지 배경화면 등록 (Live Image & Custom)**<br><br>• **사용자 정의 배경화면 커스텀:** 단순히 이미지를 적용하는 것을 넘어, 사용자가 원하는 구도와 위치에 맞춰 최적화된 배경화면을 구성할 수 있습니다.<br><br>• **One-Stop 시스템:** 단 한 번의 설정으로 **홈 화면과 잠금 화면을 동시에 등록**할 수 있는 편의성을 제공하며, 디바이스의 해상도에 맞춰 이미지가 자연스럽게 배치되도록 인터페이스를 설계했습니다.|
+| <img src="https://github.com/user-attachments/assets/ef251004-0fa4-4f54-bf83-2d24684f7fac" width="260" /> | **📅 맞춤형 위젯 커스텀 (Fandom D-Day & Edit)**<br><br>• **UI/UX Personalization:** 정형화된 위젯에서 벗어나, 사용자가 선택한 사진 위에 **글자 크기, 색상, 위치를 직접 지정**할 수 있는 자유로운 커스텀 환경을 제공합니다.<br><br> • **시각적 접근성 강화:** 배경 이미지의 톤에 맞춰 텍스트 가독성을 확보할 수 있도록 설계하여, 팬들이 자신만의 감성으로 가장 '조화로운' 위젯을 완성할 수 있게 구현했습니다. |
+| <img src="https://github.com/user-attachments/assets/6f056ec2-f10a-44fe-b7d8-693952fb7dd1" width="260" /> | **📅 다채로운 위젯 라인업 (Multi-Widget System)**<br><br>• **다양한 위젯 모드 지원:** **기본 포토 위젯**부터 팬덤 필수 기능인 **디데이 설정 위젯**, 실시간성을 강조한 **시계 위젯**까지 폭넓은 옵션을 제공합니다.<br><br>• **인터렉티브 새로고침:** 시계 위젯의 경우, 사용자가 위젯을 클릭하는 즉시 최신 데이터로 업데이트되는 **실시간 동기화 인터렉션**을 구현하여 편의성과 정확성을 높였습니다. |
 
 
 ---
@@ -126,10 +127,57 @@
 - **Async:** Coroutines, Flow
 - **Image:** Coil (Widget Image Loading)
 - **Jetpack:** GlanceAppWidget, GlanceAppWidgetReceiver
+- **Database:** Supabase (PostgreSQL)
+- **Security:** ProGuard/R8 난독화
 
 ---
 
-## 🛠 5. Troubleshooting
+## 🔐 5. Security Implementation
+
+### ProGuard/R8 난독화
+
+앱의 민감한 데이터(Supabase API 키)를 보호하기 위해 ProGuard/R8 난독화를 적용했습니다.
+
+#### 🛡️ 보안 레이어
+
+|     레벨      | 기술                 | 설명                                   |
+|:-----------:|:-------------------|:-------------------------------------|
+| **Level 1** | `local.properties` | 개발 환경에서 키를 Git에서 제외하여 소스 코드 유출 방지    |
+| **Level 2** | ProGuard/R8 난독화    | Release 빌드 시 코드 및 BuildConfig 난독화 적용 |
+
+#### 🔒 주요 보안 기능
+
+* **ProGuard/R8 최적화**
+  * Release 빌드에서 `isMinifyEnabled = true` 적용
+  * BuildConfig 필드명 및 클래스명 난독화 (`a`, `b`, `c` 등으로 변환)
+  * 리소스 축소(`isShrinkResources = true`)로 APK 최적화
+  * 패키지 리패키징 및 최적화 5회 반복
+
+* **난독화 효과**
+  ```java
+  // Before: 디컴파일 시 즉시 노출
+  public class BuildConfig {
+      public static final String SUPABASE_URL = "https://...";
+      public static final String SUPABASE_KEY = "eyJ...";
+  }
+  
+  // After: 필드명 난독화로 찾기 어려움
+  public class a {
+      public static final String a = "https://...";
+      public static final String b = "eyJ...";
+  }
+  ```
+
+* **추가 권장사항**
+  * Supabase Row Level Security (RLS) 설정
+  * API Rate Limiting 적용
+  * 정기적인 키 갱신
+
+> 📖 **자세한 보안 가이드는 [SECURITY.md](./SECURITY.md)를 참고하세요.**
+
+---
+
+## 🛠 6. Troubleshooting
 
 ### ✅ Widget 컴포넌트의 상태 관리 제약
 
@@ -153,7 +201,7 @@
   * 복잡한 XML 연동 없이 Kotlin 코드만으로 레이아웃 상태를 효율적으로 관리하고, 동적인 UI 변경 사항을 직관적으로 반영할 수 있는 구조를 구축했습니다.
 ---
 
-## 📅 6. Future Plans
+## 📅 7. Future Plans
 * **🗂️ Data Expansion (데이터베이스 고도화)**
   * QWER의 활동에 맞춘 신규 앨범 컨셉 및 고화질 아티스트 사진 데이터를 지속적으로 수집하고 업데이트할 예정입니다.
   * 약 420장의 사진 업데이트 실시 완료 (12/26) 
@@ -170,3 +218,4 @@
 ## 🧑‍💻 Author
 * **Contact:** [dkdkdodo123@gmail.com]
 * **GitHub:** [@cho][https://github.com/cho123456789]
+
