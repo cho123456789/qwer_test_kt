@@ -167,14 +167,6 @@
       public static final String b = "eyJ...";
   }
   ```
-
-* **추가 권장사항**
-  * Supabase Row Level Security (RLS) 설정
-  * API Rate Limiting 적용
-  * 정기적인 키 갱신
-
-> 📖 **자세한 보안 가이드는 [SECURITY.md](./SECURITY.md)를 참고하세요.**
-
 ---
 
 ## 🛠 6. Troubleshooting
