@@ -18,6 +18,7 @@
   <img src="https://img.shields.io/badge/Platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white"/>
   <img src="https://img.shields.io/badge/Language-Kotlin-7F52FF?style=flat-square&logo=kotlin&logoColor=white"/>
   <img src="https://img.shields.io/badge/AI Assistant-Firebender-FF6C37?style=flat-square&logo=openai&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Security-ProGuard-red?style=flat-square&logo=security&logoColor=white"/>
 </p>
 
 ## 🌟 1. Project Inspiration & Benchmarking
@@ -126,10 +127,57 @@
 - **Async:** Coroutines, Flow
 - **Image:** Coil (Widget Image Loading)
 - **Jetpack:** GlanceAppWidget, GlanceAppWidgetReceiver
+- **Database:** Supabase (PostgreSQL)
+- **Security:** ProGuard/R8 난독화
 
 ---
 
-## 🛠 5. Troubleshooting
+## 🔐 5. Security Implementation
+
+### ProGuard/R8 난독화
+
+앱의 민감한 데이터(Supabase API 키)를 보호하기 위해 ProGuard/R8 난독화를 적용했습니다.
+
+#### 🛡️ 보안 레이어
+
+|     레벨      | 기술                 | 설명                                   |
+|:-----------:|:-------------------|:-------------------------------------|
+| **Level 1** | `local.properties` | 개발 환경에서 키를 Git에서 제외하여 소스 코드 유출 방지    |
+| **Level 2** | ProGuard/R8 난독화    | Release 빌드 시 코드 및 BuildConfig 난독화 적용 |
+
+#### 🔒 주요 보안 기능
+
+* **ProGuard/R8 최적화**
+  * Release 빌드에서 `isMinifyEnabled = true` 적용
+  * BuildConfig 필드명 및 클래스명 난독화 (`a`, `b`, `c` 등으로 변환)
+  * 리소스 축소(`isShrinkResources = true`)로 APK 최적화
+  * 패키지 리패키징 및 최적화 5회 반복
+
+* **난독화 효과**
+  ```java
+  // Before: 디컴파일 시 즉시 노출
+  public class BuildConfig {
+      public static final String SUPABASE_URL = "https://...";
+      public static final String SUPABASE_KEY = "eyJ...";
+  }
+  
+  // After: 필드명 난독화로 찾기 어려움
+  public class a {
+      public static final String a = "https://...";
+      public static final String b = "eyJ...";
+  }
+  ```
+
+* **추가 권장사항**
+  * Supabase Row Level Security (RLS) 설정
+  * API Rate Limiting 적용
+  * 정기적인 키 갱신
+
+> 📖 **자세한 보안 가이드는 [SECURITY.md](./SECURITY.md)를 참고하세요.**
+
+---
+
+## 🛠 6. Troubleshooting
 
 ### ✅ Widget 컴포넌트의 상태 관리 제약
 
@@ -153,7 +201,7 @@
   * 복잡한 XML 연동 없이 Kotlin 코드만으로 레이아웃 상태를 효율적으로 관리하고, 동적인 UI 변경 사항을 직관적으로 반영할 수 있는 구조를 구축했습니다.
 ---
 
-## 📅 6. Future Plans
+## 📅 7. Future Plans
 * **🗂️ Data Expansion (데이터베이스 고도화)**
   * QWER의 활동에 맞춘 신규 앨범 컨셉 및 고화질 아티스트 사진 데이터를 지속적으로 수집하고 업데이트할 예정입니다.
   * 약 420장의 사진 업데이트 실시 완료 (12/26) 
@@ -170,3 +218,4 @@
 ## 🧑‍💻 Author
 * **Contact:** [dkdkdodo123@gmail.com]
 * **GitHub:** [@cho][https://github.com/cho123456789]
+
