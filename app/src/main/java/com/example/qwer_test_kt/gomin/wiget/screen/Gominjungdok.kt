@@ -14,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -22,11 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.qwer_test_kt.R
-import com.example.qwer_test_kt.presentation.GominJungdokViewModel
 
 val cafe24 = FontFamily(Font(R.font.cafe24decoshadow))
 val onePop = FontFamily(Font(R.font.onepop))
@@ -36,10 +32,7 @@ val barry = FontFamily(Font(R.font.barry))
 @Composable
 fun GominjungdokScreen(
     navController: NavHostController,
-    viewModel: GominJungdokViewModel = hiltViewModel()
 ) {
-    val memberDetails by viewModel.memberDetails.collectAsStateWithLifecycle()
-
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
             Color(0xFFE0F7FA), // 더 밝고 화사한 하늘색
