@@ -3,10 +3,8 @@ package com.example.qwer_test_kt.data.repository
 import com.example.qwer_test_kt.data.model.MemberMainData
 import com.example.qwer_test_kt.data.model.toMemberDetail
 import com.example.qwer_test_kt.data.source.MemberRemoteDataSource
-import com.example.qwer_test_kt.domin.model.Member
 import com.example.qwer_test_kt.domin.model.MemberDetail
 import com.example.qwer_test_kt.domin.model.ProfileByType
-import com.example.qwer_test_kt.domin.model.toMember
 import com.example.qwer_test_kt.domin.model.toProfileByTypeList
 import com.example.qwer_test_kt.domin.repository.MemberRepository
 import javax.inject.Inject

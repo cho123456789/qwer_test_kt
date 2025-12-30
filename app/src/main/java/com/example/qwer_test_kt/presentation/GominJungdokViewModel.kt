@@ -26,12 +26,7 @@ import javax.inject.Inject
 // 비즈니스 로직 실행 -> UI 연결
 
 @HiltViewModel
-class GominJungdokViewModel @Inject constructor(
-    private val getMemberDetailsUseCase: GetMemberDetailsUseCase
-) : ViewModel() {
-
-    private val _memberDetails = MutableStateFlow<List<MemberDetail>>(emptyList())
-    val memberDetails: StateFlow<List<MemberDetail>> = _memberDetails.asStateFlow()
+class GominJungdokViewModel @Inject constructor() : ViewModel() {
 
     fun setWallpaper(context: Context, wallpaperUrl: String, onIntentReady: (Intent) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -54,36 +49,22 @@ class GominJungdokViewModel @Inject constructor(
             }
         }
     }
+}
 
-    init {
-        loadMemberDetails()
+    fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
+        val tempFile = File(context.cacheDir, "wallpaper_temp.png")
+        val fos = FileOutputStream(tempFile)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        fos.flush()
+        fos.close()
+        return tempFile
     }
 
-    private fun loadMemberDetails() {
-        viewModelScope.launch {
-            val details = getMemberDetailsUseCase()
-            val qwerOrder = listOf("쵸단", "마젠타", "히나", "시연", "단체")
-            _memberDetails.value = details.sortedBy { memberDetail ->
-                qwerOrder.indexOf(memberDetail.nickname).takeIf { it >= 0 } ?: Int.MAX_VALUE
-            }
-        }
+    suspend fun downloadBitmap(context: Context, url: String): Bitmap? {
+        val request = ImageRequest.Builder(context)
+            .data(url)
+            .allowHardware(false)
+            .build()
+        val result = context.imageLoader.execute(request)
+        return (result.drawable as? BitmapDrawable)?.bitmap
     }
-}
-
-fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
-    val tempFile = File(context.cacheDir, "wallpaper_temp.png")
-    val fos = FileOutputStream(tempFile)
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-    fos.flush()
-    fos.close()
-    return tempFile
-}
-
-suspend fun downloadBitmap(context: Context, url: String): Bitmap? {
-    val request = ImageRequest.Builder(context)
-        .data(url)
-        .allowHardware(false)
-        .build()
-    val result = context.imageLoader.execute(request)
-    return (result.drawable as? BitmapDrawable)?.bitmap
-}

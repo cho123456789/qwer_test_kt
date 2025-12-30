@@ -35,21 +35,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
-import com.example.qwer_test_kt.gomin.wiget.dialog.WidgetPositionPreview
+import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -60,7 +59,7 @@ fun ClockPositionDialog(
     onPositionSelected: (String) -> Unit
 ) {
     val context = LocalContext.current
-    
+
     // 텍스트 크기 스케일 (0.5배 ~ 2.0배)
     var textScale by remember { mutableStateOf(1.0f) }
 
