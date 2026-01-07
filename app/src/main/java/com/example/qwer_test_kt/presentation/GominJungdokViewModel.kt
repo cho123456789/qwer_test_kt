@@ -9,13 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.imageLoader
 import coil.request.ImageRequest
-import com.example.qwer_test_kt.domin.model.MemberDetail
-import com.example.qwer_test_kt.domin.usecase.GetMemberDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -51,20 +46,20 @@ class GominJungdokViewModel @Inject constructor() : ViewModel() {
     }
 }
 
-    fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
-        val tempFile = File(context.cacheDir, "wallpaper_temp.png")
-        val fos = FileOutputStream(tempFile)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-        fos.flush()
-        fos.close()
-        return tempFile
-    }
+fun saveBitmapToTempFile(context: Context, bitmap: Bitmap): File {
+    val tempFile = File(context.cacheDir, "wallpaper_temp.png")
+    val fos = FileOutputStream(tempFile)
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+    fos.flush()
+    fos.close()
+    return tempFile
+}
 
-    suspend fun downloadBitmap(context: Context, url: String): Bitmap? {
-        val request = ImageRequest.Builder(context)
-            .data(url)
-            .allowHardware(false)
-            .build()
-        val result = context.imageLoader.execute(request)
-        return (result.drawable as? BitmapDrawable)?.bitmap
-    }
+suspend fun downloadBitmap(context: Context, url: String): Bitmap? {
+    val request = ImageRequest.Builder(context)
+        .data(url)
+        .allowHardware(false)
+        .build()
+    val result = context.imageLoader.execute(request)
+    return (result.drawable as? BitmapDrawable)?.bitmap
+}
