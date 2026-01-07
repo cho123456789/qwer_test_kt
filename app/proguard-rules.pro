@@ -113,3 +113,40 @@
 
 # 예외 정보 유지
 -keepattributes Exceptions
+
+# ============================================
+# Firebase 관련 유지 규칙
+# ============================================
+
+# Firebase 핵심 클래스 유지
+-keep class com.google.firebase.** { *; }
+-keep interface com.google.firebase.** { *; }
+
+# Firebase Analytics
+-keep class com.google.android.gms.measurement.** { *; }
+-keep class com.google.android.gms.analytics.** { *; }
+
+# Firebase google-services.json의 API 키는 클라이언트 측 키입니다
+# 이 키 자체는 공개되어도 괜찮으며, Firebase Console의 Security Rules로 보안을 관리해야 합니다
+# Analytics는 읽기 전용이므로 API 키만으로는 데이터 조작이 불가능합니다
+
+# Firebase Crashlytics
+-keep class com.google.firebase.crashlytics.** { *; }
+-keepattributes SourceFile,LineNumberTable
+
+# Crashlytics는 난독화된 코드의 스택 트레이스를 자동으로 매핑합니다
+# mapping.txt 파일이 자동으로 업로드됩니다
+
+# Firebase App Check
+-keep class com.google.firebase.appcheck.** { *; }
+-keep interface com.google.firebase.appcheck.** { *; }
+
+# Play Integrity API
+-keep class com.google.android.play.core.integrity.** { *; }
+
+# Google Play Services
+-keep class com.google.android.gms.** { *; }
+-dontwarn com.google.android.gms.**
+
+# Keep Firebase annotations
+-keepattributes *Annotation*

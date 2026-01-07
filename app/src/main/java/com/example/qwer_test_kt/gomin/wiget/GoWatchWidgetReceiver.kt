@@ -109,9 +109,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
                             return@launch
                         }
                     }
-
-                    Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 업데이트 시작: $wallpaperUrl")
-
                     // appWidgetId에 해당하는 glanceId 가져오기
                     val glanceId = GlanceAppWidgetManager(context)
                         .getGlanceIdBy(appWidgetId)
