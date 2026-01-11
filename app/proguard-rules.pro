@@ -150,3 +150,18 @@
 
 # Keep Firebase annotations
 -keepattributes *Annotation*
+
+# ============================================
+# R8 Missing Classes 경고 제거 (자동 생성됨)
+# ============================================
+
+# Firebase KTX 확장 함수 관련 (컴파일 타임에만 필요)
+-dontwarn com.google.firebase.ktx.Firebase
+-dontwarn com.google.firebase.ktx.FirebaseKt
+
+# Java Management (일부 라이브러리가 참조하지만 Android에서는 불필요)
+-dontwarn java.lang.management.ManagementFactory
+-dontwarn java.lang.management.RuntimeMXBean
+
+# SLF4J 로깅 (Android는 자체 로깅 사용)
+-dontwarn org.slf4j.impl.StaticLoggerBinder
