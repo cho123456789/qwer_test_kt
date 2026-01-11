@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.util.Log
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
@@ -30,7 +29,6 @@ class GoDdayWidgetReceiver : GlanceAppWidgetReceiver() {
         super.onReceive(context, intent)
 
         val action = intent.action
-        Log.d(TAG, "onReceive - action: $action")
 
         val widgetPrefs = WidgetPreferencesManager.getInstance(context)
         val wallpaperUrl = widgetPrefs.getWallpaperUrl() ?: ""
@@ -87,14 +85,11 @@ class GoDdayWidgetReceiver : GlanceAppWidgetReceiver() {
                             if (ddayDate != 0L) {
                                 widgetPrefs.setDdayDate(appWidgetId, ddayDate)
                             }
-                            Log.d(TAG, "위젯 ID ${appWidgetId}에 모든 데이터 저장 완료")
                         } else {
-                            Log.e(TAG, "위젯 ID ${appWidgetId}: 배경화면 URL이 비어있습니다.")
                             return@launch
                         }
                     }
 
-                    Log.d(TAG, "위젯 ID ${appWidgetId} 업데이트 시작: $wallpaperUrl")
 
                     // appWidgetId에 해당하는 glanceId 가져오기
                     val glanceId = GlanceAppWidgetManager(context)
@@ -110,14 +105,11 @@ class GoDdayWidgetReceiver : GlanceAppWidgetReceiver() {
                         val cachedHash = if (hashFile.exists()) hashFile.readText() else ""
 
                         val imageFile = if (cachedFile.exists() && currentHash == cachedHash) {
-                            Log.d(TAG, "위젯 ID ${appWidgetId}: 캐시된 이미지 사용")
                             cachedFile
                         } else {
                             if (cachedFile.exists()) {
-                                Log.d(TAG, "위젯 ID ${appWidgetId}: URL 변경 감지, 새 이미지 다운로드")
                                 cachedFile.delete()
                             } else {
-                                Log.d(TAG, "위젯 ID ${appWidgetId}: 새 이미지 다운로드 중...")
                             }
 
                             val bitmap = withContext(Dispatchers.IO) {
@@ -144,13 +136,10 @@ class GoDdayWidgetReceiver : GlanceAppWidgetReceiver() {
                         }
 
                         GoDdayWidgetProvider().update(context, glanceId)
-                        Log.d(TAG, "위젯 ID ${appWidgetId} 업데이트 완료")
 
                     } catch (e: Exception) {
-                        Log.e(TAG, "위젯 ID ${appWidgetId} 배경화면 업데이트 실패", e)
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "위젯 ID ${appWidgetId} 처리 중 오류", e)
                 }
             }
         }
@@ -167,7 +156,6 @@ class GoDdayWidgetReceiver : GlanceAppWidgetReceiver() {
             val cachedFile = File(context.cacheDir, "dday_wallpaper_${appWidgetId}.jpg")
             if (cachedFile.exists()) {
                 cachedFile.delete()
-                Log.d(TAG, "위젯 ID ${appWidgetId} 캐시 이미지 삭제")
             }
 
             // 해시 파일도 삭제
@@ -176,7 +164,6 @@ class GoDdayWidgetReceiver : GlanceAppWidgetReceiver() {
                 hashFile.delete()
             }
 
-            Log.d(TAG, "위젯 ID ${appWidgetId} 데이터 삭제 완료")
         }
     }
 
@@ -224,7 +211,6 @@ class GoDdayWidgetReceiver : GlanceAppWidgetReceiver() {
             scaledBitmap.recycle()
         }
 
-        Log.d(TAG, "이미지 캐시 저장: ${cacheFile.absolutePath} (크기: ${cacheFile.length() / 1024}KB)")
         return cacheFile
     }
 

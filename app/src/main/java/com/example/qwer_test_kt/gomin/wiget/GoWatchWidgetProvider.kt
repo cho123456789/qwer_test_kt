@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,7 +53,6 @@ class GoWatchWidgetProvider : GlanceAppWidget() {
             val appWidgetId = try {
                 androidx.glance.appwidget.GlanceAppWidgetManager(context).getAppWidgetId(id)
             } catch (e: Exception) {
-                Log.e("GoWatchWidgetProvider", "Failed to get appWidgetId: ${e.message}")
                 -1
             }
 
@@ -79,7 +77,6 @@ class GoWatchWidgetProvider : GlanceAppWidget() {
                 widgetBitmap = try {
                     BitmapFactory.decodeFile(wallpaperPath)
                 } catch (e: Exception) {
-                    Log.e("GoWatchWidgetProvider", "Error loading bitmap from file: ${e.message}")
                     null
                 }
             }
@@ -115,8 +112,6 @@ class RefreshTimeAction : ActionCallback {
             prefs[IsLoadingKey] = false
         }
         GoWatchWidgetProvider().update(context, glanceId)
-
-        Log.d("GoWatchWidget", "시간 새로고침 완료")
     }
 }
 
@@ -140,7 +135,6 @@ private fun WidgetLayout(
 
     // Hex 문자열을 Color로 변환
     val textColor = try {
-        Log.d("GoWatchWidgetProvider", "저장된 색상 Hex: $textColorHex")
         val hexString = textColorHex.removePrefix("#")
         val colorLong = if (hexString.length == 6) {
             // RGB 형식인 경우 알파값 FF 추가
@@ -150,13 +144,8 @@ private fun WidgetLayout(
             hexString.toLong(16)
         }
         val color = androidx.compose.ui.graphics.Color(colorLong)
-        Log.d(
-            "GoWatchWidgetProvider",
-            "변환된 색상 - colorLong: $colorLong, R:${color.red}, G:${color.green}, B:${color.blue}"
-        )
         color
     } catch (e: Exception) {
-        Log.e("GoWatchWidgetProvider", "Error parsing color: ${e.message}, hex: $textColorHex")
         androidx.compose.ui.graphics.Color.White // 기본값
     }
 
@@ -179,7 +168,6 @@ private fun WidgetLayout(
             else -> Triple(0.5f, 0.5f, 1.0f) // 기본값: 중앙, 기본 크기
         }
     } catch (e: Exception) {
-        Log.e("GoWatchWidgetProvider", "Error parsing position: ${e.message}")
         Triple(0.5f, 0.5f, 1.0f) // 기본값: 중앙, 기본 크기
     }
 

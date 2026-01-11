@@ -1,7 +1,6 @@
 package com.example.qwer_test_kt.gomin.wiget.dialog
 
 import android.app.DatePickerDialog
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -407,11 +406,6 @@ fun DdaySetupDialog(
                             widgetPrefs.setDdayDate(selectedDate.timeInMillis)
                             widgetPrefs.setTextColor(colorHex)
                             widgetPrefs.setWidgetPosition(position)
-
-                            Log.d(
-                                "DdaySetupDialog",
-                                "디데이 설정 완료 - URL: $wallpaperUrl, 제목: $ddayTitle, 날짜: ${selectedDate.timeInMillis}, 위치: $position, 색상: $colorHex"
-                            )
 
                             onSetupComplete(position)
                         },

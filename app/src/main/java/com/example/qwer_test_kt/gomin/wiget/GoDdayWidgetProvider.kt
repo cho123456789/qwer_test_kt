@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,7 +48,6 @@ class GoDdayWidgetProvider : GlanceAppWidget() {
             val appWidgetId = try {
                 GlanceAppWidgetManager(context).getAppWidgetId(id)
             } catch (e: Exception) {
-                Log.e("GoDdayWidgetProvider", "Failed to get appWidgetId: ${e.message}")
                 -1
             }
 
@@ -85,7 +83,6 @@ class GoDdayWidgetProvider : GlanceAppWidget() {
                 widgetBitmap = try {
                     BitmapFactory.decodeFile(wallpaperPath)
                 } catch (e: Exception) {
-                    Log.e("GoDdayWidgetProvider", "Error loading bitmap from file: ${e.message}")
                     null
                 }
             }
@@ -140,7 +137,6 @@ private fun DdayWidgetLayout(
 
     // Hex 문자열을 Color로 변환
     val textColor = try {
-        Log.d("GoDdayWidgetProvider", "저장된 색상 Hex: $textColorHex")
         val hexString = textColorHex.removePrefix("#")
         val colorLong = if (hexString.length == 6) {
             ("FF" + hexString).toLong(16)
@@ -148,13 +144,8 @@ private fun DdayWidgetLayout(
             hexString.toLong(16)
         }
         val color = androidx.compose.ui.graphics.Color(colorLong)
-        Log.d(
-            "GoDdayWidgetProvider",
-            "변환된 색상 - colorLong: $colorLong, R:${color.red}, G:${color.green}, B:${color.blue}"
-        )
         color
     } catch (e: Exception) {
-        Log.e("GoDdayWidgetProvider", "Error parsing color: ${e.message}, hex: $textColorHex")
         androidx.compose.ui.graphics.Color.White
     }
 
@@ -177,7 +168,6 @@ private fun DdayWidgetLayout(
             else -> Triple(0.5f, 0.5f, 1.0f)
         }
     } catch (e: Exception) {
-        Log.e("GoDdayWidgetProvider", "Error parsing position: ${e.message}")
         Triple(0.5f, 0.5f, 1.0f)
     }
 
