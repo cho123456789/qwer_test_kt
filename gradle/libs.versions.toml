@@ -37,8 +37,7 @@ supabase-kt = "2.6.1"
 connect-client = "1.1.0-alpha07"
 
 firebase-bom = "33.7.0"
-gms-services = "4.4.2"
-firebase-crashlytics-plugin = "3.0.2"
+firebaseAppcheckDebug = "19.0.1"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
