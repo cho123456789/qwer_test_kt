@@ -1,6 +1,5 @@
 package com.example.qwer_test_kt.gomin.wiget.dialog
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -371,11 +370,6 @@ fun ClockPositionDialog(
                             val green = (selectedColor.green * 255).toInt()
                             val blue = (selectedColor.blue * 255).toInt()
                             val colorHex = String.format("#%02X%02X%02X", red, green, blue)
-
-                            Log.d(
-                                "ClockPositionDialog",
-                                "선택한 색상 - R:$red, G:$green, B:$blue, Hex:$colorHex"
-                            )
 
                             val widgetPrefs = WidgetPreferencesManager.getInstance(context)
                             widgetPrefs.setTextColor(colorHex)

@@ -50,7 +50,6 @@ class PhotoWidgetViewModel @Inject constructor(
                     _currentImage.value = images.random().imageUrl
                 }
             } catch (e: Exception) {
-                android.util.Log.e("PhotoWidgetViewModel", "Error loading images for $typeName", e)
             } finally {
                 _isLoading.value = false
             }

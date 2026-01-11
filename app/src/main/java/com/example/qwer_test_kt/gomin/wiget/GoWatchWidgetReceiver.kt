@@ -10,7 +10,6 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
-import android.util.Log
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
@@ -38,8 +37,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
         super.onReceive(context, intent)
 
         val action = intent.action
-        Log.d("GoWatchWidgetReceiver", "onReceive - action: $action")
-
         // WidgetPreferencesManager 사용
         val widgetPrefs = WidgetPreferencesManager.getInstance(context)
         val wallpaperUrl = widgetPrefs.getWallpaperUrl() ?: ""
@@ -100,12 +97,7 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
                                 position
                             )
                             widgetPrefs.setTextColor(appWidgetId, textColor)
-                            Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId}에 모든 데이터 저장 완료")
                         } else {
-                            Log.e(
-                                "GoWatchWidgetReceiver",
-                                "위젯 ID ${appWidgetId}: 배경화면 URL이 비어있습니다."
-                            )
                             return@launch
                         }
                     }
@@ -124,20 +116,10 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
                         val cachedHash = if (hashFile.exists()) hashFile.readText() else ""
 
                         val imageFile = if (cachedFile.exists() && currentHash == cachedHash) {
-                            Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId}: 캐시된 이미지 사용")
                             cachedFile
                         } else {
                             if (cachedFile.exists()) {
-                                Log.d(
-                                    "GoWatchWidgetReceiver",
-                                    "위젯 ID ${appWidgetId}: URL 변경 감지, 새 이미지 다운로드"
-                                )
                                 cachedFile.delete()
-                            } else {
-                                Log.d(
-                                    "GoWatchWidgetReceiver",
-                                    "위젯 ID ${appWidgetId}: 새 이미지 다운로드 중..."
-                                )
                             }
 
                             val bitmap = withContext(Dispatchers.IO) {
@@ -164,13 +146,9 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
                         }
                         GoWatchWidgetProvider().update(context, glanceId)
 
-                        Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 업데이트 완료")
-
                     } catch (e: Exception) {
-                        Log.e("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 배경화면 업데이트 실패", e)
                     }
                 } catch (e: Exception) {
-                    Log.e("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 처리 중 오류", e)
                 }
             }
         }
@@ -187,7 +165,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
             val cachedFile = File(context.cacheDir, "watch_wallpaper_${appWidgetId}.jpg")
             if (cachedFile.exists()) {
                 cachedFile.delete()
-                Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 캐시 이미지 삭제")
             }
 
             // 해시 파일도 삭제
@@ -195,8 +172,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
             if (hashFile.exists()) {
                 hashFile.delete()
             }
-
-            Log.d("GoWatchWidgetReceiver", "위젯 ID ${appWidgetId} 데이터 삭제 완료")
         }
     }
 
@@ -221,7 +196,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
         // Android 12 이상에서 정확한 알람 스케줄링 가능 여부 확인
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
-                Log.w("GoWatchWidgetReceiver", "정확한 알람을 설정할 수 없습니다. 부정확한 반복 알람을 사용합니다.")
                 scheduleInexactUpdate(context, alarmManager)
                 return
             }
@@ -242,7 +216,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
                 pendingIntent
             )
         } catch (e: SecurityException) {
-            Log.e("GoWatchWidgetReceiver", "정확한 알람 설정 시 보안 예외 발생", e)
             scheduleInexactUpdate(context, alarmManager)
         }
     }
@@ -310,10 +283,6 @@ class GoWatchWidgetReceiver : GlanceAppWidgetReceiver() {
             scaledBitmap.recycle()
         }
 
-        Log.d(
-            "GoWatchWidgetReceiver",
-            "이미지 캐시 저장: ${cacheFile.absolutePath} (크기: ${cacheFile.length() / 1024}KB)"
-        )
         return cacheFile
     }
 

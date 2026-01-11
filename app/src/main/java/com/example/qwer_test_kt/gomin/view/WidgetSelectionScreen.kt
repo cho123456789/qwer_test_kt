@@ -7,7 +7,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
@@ -37,7 +36,6 @@ import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 // BroadcastReceiver to handle widget pin success
 class WidgetPinSuccessReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("WidgetPinSuccess", "위젯이 홈 화면에 성공적으로 추가되었습니다!")
         Toast.makeText(context, "위젯이 바탕화면에 생성되었습니다", Toast.LENGTH_SHORT).show()
 
         // 위젯 타입 가져오기
@@ -50,7 +48,6 @@ class WidgetPinSuccessReceiver : BroadcastReceiver() {
                     action = "com.example.qwer_test_kt.UPDATE_IMAGE"
                 }
                 context.sendBroadcast(updateIntent)
-                Log.d("WidgetPinSuccess", "시계 위젯 업데이트 브로드캐스트 전송")
             }
 
             "dday" -> {
@@ -61,7 +58,6 @@ class WidgetPinSuccessReceiver : BroadcastReceiver() {
                     action = "com.example.qwer_test_kt.UPDATE_DDAY"
                 }
                 context.sendBroadcast(updateIntent)
-                Log.d("WidgetPinSuccess", "디데이 위젯 업데이트 브로드캐스트 전송")
             }
 
             "photo" -> {
@@ -72,7 +68,6 @@ class WidgetPinSuccessReceiver : BroadcastReceiver() {
                     action = "com.example.qwer_test_kt.UPDATE_PHOTO"
                 }
                 context.sendBroadcast(updateIntent)
-                Log.d("WidgetPinSuccess", "사진 위젯 업데이트 브로드캐스트 전송")
             }
         }
     }
@@ -159,18 +154,12 @@ fun requestPinWidget(
     // 먼저 위젯 고정이 지원되는지 확인
     if (!appWidgetManager.isRequestPinAppWidgetSupported) {
         Toast.makeText(context, "이 런처는 위젯 고정을 지원하지 않습니다.", Toast.LENGTH_LONG).show()
-        Log.e("WidgetSelection", "런처가 위젯 고정을 지원하지 않습니다.")
         return
     }
 
     // WidgetPreferencesManager를 사용하여 위젯 데이터 저장
     val widgetPrefs = WidgetPreferencesManager.getInstance(context)
     widgetPrefs.saveWidgetData(wallpaperUrl, widgetType, position)
-
-    Log.d(
-        "WidgetSelection",
-        "위젯 데이터 저장됨 - URL: $wallpaperUrl, Type: $widgetType, Position: $position"
-    )
 
     // PendingIntent 생성 - 사용자가 "Add to Home Screen" 버튼을 눌렀을 때 호출됨
     val successIntent = Intent(context, WidgetPinSuccessReceiver::class.java).apply {
@@ -187,10 +176,8 @@ fun requestPinWidget(
     val success = appWidgetManager.requestPinAppWidget(providerComponent, null, successCallback)
 
     if (success) {
-        Log.d("WidgetSelection", "위젯 추가 요청 성공 - 사용자 확인 대기 중")
         // 사용자가 "Add to Home Screen"을 누르면 successCallback이 호출됩니다
     } else {
         Toast.makeText(context, "위젯 추가 요청에 실패했습니다.", Toast.LENGTH_SHORT).show()
-        Log.e("WidgetSelection", "위젯 추가 요청 실패 - Component: ${providerComponent.className}")
     }
 }

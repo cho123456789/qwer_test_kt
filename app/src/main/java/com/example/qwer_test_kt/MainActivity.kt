@@ -465,6 +465,20 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = "이 앱은 공식 앱이 아닌 팬메이드 앱입니다",
+                fontSize = 10.sp,
+                color = Color(0xFF64B5F6),  // 밝은 겨울 파란색
+                fontFamily = barry
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "by 여신찬양",
+                fontSize = 12.sp,
+                color = Color(0xFF64B5F6),  // 밝은 겨울 파란색
+                fontFamily = barry
+            )
         }
     }
 }

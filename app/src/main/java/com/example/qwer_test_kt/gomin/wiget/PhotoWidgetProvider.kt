@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
@@ -46,7 +45,6 @@ class PhotoWidgetProvider : GlanceAppWidget() {
                 widgetBitmap = try {
                     BitmapFactory.decodeFile(wallpaperPath)
                 } catch (e: Exception) {
-                    Log.e("PhotoWidgetProvider", "Error loading bitmap from file: ${e.message}")
                     null
                 }
             }

@@ -1,6 +1,5 @@
 package com.example.qwer_test_kt.data.source
 
-import android.util.Log
 import com.example.qwer_test_kt.data.model.MemberData
 import com.example.qwer_test_kt.data.model.MemberDetailData
 import com.example.qwer_test_kt.data.model.MemberMainData
@@ -22,7 +21,6 @@ class MemberRemoteDataSourceImpl @Inject constructor(
                 "내이름맑음" -> "qwer_myname_table"
                 "눈물참기" -> "qwer_dear_table"
                 else -> {
-                    Log.w("MemberRemoteDataSource", "Unknown type: $typeName, using default table")
                     "qwer_image_table"
                 }
             }
@@ -31,14 +29,9 @@ class MemberRemoteDataSourceImpl @Inject constructor(
                 .select()
                 .decodeList<MemberMainData>()
 
-            Log.d(
-                "MemberRemoteDataSource",
-                "Fetched ${rows.size} images from $tableName for type: $typeName"
-            )
             rows
 
         } catch (e: Exception) {
-            Log.e("MemberRemoteDataSource", "Error fetching images for type: $typeName", e)
             emptyList()
         }
     }
@@ -62,20 +55,13 @@ class MemberRemoteDataSourceImpl @Inject constructor(
                         .select()
                         .decodeList<MemberMainData>()
                     allImages.addAll(rows)
-                    Log.d("MemberRemoteDataSource", "Fetched ${rows.size} images from $tableName")
                 } catch (e: Exception) {
-                    Log.e("MemberRemoteDataSource", "Error fetching from $tableName", e)
                 }
             }
 
-            Log.d(
-                "MemberRemoteDataSource",
-                "Fetched ${allImages.size} total main images from all tables"
-            )
             allImages
 
         } catch (e: Exception) {
-            Log.e("MemberRemoteDataSource", "Error fetching all main images", e)
             emptyList()
         }
     }
@@ -87,14 +73,9 @@ class MemberRemoteDataSourceImpl @Inject constructor(
                 .decodeList<ProfileItemData>()
                 .filter { it.typeName == typeName }
 
-            Log.d(
-                "MemberRemoteDataSource",
-                "Fetched ${rows.size} profile items for type: $typeName"
-            )
             rows
 
         } catch (e: Exception) {
-            Log.e("MemberRemoteDataSource", "Error fetching profile items by type", e)
             emptyList()
         }
     }
@@ -105,11 +86,9 @@ class MemberRemoteDataSourceImpl @Inject constructor(
                 .select()
                 .decodeList<ProfileItemData>()
 
-            Log.d("MemberRemoteDataSource", "Fetched ${rows.size} total profile items")
             rows
 
         } catch (e: Exception) {
-            Log.e("MemberRemoteDataSource", "Error fetching all profile items", e)
             emptyList()
         }
     }
@@ -120,17 +99,11 @@ class MemberRemoteDataSourceImpl @Inject constructor(
                 .select()
                 .decodeList<MemberDetailData>()
 
-            Log.d("MemberRemoteDataSource", "Fetched ${rows.size} member details")
             rows.forEach {
-                Log.d(
-                    "MemberRemoteDataSource",
-                    "Member: ${it.name}, Position: ${it.position}, MBTI: ${it.mbti}"
-                )
             }
             rows
 
         } catch (e: Exception) {
-            Log.e("MemberRemoteDataSource", "Error fetching member details: ${e.message}", e)
             e.printStackTrace()
             emptyList()
         }
