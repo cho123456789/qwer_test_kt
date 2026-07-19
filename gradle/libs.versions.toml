@@ -38,6 +38,7 @@ connect-client = "1.1.0-alpha07"
 
 firebase-bom = "33.7.0"
 firebaseAppcheckDebug = "19.0.1"
+firebaseAppcheckDebugVersion = "19.0.1"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
@@ -89,6 +90,7 @@ connect-client = { group = "androidx.health.connect", name = "connect-client", v
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics-ktx = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-appcheck-debug = { group = "com.google.firebase", name = "firebase-appcheck-debug", version.ref = "firebaseAppcheckDebugVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

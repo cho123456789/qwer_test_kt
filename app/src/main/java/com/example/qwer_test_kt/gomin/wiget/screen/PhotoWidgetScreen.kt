@@ -2,12 +2,10 @@ package com.example.qwer_test_kt.gomin.wiget.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,8 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -55,7 +51,13 @@ import com.example.qwer_test_kt.gomin.wiget.dialog.ImageDetailDialog
 import com.example.qwer_test_kt.presentation.PhotoWidgetViewModel
 
 
-data class CategoryInfo(val name: String, val imageRes: Int)
+data class CategoryInfo(
+    val name: String,
+    val queryName: String,
+    val imageRes: Int,
+    val releaseDate: String,
+    val isNew: Boolean = false
+)
 
 @Composable
 fun PhotoWidgetScreen(
@@ -137,10 +139,11 @@ fun PhotoWidgetContent(
 
     // 카테고리 목록과 이미지 매핑
     val categories = listOf(
-        CategoryInfo("디스코드", R.drawable.discord_title),
-        CategoryInfo("고민중독", R.drawable.gomin_title),
-        CategoryInfo("내이름맑음", R.drawable.my_name_title),
-        CategoryInfo("눈물참기", R.drawable.dear_title)
+        CategoryInfo("CEREMONY", "CEREMONY", R.drawable.cermonery, "2026.04.27", isNew = true),
+        CategoryInfo("눈물참기", "눈물참기", R.drawable.dear_title, "2025.06.09"),
+        CategoryInfo("내이름 맑음", "내이름맑음", R.drawable.my_name_title, "2024.09.23"),
+        CategoryInfo("고민중독", "고민중독", R.drawable.gomin_title, "2024.04.01"),
+        CategoryInfo("디스코드", "디스코드", R.drawable.discord_title, "2023.10.18")
     )
 
     Column(
@@ -161,7 +164,7 @@ fun PhotoWidgetContent(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(500.dp)
+                    .height(400.dp)
                     .background(
                         brush = Brush.linearGradient(
                             colors = listOf(
@@ -342,57 +345,53 @@ fun PhotoWidgetContent(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // 카테고리 버튼들 (앨범 이미지 포함)
-        Column(
+        // 앨범 커버를 활용한 카페 메뉴
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            shape = RoundedCornerShape(16.dp),
+            elevation = 5.dp,
+            backgroundColor = Color.White.copy(alpha = 0.96f)
         ) {
-            // 첫 번째 행: 디스코드, 고민중독
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                CategoryButtonWithImage(
-                    categoryInfo = categories[0],
-                    isSelected = selectedCategory == categories[0].name,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        viewModel.selectRandomImage(categories[0].name)
-                    }
+            Column {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 12.dp, horizontal = 30.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "🌊 🐚",
+                        modifier = Modifier.align(Alignment.CenterStart),
+                        fontSize = 20.sp
+                    )
+                    Text(
+                        text = "Album Menu",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = barry,
+                        color = Color(0xFF0D47A1)
+                    )
+                    Text(
+                        text = "☀️ 🏖️",
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        fontSize = 20.sp
+                    )
+                }
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(Color(0xFFBBDEFB))
                 )
-                CategoryButtonWithImage(
-                    categoryInfo = categories[1],
-                    isSelected = selectedCategory == categories[1].name,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        viewModel.selectRandomImage(categories[1].name)
-                    }
-                )
-            }
-
-            // 두 번째 행: 내이름맑음, 눈물참기
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                CategoryButtonWithImage(
-                    categoryInfo = categories[2],
-                    isSelected = selectedCategory == categories[2].name,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        viewModel.selectRandomImage(categories[2].name)
-                    }
-                )
-                CategoryButtonWithImage(
-                    categoryInfo = categories[3],
-                    isSelected = selectedCategory == categories[3].name,
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        viewModel.selectRandomImage(categories[3].name)
-                    }
-                )
+                categories.forEach { category ->
+                    AlbumMenuItem(
+                        categoryInfo = category,
+                        isSelected = selectedCategory == category.queryName,
+                        onClick = { viewModel.selectRandomImage(category.queryName) }
+                    )
+                }
             }
         }
         Spacer(modifier = Modifier.height(20.dp)) // Add padding at the bottom
@@ -411,69 +410,55 @@ fun PhotoWidgetContent(
 }
 
 @Composable
-fun CategoryButtonWithImage(
+fun AlbumMenuItem(
     categoryInfo: CategoryInfo,
     isSelected: Boolean,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Card(
-        modifier = modifier
-            .height(100.dp),
-        shape = RoundedCornerShape(14.dp),
-        elevation = if (isSelected) 8.dp else 4.dp,
-        backgroundColor = Color.White
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .background(if (isSelected) Color(0xFFE3F2FD) else Color.Transparent)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxSize(),
-            shape = RoundedCornerShape(14.dp),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = if (isSelected) Color(0xFFE3F2FD) else Color.White,
-                contentColor = Color(0xFF1565C0)
-            ),
-            contentPadding = PaddingValues(6.dp)
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                // 앨범 이미지
-                Image(
-                    painter = painterResource(id = categoryInfo.imageRes),
-                    contentDescription = categoryInfo.name,
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clip(RoundedCornerShape(6.dp))
-                        .then(
-                            if (isSelected) {
-                                Modifier.border(
-                                    2.dp,
-                                    Color(0xFF1565C0),
-                                    RoundedCornerShape(6.dp)
-                                )
-                            } else {
-                                Modifier
-                            }
-                        ),
-                    contentScale = ContentScale.Crop
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // 카테고리 이름
-                Text(
-                    text = categoryInfo.name,
-                    fontSize = 11.sp,
-                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                    fontFamily = barry,
-                    color = if (isSelected) Color(0xFF0D47A1) else Color(0xFF1565C0),
-                    textAlign = TextAlign.Center,
-                    maxLines = 1
-                )
-            }
+        Image(
+            painter = painterResource(categoryInfo.imageRes),
+            contentDescription = "${categoryInfo.name} 앨범 커버",
+            modifier = Modifier
+                .size(46.dp)
+                .clip(RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.Crop
+        )
+        Spacer(modifier = Modifier.size(12.dp))
+        Text(
+            text = categoryInfo.name,
+            modifier = Modifier.weight(1f),
+            fontSize = 14.sp,
+            fontWeight = if (isSelected || categoryInfo.isNew) FontWeight.Bold else FontWeight.Medium,
+            fontFamily = barry,
+            color = if (isSelected) Color(0xFF0D47A1) else Color(0xFF1565C0),
+            maxLines = 1
+        )
+        if (categoryInfo.isNew) {
+            Text(
+                text = "NEW",
+                modifier = Modifier
+                    .background(Color(0xFFFFD54F), RoundedCornerShape(8.dp))
+                    .padding(horizontal = 7.dp, vertical = 3.dp),
+                color = Color(0xFF5D4300),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.size(8.dp))
         }
+        Text(
+            text = categoryInfo.releaseDate,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Medium,
+            color = Color(0xFF78909C)
+        )
     }
 }
 

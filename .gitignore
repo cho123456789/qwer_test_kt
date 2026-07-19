@@ -18,7 +18,6 @@ local.properties
 local.properties
 *.keystore
 *.jks
-keystore/
 google-services.json
 release/
 signing.properties

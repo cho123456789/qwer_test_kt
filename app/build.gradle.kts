@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.google.firebase.crashlytics.ktx)
     implementation(libs.firebase.appcheck)
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation(libs.firebase.appcheck.debug)
     debugImplementation("com.google.firebase:firebase-appcheck-debug")
 
     implementation(libs.connect.client)

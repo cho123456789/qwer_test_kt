@@ -20,6 +20,7 @@ class MemberRemoteDataSourceImpl @Inject constructor(
                 "고민중독" -> "qwer_gomin_table"
                 "내이름맑음" -> "qwer_myname_table"
                 "눈물참기" -> "qwer_dear_table"
+                "세레모니" -> "qwer_ceremony_table"
                 else -> {
                     "qwer_image_table"
                 }

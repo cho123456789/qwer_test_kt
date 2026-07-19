@@ -1,6 +1,7 @@
 package com.example.qwer_test_kt
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
@@ -67,12 +68,13 @@ class MainActivity : AppCompatActivity() {
 fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hiltViewModel()) {
     val barry = FontFamily(Font(R.font.barry))
 
-    // 겨울 느낌 그라데이션 배경
+    // 맑은 하늘에서 푸른 바다로 이어지는 여름 그라데이션
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFFE3F2FD), // 연한 겨울 하늘색
-            Color(0xFFBBDEFB), // 부드러운 파란색
-            Color(0xFFE1F5FE)  // 아주 연한 하늘색
+            Color(0xFFB3E5FC), // 맑은 여름 하늘
+            Color(0xFF81D4FA), // 햇빛이 비친 수면
+            Color(0xFF2196F3), // 선명한 푸른 바다
+            Color(0xFF0D47A1)  // 깊은 코발트 바다
         )
     )
 
@@ -168,8 +170,11 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                 }
             } else {
                 // 랜덤으로 선택된 프로필 타입 가져오기
-                val gominProfile = profilesState?.find { it.typeName == randomProfileType }
-                val memberNames = listOf("쵸단", "마젠타", "히나", "시연")
+                val gominProfile = profilesState?.find { it.typeName == "세레모니" }
+                val memberNames = listOf("쵸단","마젠타","히나","시연")
+
+                Log.d("TEST", gominProfile?.members?.keys.toString())
+                Log.d("TEST", gominProfile?.members.toString())
 
                 Column(
                     modifier = Modifier.padding(bottom = 20.dp),
@@ -188,9 +193,9 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                                     .background(
                                         Brush.linearGradient(
                                             colors = listOf(
-                                                Color(0xFFB3E5FC), // 연한 파란색
-                                                Color(0xFFE1F5FE), // 아주 연한 파란색
-                                                Color(0xFFB3E5FC)  // 연한 파란색
+                                                Color(0xFF90CAF9), // 햇빛이 비친 물결
+                                                Color(0xFFE3F2FD), // 부서지는 하얀 파도
+                                                Color(0xFF42A5F5)  // 맑은 바다빛
                                             )
                                         )
                                     )
@@ -215,9 +220,9 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                                     .background(
                                         Brush.linearGradient(
                                             colors = listOf(
-                                                Color(0xFFE0E0E0), // 은색
-                                                Color(0xFFF5F5F5), // 밝은 회색
-                                                Color(0xFFE0E0E0)  // 은색
+                                                Color(0xFF1565C0), // 깊은 푸른 바다
+                                                Color(0xFF64B5F6), // 햇빛이 비친 물결
+                                                Color(0xFF0D47A1)  // 깊은 코발트 바다
                                             )
                                         )
                                     )
@@ -248,9 +253,9 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                                     .background(
                                         Brush.linearGradient(
                                             colors = listOf(
-                                                Color(0xFFE0E0E0), // 은색
-                                                Color(0xFFF5F5F5), // 밝은 회색
-                                                Color(0xFFE0E0E0)  // 은색
+                                                Color(0xFF1565C0), // 깊은 푸른 바다
+                                                Color(0xFF64B5F6), // 햇빛이 비친 물결
+                                                Color(0xFF0D47A1)  // 깊은 코발트 바다
                                             )
                                         )
                                     )
@@ -275,9 +280,9 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                                     .background(
                                         Brush.linearGradient(
                                             colors = listOf(
-                                                Color(0xFFB3E5FC), // 연한 파란색
-                                                Color(0xFFE1F5FE), // 아주 연한 파란색
-                                                Color(0xFFB3E5FC)  // 연한 파란색
+                                                Color(0xFF90CAF9), // 햇빛이 비친 물결
+                                                Color(0xFFE3F2FD), // 부서지는 하얀 파도
+                                                Color(0xFF42A5F5)  // 맑은 바다빛
                                             )
                                         )
                                     )
@@ -309,7 +314,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                     Text(
                         text = "♪",
                         fontSize = 35.sp,
-                        color = Color(0xFF1976D2),  // 겨울 파란색
+                        color = Color(0xFFE3F2FD),  // 하얀 파도빛
                         modifier = Modifier.padding(end = 8.dp)
                     )
                     Box(
@@ -352,7 +357,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                             text = "Photo",
                             fontSize = 50.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF1565C0),  // 진한 겨울 파란색
+                            color = Color(0xFF0D47A1),  // 깊은 코발트 바다빛
                             textAlign = TextAlign.Center,
                             fontFamily = barry,
                         )
@@ -360,7 +365,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                     Text(
                         text = "★",
                         fontSize = 35.sp,
-                        color = Color(0xFF64B5F6),  // 밝은 겨울 파란색
+                        color = Color(0xFF90CAF9),  // 반짝이는 물결
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }
@@ -375,7 +380,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                     Text(
                         text = "✦",
                         fontSize = 35.sp,
-                        color = Color(0xFF42A5F5),  // 겨울 하늘색
+                        color = Color(0xFFE3F2FD),  // 하얀 파도빛
                         modifier = Modifier.padding(end = 8.dp)
                     )
                     Box(
@@ -418,7 +423,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                             text = "Widget",
                             fontSize = 50.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF1565C0),  // 진한 겨울 파란색
+                            color = Color(0xFF0D47A1),  // 깊은 코발트 바다빛
                             textAlign = TextAlign.Center,
                             fontFamily = barry,
                         )
@@ -426,7 +431,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                     Text(
                         text = "♫",
                         fontSize = 35.sp,
-                        color = Color(0xFF64B5F6),  // 밝은 겨울 파란색
+                        color = Color(0xFF90CAF9),  // 반짝이는 물결
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }
@@ -444,7 +449,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                     .height(56.dp),
                 shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFF1565C0),  // 진한 겨울 파란색
+                    backgroundColor = Color(0xFF1565C0),  // 푸른 바다빛
                     contentColor = Color.White
                 )
             ) {
@@ -453,7 +458,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "⛄",
+                        text = "🌊",
                         fontSize = 24.sp,
                         modifier = Modifier.padding(end = 8.dp)
                     )
@@ -469,14 +474,7 @@ fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hi
             Text(
                 text = "이 앱은 공식 앱이 아닌 팬메이드 앱입니다",
                 fontSize = 10.sp,
-                color = Color(0xFF64B5F6),  // 밝은 겨울 파란색
-                fontFamily = barry
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "by 여신찬양",
-                fontSize = 12.sp,
-                color = Color(0xFF64B5F6),  // 밝은 겨울 파란색
+                color = Color(0xFFE3F2FD),  // 하얀 파도빛
                 fontFamily = barry
             )
         }
