@@ -72,7 +72,7 @@ fun SplashScreen(navController: NavHostController, viewModel: SplashViewModel = 
 
             // 로딩 메시지
             Text(
-                text = "멤버들이 합주준비중...",
+                text = "리센느는 오늘도 열일중",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = barry,
@@ -114,7 +114,7 @@ fun LoadingScreenPreview() {
 
             // 로딩 메시지
             Text(
-                text = "멤버들이 합주준비중...",
+                text = "리센느는 오늘도 열일중",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = barry,

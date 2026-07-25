@@ -1,488 +1,252 @@
 package com.example.qwer_test_kt
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
-import com.example.qwer_test_kt.presentation.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            MaterialTheme {
-                AppNavGraph()
-            }
-        }
+        setContent { MaterialTheme { AppNavGraph() } }
     }
 }
 
 @Composable
-fun MainScreen(navController: NavHostController, viewModel: SplashViewModel = hiltViewModel()) {
-    val barry = FontFamily(Font(R.font.barry))
+fun MainScreen(navController: NavHostController) {
+    RescenePhotoDiary(onStart = { navController.navigate(Route.PhotoWidget) })
+}
 
-    // 맑은 하늘에서 푸른 바다로 이어지는 여름 그라데이션
-    val gradientBackground = Brush.verticalGradient(
-        colors = listOf(
-            Color(0xFFB3E5FC), // 맑은 여름 하늘
-            Color(0xFF81D4FA), // 햇빛이 비친 수면
-            Color(0xFF2196F3), // 선명한 푸른 바다
-            Color(0xFF0D47A1)  // 깊은 코발트 바다
-        )
-    )
-
-    // 프로필 타입 목록
-    val profileTypes = stringArrayResource(R.array.profile_types).toList()
-
-    // 랜덤 프로필 타입 선택
-    val randomProfileType = remember { profileTypes.random() }
-
-    val profilesState by viewModel.profiles.collectAsStateWithLifecycle()
-
-    val commonFontSize = 70.sp
-    val commonFontWeight = FontWeight.Bold
+@Composable
+private fun RescenePhotoDiary(onStart: () -> Unit) {
+    val pixel = FontFamily(Font(R.font.onepop))
+    val ink = Color(0xFF4B3B55)
+    val windowShape = RoundedCornerShape(28.dp)
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(gradientBackground),
+            .background(Brush.verticalGradient(listOf(Color(0xFFF8D5E2), Color(0xFFFFF2DF), Color(0xFFE4DDF6))))
+            .padding(horizontal = 10.dp, vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
+        BackgroundSticker("✦", Modifier.align(Alignment.TopStart).offset(17.dp, 54.dp), Color.White, 27.sp)
+        BackgroundSticker("+", Modifier.align(Alignment.TopEnd).offset((-18).dp, 112.dp), Color(0xFFC0A7E8), 28.sp)
+        BackgroundSticker("✿", Modifier.align(Alignment.BottomStart).offset(18.dp, (-62).dp), Color(0xFFFFC4D7), 26.sp)
+        BackgroundSticker("⋆  ·  ✦  ·  ⋆", Modifier.align(Alignment.BottomCenter).offset(y = (-22).dp), Color.White.copy(alpha = .82f), 19.sp)
+        BackgroundSticker("○", Modifier.align(Alignment.BottomEnd).offset((-82).dp, (-142).dp), Color(0xFFBBA1E1), 24.sp)
+
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier
+                .fillMaxWidth()
+                .widthIn(max = 560.dp)
+                .shadow(14.dp, windowShape, clip = false)
+                .clip(windowShape)
+                .background(Color(0xFFFFFBFC))
+                .border(2.dp, Color(0xFFE7B6CD), windowShape)
+                .padding(6.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // QWER 텍스트에 애니메이션 적용
-            val qwerAnnotatedString = buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color(0xFF000000))) { append("Q") }
-                withStyle(style = SpanStyle(color = Color(0xFFFFC0CB))) { append("W") }
-                withStyle(style = SpanStyle(color = Color(0xFF00B0FF))) { append("E") }
-                withStyle(style = SpanStyle(color = Color(0xFF8BC34A))) { append("R") }
-            }
-
-            // 겹치기 위한 Box: QWER 외곽선 구현 
-            Box(
-                modifier = Modifier.padding(bottom = 20.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                // 하얀색 테두리 효과를 위한 여러 방향의 그림자
-                val strokeWidth = 8.dp.value
-
-                // 더 많은 방향으로 테두리 생성 (8방향 -> 16방향)
-                val offsets = buildList {
-                    for (angle in 0 until 360 step 22) {
-                        val radian = Math.toRadians(angle.toDouble())
-                        add(
-                            Offset(
-                                (strokeWidth * kotlin.math.cos(radian)).toFloat(),
-                                (strokeWidth * kotlin.math.sin(radian)).toFloat()
-                            )
-                        )
-                    }
-                }
-
-                // 각 방향으로 하얀색 그림자를 그려서 테두리 효과 생성
-                offsets.forEach { offset ->
-                    Text(
-                        text = "QWER",
-                        fontSize = commonFontSize,
-                        fontWeight = commonFontWeight,
-                        fontFamily = barry,
-                        color = Color.White,
-                        letterSpacing = 8.sp,
-                        style = TextStyle(
-                            shadow = Shadow(
-                                color = Color.White,
-                                offset = offset,
-                                blurRadius = 0f
-                            )
-                        )
-                    )
-                }
-
-                // 안쪽 배경 색상 텍스트 (각 글자마다 다른 색상)
-                Text(
-                    text = qwerAnnotatedString,
-                    fontSize = commonFontSize,
-                    fontWeight = commonFontWeight,
-                    fontFamily = barry,
-                    letterSpacing = 8.sp
-                )
-            }
-
-            // 2x2 사진 그리드 - Supabase의 이미지 사용 (랜덤 프로필 타입)
-            if (profilesState == null) {
-                Box(
-                    modifier = Modifier
-                        .padding(bottom = 20.dp)
-                        .size(120.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                // 랜덤으로 선택된 프로필 타입 가져오기
-                val gominProfile = profilesState?.find { it.typeName == "세레모니" }
-                val memberNames = listOf("쵸단","마젠타","히나","시연")
-
-                Log.d("TEST", gominProfile?.members?.keys.toString())
-                Log.d("TEST", gominProfile?.members.toString())
-
-                Column(
-                    modifier = Modifier.padding(bottom = 20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        // 쵸단
-                        gominProfile?.members?.get(memberNames[0])?.let { imageUrl ->
-                            Box(
-                                modifier = Modifier
-                                    .size(120.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(
-                                        Brush.linearGradient(
-                                            colors = listOf(
-                                                Color(0xFF90CAF9), // 햇빛이 비친 물결
-                                                Color(0xFFE3F2FD), // 부서지는 하얀 파도
-                                                Color(0xFF42A5F5)  // 맑은 바다빛
-                                            )
-                                        )
-                                    )
-                                    .padding(4.dp)
-                            ) {
-                                AsyncImage(
-                                    model = imageUrl,
-                                    contentDescription = memberNames[0],
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(RoundedCornerShape(8.dp)),
-                                    contentScale = ContentScale.Crop
-                                )
-                            }
-                        }
-                        // 마젠타
-                        gominProfile?.members?.get(memberNames[1])?.let { imageUrl ->
-                            Box(
-                                modifier = Modifier
-                                    .size(120.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(
-                                        Brush.linearGradient(
-                                            colors = listOf(
-                                                Color(0xFF1565C0), // 깊은 푸른 바다
-                                                Color(0xFF64B5F6), // 햇빛이 비친 물결
-                                                Color(0xFF0D47A1)  // 깊은 코발트 바다
-                                            )
-                                        )
-                                    )
-                                    .padding(4.dp)
-                            ) {
-                                AsyncImage(
-                                    model = imageUrl,
-                                    contentDescription = memberNames[1],
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(RoundedCornerShape(8.dp)),
-                                    contentScale = ContentScale.Crop
-                                )
-                            }
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        // 히나
-                        gominProfile?.members?.get(memberNames[2])?.let { imageUrl ->
-                            Box(
-                                modifier = Modifier
-                                    .size(120.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(
-                                        Brush.linearGradient(
-                                            colors = listOf(
-                                                Color(0xFF1565C0), // 깊은 푸른 바다
-                                                Color(0xFF64B5F6), // 햇빛이 비친 물결
-                                                Color(0xFF0D47A1)  // 깊은 코발트 바다
-                                            )
-                                        )
-                                    )
-                                    .padding(4.dp)
-                            ) {
-                                AsyncImage(
-                                    model = imageUrl,
-                                    contentDescription = memberNames[2],
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(RoundedCornerShape(8.dp)),
-                                    contentScale = ContentScale.Crop
-                                )
-                            }
-                        }
-                        // 시연
-                        gominProfile?.members?.get(memberNames[3])?.let { imageUrl ->
-                            Box(
-                                modifier = Modifier
-                                    .size(120.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(
-                                        Brush.linearGradient(
-                                            colors = listOf(
-                                                Color(0xFF90CAF9), // 햇빛이 비친 물결
-                                                Color(0xFFE3F2FD), // 부서지는 하얀 파도
-                                                Color(0xFF42A5F5)  // 맑은 바다빛
-                                            )
-                                        )
-                                    )
-                                    .padding(4.dp)
-                            ) {
-                                AsyncImage(
-                                    model = imageUrl,
-                                    contentDescription = memberNames[3],
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(RoundedCornerShape(8.dp)),
-                                    contentScale = ContentScale.Crop
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-
+            DiaryTitleBar(pixel, ink)
             Column(
-                modifier = Modifier.padding(top = 20.dp),
+                modifier = Modifier.padding(horizontal = 13.dp, vertical = 15.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Photo 텍스트에 하얀색 테두리 적용 (이모지 제외)
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    Text(
-                        text = "♪",
-                        fontSize = 35.sp,
-                        color = Color(0xFFE3F2FD),  // 하얀 파도빛
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Box(
-                        contentAlignment = Alignment.Center
-                    ) {
-                        val strokeWidth = 6.dp.value
-                        val offsets = buildList {
-                            for (angle in 0 until 360 step 22) {
-                                val radian = Math.toRadians(angle.toDouble())
-                                add(
-                                    Offset(
-                                        (strokeWidth * kotlin.math.cos(radian)).toFloat(),
-                                        (strokeWidth * kotlin.math.sin(radian)).toFloat()
-                                    )
-                                )
-                            }
-                        }
-
-                        // 각 방향으로 하얀색 그림자를 그려서 테두리 효과 생성
-                        offsets.forEach { offset ->
-                            Text(
-                                text = "Photo",
-                                fontSize = 50.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                textAlign = TextAlign.Center,
-                                fontFamily = barry,
-                                style = TextStyle(
-                                    shadow = Shadow(
-                                        color = Color.White,
-                                        offset = offset,
-                                        blurRadius = 0f
-                                    )
-                                )
-                            )
-                        }
-
-                        // 원본 색상의 Photo 텍스트
-                        Text(
-                            text = "Photo",
-                            fontSize = 50.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF0D47A1),  // 깊은 코발트 바다빛
-                            textAlign = TextAlign.Center,
-                            fontFamily = barry,
-                        )
-                    }
-                    Text(
-                        text = "★",
-                        fontSize = 35.sp,
-                        color = Color(0xFF90CAF9),  // 반짝이는 물결
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
+                    DiaryChip("YOYO", Color(0xFFB497DB), pixel)
+                    DiaryChip("UhUh", Color(0xFFB497DB), pixel)
+                    DiaryChip("LOVE ATTACK", Color(0xFFB497DB), pixel)
+                    DiaryChip("Glow Up", Color(0xFFB497DB), pixel)
+                    DiaryChip("Deja Vu", Color(0xFFB497DB), pixel)
+                    DiaryChip("Heart Drop", Color(0xFFB497DB), pixel)
+                    DiaryChip("Runaway", Color(0xFFB497DB), pixel)
+                    DiaryChip("Pretty Girl", Color(0xFFB497DB), pixel)
                 }
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // Widget 텍스트에 하얀색 테두리 적용 (이모지 제외)
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "✦",
-                        fontSize = 35.sp,
-                        color = Color(0xFFE3F2FD),  // 하얀 파도빛
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Box(
-                        contentAlignment = Alignment.Center
-                    ) {
-                        val strokeWidth = 6.dp.value
-                        val offsets = buildList {
-                            for (angle in 0 until 360 step 22) {
-                                val radian = Math.toRadians(angle.toDouble())
-                                add(
-                                    Offset(
-                                        (strokeWidth * kotlin.math.cos(radian)).toFloat(),
-                                        (strokeWidth * kotlin.math.sin(radian)).toFloat()
-                                    )
-                                )
-                            }
-                        }
-
-                        // 각 방향으로 하얀색 그림자를 그려서 테두리 효과 생성
-                        offsets.forEach { offset ->
-                            Text(
-                                text = "Widget",
-                                fontSize = 50.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                textAlign = TextAlign.Center,
-                                fontFamily = barry,
-                                style = TextStyle(
-                                    shadow = Shadow(
-                                        color = Color.White,
-                                        offset = offset,
-                                        blurRadius = 0f
-                                    )
-                                )
-                            )
-                        }
-
-                        // 원본 색상의 Widget 텍스트
-                        Text(
-                            text = "Widget",
-                            fontSize = 50.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF0D47A1),  // 깊은 코발트 바다빛
-                            textAlign = TextAlign.Center,
-                            fontFamily = barry,
-                        )
-                    }
-                    Text(
-                        text = "♫",
-                        fontSize = 35.sp,
-                        color = Color(0xFF90CAF9),  // 반짝이는 물결
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(60.dp))
-            Button(
-                onClick = {
-                    navController.navigate(Route.Gominjungdok) {
-                        popUpTo(Route.Splash) { inclusive = true }
-                    }
-                },
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(56.dp),
-                shape = RoundedCornerShape(20.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFF1565C0),  // 푸른 바다빛
-                    contentColor = Color.White
+                Spacer(Modifier.height(11.dp))
+                PolaroidPreview(pixel, ink)
+                Spacer(Modifier.height(15.dp))
+                Text("RESCENE", fontFamily = pixel, fontSize = 24.sp, letterSpacing = 1.sp, color = ink)
+                Text(
+                    "향기로 다시(RE) 장면(SCENE)을 떠올린다는 의미로,\n대중의 마음속에 오래도록 남을 음악적 향기를\n선사하겠다는 리센느의 포부",
+                    modifier = Modifier.padding(top = 4.dp),
+                    fontFamily = pixel,
+                    fontSize = 13.sp,
+                    letterSpacing = .8.sp,
+                    color = Color(0xFF9C7F96),
+                    textAlign = TextAlign.Center
                 )
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "🌊",
-                        fontSize = 24.sp,
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(
-                        text = "입장하기",
-                        fontSize = 20.sp,
-                        fontFamily = barry,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                Spacer(Modifier.height(16.dp))
+                DiaryButton(pixel, onStart)
+                Spacer(Modifier.height(10.dp))
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "이 앱은 공식 앱이 아닌 팬메이드 앱입니다",
-                fontSize = 10.sp,
-                color = Color(0xFFE3F2FD),  // 하얀 파도빛
-                fontFamily = barry
-            )
         }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun PreviewMainScreen() {
-    //AppNavGraph()
+private fun DiaryTitleBar(pixel: FontFamily, ink: Color) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(topStart = 21.dp, topEnd = 21.dp, bottomStart = 7.dp, bottomEnd = 7.dp))
+            .background(Brush.horizontalGradient(listOf(Color(0xFFF2C4D9), Color(0xFFE2C6EF), Color(0xFFC9DDF3))))
+            .padding(start = 13.dp, end = 8.dp, top = 10.dp, bottom = 9.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text("RESCENE_DIARY.EXE", modifier = Modifier.weight(1f), fontFamily = pixel, fontSize = 16.sp, letterSpacing = .6.sp, color = ink)
+    }
+}
+
+@Composable
+private fun DiaryWindowButton(symbol: String, ink: Color) {
+    Text(
+        symbol,
+        modifier = Modifier.padding(start = 4.dp).size(23.dp).background(Color(0xFFFFFBFF)).border(1.dp, ink.copy(alpha = .6f)).wrapContentSize(Alignment.Center),
+        color = ink,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+private fun PolaroidPreview(pixel: FontFamily, ink: Color) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(.86f)
+            .background(Color.White)
+            .border(3.dp, Color(0xFF5B4D6E))
+            .padding(14.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(6.dp))
+                .border(2.dp, Color(0xFFFFF9FD))
+        ) {
+            Image(
+                painter = painterResource(R.drawable.rescene_photo_diary),
+                contentDescription = "RESCENE photo diary memory",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+            DiarySticker("♥", Modifier.align(Alignment.TopStart).offset((-7).dp, (-9).dp).rotate(-13f), Color(0xFFFFD974), ink, pixel)
+            DiarySticker("★", Modifier.align(Alignment.TopEnd).offset(8.dp, 11.dp).rotate(12f), Color(0xFFB7DCF1), ink, pixel)
+            DiarySticker("cute!", Modifier.align(Alignment.BottomStart).offset((-5).dp, 8.dp).rotate(-8f), Color(0xFFFFB7CC), ink, pixel)
+            DiarySticker("☆", Modifier.align(Alignment.BottomEnd).offset(8.dp, (-7).dp).rotate(10f), Color(0xFFC5A8F5), ink, pixel)
+            MemberNameSticker("메이", Modifier.align(Alignment.TopStart).offset(50.dp, 51.dp).rotate(-7f), Color(0xFFFFD2A7), ink, pixel)
+            MemberNameSticker("원이", Modifier.align(Alignment.TopEnd).offset((-70).dp, 40.dp).rotate(8f), Color(0xFFBFE6F3), ink, pixel)
+            MemberNameSticker("제나", Modifier.align(Alignment.CenterStart).offset(20.dp, 56.dp).rotate(-9f), Color(0xFFFFBFD4), ink, pixel)
+            MemberNameSticker("미나미", Modifier.align(Alignment.CenterEnd).offset((-7).dp, 73.dp).rotate(9f), Color(0xFFD6BDF4), ink, pixel)
+            MemberNameSticker("리브", Modifier.align(Alignment.BottomCenter).offset(y = (-30).dp).rotate(-4f), Color(0xFFFFE490), ink, pixel)
+        }
+    }
+}
+
+@Composable
+private fun DiarySticker(text: String, modifier: Modifier, color: Color, ink: Color, pixel: FontFamily) {
+    Text(
+        text,
+        modifier = modifier.shadow(2.dp, RoundedCornerShape(4.dp)).background(color, RoundedCornerShape(4.dp)).border(2.dp, ink, RoundedCornerShape(4.dp)).padding(horizontal = 6.dp, vertical = 3.dp),
+        fontFamily = pixel,
+        fontWeight = FontWeight.Bold,
+        fontSize = if (text.length > 1) 10.sp else 18.sp,
+        color = ink
+    )
+}
+
+@Composable
+private fun MemberNameSticker(text: String, modifier: Modifier, color: Color, ink: Color, pixel: FontFamily) {
+    Text(
+        text,
+        modifier = modifier
+            .shadow(2.dp, RoundedCornerShape(12.dp))
+            .background(color, RoundedCornerShape(12.dp))
+            .border(2.dp, Color.White, RoundedCornerShape(12.dp))
+            .padding(horizontal = 7.dp, vertical = 4.dp),
+        fontFamily = pixel,
+        fontSize = 15.sp,
+        fontWeight = FontWeight.Bold,
+        letterSpacing = .3.sp,
+        color = ink
+    )
+}
+
+@Composable
+private fun DiaryChip(text: String, color: Color, pixel: FontFamily) {
+    Text(text, modifier = Modifier.background(color).padding(horizontal = 5.dp, vertical = 5.dp), fontFamily = pixel, fontSize = 9.sp, color = Color.White)
+}
+
+@Composable
+private fun DiaryButton(pixel: FontFamily, onStart: () -> Unit) {
+    Text(
+        "PHOTO WIDGET ♡",
+        modifier = Modifier.fillMaxWidth().background(Color(0xFFEE9CB8)).border(2.dp, Color(0xFF69526E)).clickable(onClick = onStart).padding(vertical = 14.dp),
+        fontFamily = pixel,
+        fontSize = 20.sp,
+        letterSpacing = .4.sp,
+        color = Color.White,
+        textAlign = TextAlign.Center,
+        style = TextStyle(shadow = Shadow(Color(0xFF9B5270), blurRadius = 1.5f))
+    )
+}
+
+@Composable
+private fun BackgroundSticker(symbol: String, modifier: Modifier, color: Color, size: androidx.compose.ui.unit.TextUnit) {
+    Text(symbol, modifier = modifier, color = color, fontSize = size, style = TextStyle(shadow = Shadow(Color.White.copy(alpha = .7f), blurRadius = 2f)))
+}
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, heightDp = 850)
+@Composable
+private fun RescenePhotoDiaryPreview() {
+    MaterialTheme { RescenePhotoDiary(onStart = {}) }
 }
