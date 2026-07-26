@@ -30,8 +30,8 @@ data class ProfileByType(
 // 데이터 모델에서 받아온 json 데이터를 ui domin data로 매핑
 fun MemberData.toMember(): Member {
     return Member(
-        name = this.name,
-        wallpaperImageUrls = this.wallPaperImageUrls
+        name = this.memberName,
+        wallpaperImageUrls = emptyList()
     )
 }
 

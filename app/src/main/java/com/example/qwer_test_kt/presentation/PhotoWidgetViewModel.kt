@@ -8,6 +8,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.qwer_test_kt.domin.usecase.GetMainImagesByTypeUseCase
+import com.example.qwer_test_kt.domin.usecase.GetMainImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,13 +23,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhotoWidgetViewModel @Inject constructor(
-    private val getMainImagesByTypeUseCase: GetMainImagesByTypeUseCase
+    private val getMainImagesByTypeUseCase: GetMainImagesByTypeUseCase,
+    private val getMainImageUseCase: GetMainImageUseCase
 ) : ViewModel() {
 
     private val _currentImage = MutableStateFlow<String?>(null)
     val currentImage: StateFlow<String?> = _currentImage.asStateFlow()
 
-    private val _selectedCategory = MutableStateFlow<String>("디스코드")
+    private val _memberProfileImages = MutableStateFlow<Map<String, String>>(emptyMap())
+    val memberProfileImages: StateFlow<Map<String, String>> = _memberProfileImages.asStateFlow()
+
+    private val _selectedCategory = MutableStateFlow("WONI")
     val selectedCategory: StateFlow<String> = _selectedCategory.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
@@ -36,13 +41,24 @@ class PhotoWidgetViewModel @Inject constructor(
 
     init {
         // 초기 로드: 디스코드 테이블에서 데이터 가져오기
-        loadImagesByType("디스코드")
+        loadMemberProfileImages()
+    }
+
+    private fun loadMemberProfileImages() {
+        viewModelScope.launch {
+            val images = getMainImageUseCase.invoke()
+            _memberProfileImages.value = images
+                .mapNotNull { image -> image.imageUrl?.let { url -> image.memberName to url } }
+                .groupBy({ it.first }, { it.second })
+                .mapValues { (_, urls) -> urls.random() }
+        }
     }
 
     // 특정 타입의 테이블에서 이미지 로드
     private fun loadImagesByType(typeName: String) {
         viewModelScope.launch {
             _isLoading.value = true
+            _currentImage.value = null
             try {
                 val images = getMainImagesByTypeUseCase.invoke(typeName)
                 // 이미지가 있으면 랜덤으로 선택

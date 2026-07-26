@@ -79,8 +79,7 @@ fun WidgetButton(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val contentColor =
-        if (isSelected) Color.Black.copy(alpha = 1.0f) else Color.Black.copy(alpha = 0.5f)
+    val contentColor = if (isSelected) Color(0xFF4B3B55) else Color(0xFF4B3B55).copy(alpha = 0.65f)
     val radioColor = Color(0xFF1565C0) // 겨울 파란색
 
     Button(
@@ -89,7 +88,7 @@ fun WidgetButton(
             .fillMaxWidth()
             .height(56.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color.White,
+            backgroundColor = if (isSelected) Color(0xFFFFE4EE) else Color.White,
             contentColor = contentColor
         ),
         shape = RoundedCornerShape(20.dp),
@@ -108,7 +107,7 @@ fun WidgetButton(
                         .size(24.dp)
                         .border(
                             width = 2.dp,
-                            color = Color.Black.copy(alpha = if (isSelected) 1.0f else 0.5f),
+                            color = if (isSelected) Color(0xFF9B5270) else Color(0xFF9B5270).copy(alpha = 0.45f),
                             shape = CircleShape
                         )
                         .padding(4.dp)

@@ -38,6 +38,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".WidgetRegistrationActivity"
+            android:exported="false" />
+
 
         <receiver
             android:name=".gomin.wiget.GoDdayWidgetReceiver"

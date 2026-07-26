@@ -17,11 +17,11 @@ import com.example.qwer_test_kt.gomin.wiget.screen.PhotoWidgetScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AppNavGraph() {
+fun AppNavGraph(startDestination: String = Route.Splash) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Route.Splash
+        startDestination = startDestination
 
     ) {
         composable(Route.HOME) {
@@ -41,6 +41,17 @@ fun AppNavGraph() {
         }
         composable(Route.PhotoWidget) {
             PhotoWidgetScreen(
+                navController = navController
+            )
+        }
+        composable(Route.WidgetRegistration) {
+            val context = androidx.compose.ui.platform.LocalContext.current
+            val wallpaperUrl = com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
+                .getInstance(context).getWallpaperUrl().orEmpty()
+            com.example.qwer_test_kt.gomin.wiget.dialog.WidgetSelectionDialog(
+                onDismissRequest = { navController.navigate(Route.HOME) },
+                onWidgetSelected = { navController.navigate(Route.HOME) },
+                wallpaperUrl = wallpaperUrl,
                 navController = navController
             )
         }

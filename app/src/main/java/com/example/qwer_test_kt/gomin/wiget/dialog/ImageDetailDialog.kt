@@ -68,7 +68,7 @@ fun ImageDetailDialog(
         )
     ) {
         Scaffold(
-            backgroundColor = Color.White
+            backgroundColor = Color(0xFFFFF8FB)
         ) { paddingValues ->
             Column(
                 modifier = Modifier
@@ -89,14 +89,14 @@ fun ImageDetailDialog(
                             .align(Alignment.TopEnd)
                             .size(48.dp)
                             .background(
-                                Color(0xFFF5F5F5),
+                                Color(0xFFF8D5E2),
                                 shape = CircleShape
                             )
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "닫기",
-                            tint = Color(0xFF1565C0),
+                            tint = Color(0xFF9B5270),
                             modifier = Modifier.size(28.dp)
                         )
                     }
@@ -144,7 +144,7 @@ fun ImageDetailDialog(
                             .height(60.dp),
                         shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF1565C0),
+                            backgroundColor = Color(0xFFEE9CB8),
                             contentColor = Color.White
                         ),
                         enabled = !isLoading
@@ -174,7 +174,7 @@ fun ImageDetailDialog(
                             .height(60.dp),
                         shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF42A5F5),
+                            backgroundColor = Color(0xFFC5A8F5),
                             contentColor = Color.White
                         )
                     ) {

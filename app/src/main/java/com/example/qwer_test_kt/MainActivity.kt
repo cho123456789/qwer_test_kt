@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -51,7 +52,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { MaterialTheme { AppNavGraph() } }
+        val startRoute = if (intent.getBooleanExtra("open_widget_registration", false)) Route.WidgetRegistration else Route.Splash
+        setContent { MaterialTheme { AppNavGraph(startRoute) } }
     }
 }
 
@@ -70,7 +72,8 @@ private fun RescenePhotoDiary(onStart: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .background(Brush.verticalGradient(listOf(Color(0xFFF8D5E2), Color(0xFFFFF2DF), Color(0xFFE4DDF6))))
-            .padding(horizontal = 10.dp, vertical = 16.dp),
+            .navigationBarsPadding()
+            .padding(horizontal = 20.dp, vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         BackgroundSticker("✦", Modifier.align(Alignment.TopStart).offset(17.dp, 54.dp), Color.White, 27.sp)
@@ -230,7 +233,13 @@ private fun DiaryChip(text: String, color: Color, pixel: FontFamily) {
 private fun DiaryButton(pixel: FontFamily, onStart: () -> Unit) {
     Text(
         "PHOTO WIDGET ♡",
-        modifier = Modifier.fillMaxWidth().background(Color(0xFFEE9CB8)).border(2.dp, Color(0xFF69526E)).clickable(onClick = onStart).padding(vertical = 14.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(22.dp))
+            .background(Color(0xFFEE9CB8))
+            .border(2.dp, Color(0xFF69526E), RoundedCornerShape(22.dp))
+            .clickable(onClick = onStart)
+            .padding(vertical = 14.dp),
         fontFamily = pixel,
         fontSize = 20.sp,
         letterSpacing = .4.sp,

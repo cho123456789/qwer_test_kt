@@ -37,9 +37,11 @@ class GoDdayWidgetReceiver : GlanceAppWidgetReceiver() {
             && wallpaperUrl.isNotEmpty()
         ) {
             val appWidgetManager = AppWidgetManager.getInstance(context)
-            val appWidgetIds = appWidgetManager.getAppWidgetIds(
+            val allWidgetIds = appWidgetManager.getAppWidgetIds(
                 android.content.ComponentName(context, GoDdayWidgetReceiver::class.java)
             )
+            val targetWidgetId = intent.getIntExtra(EXTRA_APP_WIDGET_ID, -1)
+            val appWidgetIds = if (targetWidgetId >= 0) intArrayOf(targetWidgetId) else allWidgetIds
             onUpdate(context, appWidgetManager, appWidgetIds)
         }
     }
@@ -217,5 +219,6 @@ class GoDdayWidgetReceiver : GlanceAppWidgetReceiver() {
     companion object {
         private const val TAG = "GoDdayWidgetReceiver"
         const val ACTION_UPDATE_DDAY = "com.example.qwer_test_kt.UPDATE_DDAY"
+        const val EXTRA_APP_WIDGET_ID = "target_app_widget_id"
     }
 }

@@ -2,6 +2,7 @@ package com.example.qwer_test_kt.gomin.wiget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.compose.runtime.Composable
@@ -12,6 +13,11 @@ import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.action.actionStartActivity
+import androidx.glance.action.clickable
+import androidx.glance.action.ActionParameters
+import androidx.glance.appwidget.action.ActionCallback
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.provideContent
@@ -30,6 +36,7 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 import com.example.qwer_test_kt.gomin.util.WidgetKeys
+import com.example.qwer_test_kt.WidgetRegistrationActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -88,6 +95,7 @@ class GoDdayWidgetProvider : GlanceAppWidget() {
             }
 
             DdayWidgetLayout(
+                context = context,
                 wallpaperBitmap = widgetBitmap,
                 positionString = positionString,
                 textColorHex = textColorHex,
@@ -101,6 +109,7 @@ class GoDdayWidgetProvider : GlanceAppWidget() {
 @SuppressLint("RestrictedApi")
 @Composable
 private fun DdayWidgetLayout(
+    context: Context,
     wallpaperBitmap: Bitmap?,
     positionString: String,
     textColorHex: String,
@@ -131,6 +140,7 @@ private fun DdayWidgetLayout(
         daysRemaining == 0 -> "D-Day"
         else -> "D+${-daysRemaining}"
     }
+    val displayText = ddayTitle?.takeIf { it.isNotBlank() } ?: ddayText
 
     val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.KOREAN)
     val dateText = dateFormat.format(targetCalendar.time)
@@ -184,11 +194,6 @@ private fun DdayWidgetLayout(
         posX > 0.67f -> Alignment.Horizontal.End
         else -> Alignment.Horizontal.CenterHorizontally
     }
-
-    Box(
-        modifier = GlanceModifier.fillMaxSize(),
-        contentAlignment = Alignment(horizontalAlignment, verticalAlignment)
-    ) {
         wallpaperBitmap?.let {
             Image(
                 provider = ImageProvider(it),
@@ -203,20 +208,22 @@ private fun DdayWidgetLayout(
             horizontalAlignment = horizontalAlignment,
         ) {
             // 타이틀 표시 (있는 경우)
-            if (!ddayTitle.isNullOrEmpty()) {
-                Text(
-                    text = ddayTitle,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        color = ColorProvider(color = textColor),
-                        fontSize = (20 * textScale).sp
-                    ),
-                )
+            if (false) {
+                if (ddayTitle != null) {
+                    Text(
+                        text = ddayTitle,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            color = ColorProvider(color = textColor),
+                            fontSize = (20 * textScale).sp
+                        ),
+                    )
+                }
             }
 
             // 디데이 텍스트
             Text(
-                text = ddayText,
+                text = displayText,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     color = ColorProvider(color = textColor),
@@ -234,8 +241,6 @@ private fun DdayWidgetLayout(
                 ),
             )
         }
-    }
 }
-
 // PreferencesKey 정의
 // Removed ImageUrlKey declaration

@@ -1,6 +1,7 @@
 package com.example.qwer_test_kt.gomin.wiget.dialog
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -43,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalContext
+import com.example.qwer_test_kt.gomin.wiget.GoDdayWidgetReceiver
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.TextStyle
@@ -61,6 +63,7 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun DdaySetupDialog(
     wallpaperUrl: String,
+    widgetId: Int? = null,
     onDismiss: () -> Unit,
     onSetupComplete: (String) -> Unit
 ) {
@@ -122,11 +125,12 @@ fun DdaySetupDialog(
                 .fillMaxHeight(0.9f)
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp),
-            backgroundColor = Color(0xFFF0F8FF)
+            backgroundColor = Color(0xFFFFF8FB)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(Color(0xFFFFE4EE))
                     .verticalScroll(rememberScrollState())
                     .padding(20.dp)
                     .navigationBarsPadding()
@@ -143,7 +147,7 @@ fun DdaySetupDialog(
                         fontFamily = barry,
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center,
-                        color = Color(0xFF1E3A8A)
+                        color = Color(0xFF4B3B55)
                     )
                     IconButton(
                         onClick = onDismiss,
@@ -152,7 +156,7 @@ fun DdaySetupDialog(
                         Icon(
                             imageVector = Icons.Filled.Close,
                             contentDescription = "닫기",
-                            tint = Color(0xFF1565C0)
+                            tint = Color(0xFF9B5270)
                         )
                     }
                 }
@@ -304,6 +308,8 @@ fun DdaySetupDialog(
                         textScale = textScale,
                         estimatedTextWidth = 300f,
                         estimatedTextHeight = 200f,
+                        initialPositionX = 0.18f,
+                        initialPositionY = 0.82f,
                         onPositionChanged = { offsetX, offsetY, imgSize, imgOffsetX, imgOffsetY ->
                             currentOffsetX = offsetX
                             currentOffsetY = offsetY
@@ -313,24 +319,8 @@ fun DdaySetupDialog(
                         }
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            if (ddayTitle.isNotEmpty()) {
-                                Text(
-                                    text = ddayTitle,
-                                    style = TextStyle(
-                                        fontSize = (14 * textScale).sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = selectedColor,
-                                        fontFamily = barry,
-                                        shadow = Shadow(
-                                            color = Color.Black,
-                                            offset = Offset(0f, 0f),
-                                            blurRadius = 8f
-                                        )
-                                    )
-                                )
-                            }
                             Text(
-                                text = ddayText,
+                                text = ddayTitle.ifBlank { ddayText },
                                 style = TextStyle(
                                     fontSize = (40 * textScale).sp,
                                     fontWeight = FontWeight.Bold,
@@ -371,8 +361,8 @@ fun DdaySetupDialog(
                     Button(
                         onClick = onDismiss,
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFFE3F2FD),
-                            contentColor = Color(0xFF1565C0)
+                            backgroundColor = Color(0xFFF8D5E2),
+                            contentColor = Color(0xFF9B5270)
                         )
                     ) {
                         Text(text = "취소", fontFamily = barry)
@@ -406,11 +396,24 @@ fun DdaySetupDialog(
                             widgetPrefs.setDdayDate(selectedDate.timeInMillis)
                             widgetPrefs.setTextColor(colorHex)
                             widgetPrefs.setWidgetPosition(position)
+                            widgetId?.let { id ->
+                                widgetPrefs.saveWidgetData(id, wallpaperUrl, "dday", position)
+                                widgetPrefs.setDdayTitle(id, ddayTitle)
+                                widgetPrefs.setDdayDate(id, selectedDate.timeInMillis)
+                                widgetPrefs.setTextColor(id, colorHex)
+                            }
+
+                            context.sendBroadcast(
+                                Intent(context, GoDdayWidgetReceiver::class.java).apply {
+                                    action = GoDdayWidgetReceiver.ACTION_UPDATE_DDAY
+                                    widgetId?.let { putExtra(GoDdayWidgetReceiver.EXTRA_APP_WIDGET_ID, it) }
+                                }
+                            )
 
                             onSetupComplete(position)
                         },
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF1565C0),
+                            backgroundColor = Color(0xFFEE9CB8),
                             contentColor = Color.White
                         )
                     ) {

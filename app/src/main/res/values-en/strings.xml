@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">QWER Photo Widget</string>
+    <string name="app_name">RESCENE_Widget</string>
 
     <string name="app_widget_description">Register battery widget</string>
     <string name="app_widget_watch_description">Register clock widget</string>

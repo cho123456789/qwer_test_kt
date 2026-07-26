@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QWER Photo Widget</string>
+    <string name="app_name">RESCENE_Widget</string>
 
     <string-array name="profile_types">
         <item>디스코드</item>

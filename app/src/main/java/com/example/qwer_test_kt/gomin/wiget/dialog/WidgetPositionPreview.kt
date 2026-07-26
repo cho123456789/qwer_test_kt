@@ -44,6 +44,8 @@ fun WidgetPositionPreview(
     textScale: Float,
     estimatedTextWidth: Float,
     estimatedTextHeight: Float,
+    initialPositionX: Float = 0.5f,
+    initialPositionY: Float = 0.5f,
     onPositionChanged: (offsetX: Float, offsetY: Float, imageSize: IntSize, imageOffsetX: Float, imageOffsetY: Float) -> Unit = { _, _, _, _, _ -> },
     content: @Composable () -> Unit
 ) {
@@ -108,8 +110,8 @@ fun WidgetPositionPreview(
                     imageOffsetY = ((containerSize.height - imageSize.height) / 2).toFloat()
 
                     if (offsetX == 0f && offsetY == 0f) {
-                        offsetX = imageOffsetX + (imageSize.width / 2).toFloat()
-                        offsetY = imageOffsetY + (imageSize.height / 2).toFloat()
+                        offsetX = imageOffsetX + imageSize.width * initialPositionX
+                        offsetY = imageOffsetY + imageSize.height * initialPositionY
                         onPositionChanged(offsetX, offsetY, imageSize, imageOffsetX, imageOffsetY)
                     }
                 }

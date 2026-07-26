@@ -40,12 +40,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.example.qwer_test_kt.gomin.wiget.screen.barry
 import com.example.qwer_test_kt.gomin.view.WidgetButton
 import com.example.qwer_test_kt.gomin.view.requestPinWidget
 import com.example.qwer_test_kt.gomin.wiget.GoDdayWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.GoWatchWidgetReceiver
 import com.example.qwer_test_kt.gomin.wiget.PhotoWidgetReceiver
+import com.example.qwer_test_kt.gomin.wiget.screen.barry
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -56,184 +56,69 @@ fun WidgetSelectionDialog(
     navController: NavController
 ) {
     val context = LocalContext.current
-    var selectedWidgetProvider by remember { mutableStateOf<ComponentName?>(null) }
-    val winterGradient = Brush.linearGradient(
-        colors = listOf(
-            Color(0xFFF0F8FF),  // 앨리스 블루 (밝은 하늘색)
-            Color(0xFFE6F3FF),  // 연한 파란색
-            Color(0xFFFFFFFF)   // 흰색
-        )
-    )
-    var selectedWidgetName by remember { mutableStateOf<String?>(null) }
-    var showClockPositionDialog by remember { mutableStateOf(false) }
-    var showDdaySetupDialog by remember { mutableStateOf(false) }
+    var selectedProvider by remember { mutableStateOf<ComponentName?>(null) }
+    var selectedName by remember { mutableStateOf<String?>(null) }
+    var showClockDialog by remember { mutableStateOf(false) }
+    val gradient = Brush.linearGradient(listOf(Color(0xFFF8D5E2), Color(0xFFFFF2DF), Color(0xFFE4DDF6)))
 
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
-            backgroundColor = Color(0xFFF0F8FF)  // 앨리스 블루
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            shape = RoundedCornerShape(20.dp),
+            backgroundColor = Color(0xFFFFF8FB)
         ) {
-            Box(
-                modifier = Modifier.background(winterGradient)
+            Column(
+                modifier = Modifier.background(gradient).verticalScroll(rememberScrollState()).padding(24.dp)
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
-                        .padding(24.dp)
-                ) {
-                    // 타이틀과 'X' 버튼
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "위젯 스타일 선택",
-                            fontSize = 20.sp,
-                            fontFamily = barry,
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center,
-                            color = Color(0xFF1E3A8A)  // 진한 겨울 파란색
-                        )
-                        IconButton(
-                            onClick = onDismissRequest,
-                            modifier = Modifier.size(24.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Close,
-                                contentDescription = "닫기",
-                                tint = Color(0xFF1565C0)  // 겨울 파란색
-                            )
-                        }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                    Text("위젯 스타일 선택", modifier = Modifier.weight(1f), textAlign = TextAlign.Center, fontFamily = barry, fontSize = 20.sp, color = Color(0xFF4B3B55))
+                    IconButton(onClick = onDismissRequest, modifier = Modifier.size(24.dp)) {
+                        Icon(Icons.Filled.Close, contentDescription = "닫기", tint = Color(0xFF9B5270))
                     }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    WidgetButton(
-                        text = "디데이 위젯",
-                        isSelected = selectedWidgetName == "dday",
+                }
+                Spacer(Modifier.height(24.dp))
+                WidgetButton("시계 위젯", selectedName == "clock") {
+                    selectedName = "clock"
+                    selectedProvider = ComponentName(context, GoWatchWidgetReceiver::class.java)
+                }
+                Spacer(Modifier.height(16.dp))
+                WidgetButton("사진 위젯", selectedName == "photo") {
+                    selectedName = "photo"
+                    selectedProvider = ComponentName(context, PhotoWidgetReceiver::class.java)
+                }
+                Spacer(Modifier.height(24.dp))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    Button(onClick = onDismissRequest, colors = ButtonDefaults.buttonColors(Color(0xFFF8D5E2), Color(0xFF9B5270))) {
+                        Text("취소", fontFamily = barry)
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    Button(
                         onClick = {
-                            selectedWidgetName = "dday"
-                            selectedWidgetProvider =
-                                ComponentName(context, GoDdayWidgetReceiver::class.java)
-                        }
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    WidgetButton(
-                        text = "시계 위젯",
-                        isSelected = selectedWidgetName == "clock",
-                        onClick = {
-                            selectedWidgetName = "clock"
-                            selectedWidgetProvider =
-                                ComponentName(context, GoWatchWidgetReceiver::class.java)
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    WidgetButton(
-                        text = "사진 위젯",
-                        isSelected = selectedWidgetName == "photo",
-                        onClick = {
-                            selectedWidgetName = "photo"
-                            selectedWidgetProvider =
-                                ComponentName(context, PhotoWidgetReceiver::class.java)
-                        }
-                    )
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    // 확인/취소 버튼
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        Button(
-                            onClick = onDismissRequest,
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color(0xFFE3F2FD),  // 연한 겨울 파란색
-                                contentColor = Color(0xFF1565C0)  // 진한 파란색
-                            )
-                        ) {
-                            Text(text = "취소", fontFamily = barry)
-                        }
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Button(
-                            onClick = {
-                                selectedWidgetProvider?.let {
-                                    when (selectedWidgetName) {
-                                        "dday" -> {
-                                            // 디데이 위젯인 경우 설정 다이얼로그 표시
-                                            showDdaySetupDialog = true
-                                        }
-                                        "clock" -> {
-                                            // 시계 위젯인 경우 위치 선택 다이얼로그 표시
-                                            showClockPositionDialog = true
-                                        }
-
-                                        else -> {
-                                            // 다른 위젯은 바로 등록
-                                            val widgetType = when (it.className) {
-                                                PhotoWidgetReceiver::class.java.name -> "photo"
-                                                else -> "unknown"
-                                            }
-                                            requestPinWidget(
-                                                context,
-                                                it,
-                                                wallpaperUrl,
-                                                widgetType,
-                                                "center"
-                                            )
-                                            onWidgetSelected()
-                                        }
-                                    }
+                            val provider = selectedProvider ?: return@Button
+                            when (selectedName) {
+                                "clock" -> showClockDialog = true
+                                else -> {
+                                    requestPinWidget(context, provider, wallpaperUrl, "photo", "center")
+                                    onWidgetSelected()
                                 }
-                            },
-                            enabled = selectedWidgetProvider != null,
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color(0xFF1565C0),  // 겨울 파란색
-                                contentColor = Color.White
-                            )
-                        ) {
-                            Text(text = "확인", fontFamily = barry)
-                        }
-                    }
+                            }
+                        },
+                        enabled = selectedProvider != null,
+                        colors = ButtonDefaults.buttonColors(Color(0xFFEE9CB8), Color.White)
+                    ) { Text("확인", fontFamily = barry) }
                 }
             }
         }
     }
 
-    // 디데이 설정 다이얼로그
-    if (showDdaySetupDialog) {
-        DdaySetupDialog(
-            wallpaperUrl = wallpaperUrl,
-            onDismiss = { showDdaySetupDialog = false },
-            onSetupComplete = { position ->
-                selectedWidgetProvider?.let {
-                    requestPinWidget(context, it, wallpaperUrl, "dday", position)
-                    showDdaySetupDialog = false
-                    onWidgetSelected()
-                }
-            }
-        )
-    }
-
-    // 시계 위치 선택 다이얼로그
-    if (showClockPositionDialog) {
+    if (showClockDialog) {
         ClockPositionDialog(
             wallpaperUrl = wallpaperUrl,
-            onDismiss = { showClockPositionDialog = false },
+            onDismiss = { showClockDialog = false },
             onPositionSelected = { position ->
-                selectedWidgetProvider?.let {
-                    requestPinWidget(context, it, wallpaperUrl, "clock", position)
-                    showClockPositionDialog = false
-                    onWidgetSelected()
-                }
+                selectedProvider?.let { requestPinWidget(context, it, wallpaperUrl, "clock", position) }
+                showClockDialog = false
+                onWidgetSelected()
             }
         )
     }

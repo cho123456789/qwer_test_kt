@@ -107,11 +107,12 @@ fun ClockPositionDialog(
                 .fillMaxWidth()
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp),
-            backgroundColor = Color(0xFFF0F8FF)
+            backgroundColor = Color(0xFFFFF8FB)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(Color(0xFFFFE4EE))
                     .verticalScroll(rememberScrollState())
                     .padding(20.dp)
             ) {
@@ -127,7 +128,7 @@ fun ClockPositionDialog(
                         fontFamily = barry,
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center,
-                        color = Color(0xFF1E3A8A)
+                        color = Color(0xFF4B3B55)
                     )
                     IconButton(
                         onClick = onDismiss,
@@ -136,7 +137,7 @@ fun ClockPositionDialog(
                         Icon(
                             imageVector = Icons.Filled.Close,
                             contentDescription = "닫기",
-                            tint = Color(0xFF1565C0)
+                            tint = Color(0xFF9B5270)
                         )
                     }
                 }
@@ -266,7 +267,7 @@ fun ClockPositionDialog(
                                     text = amPm,
                                     style = TextStyle(
                                         fontSize = (12 * textScale).sp,
-                                        fontWeight = FontWeight.Bold,
+                                        fontWeight = FontWeight.Normal,
                                         color = selectedColor,
                                         fontFamily = barry,
                                         textAlign = TextAlign.Center,
@@ -282,7 +283,7 @@ fun ClockPositionDialog(
                                     text = timeStr,
                                     style = TextStyle(
                                         fontSize = (35 * textScale).sp,
-                                        fontWeight = FontWeight.Bold,
+                                        fontWeight = FontWeight.Medium,
                                         color = selectedColor,
                                         fontFamily = barry,
                                         textAlign = TextAlign.Center,
@@ -303,7 +304,7 @@ fun ClockPositionDialog(
                                     text = dateStr,
                                     style = TextStyle(
                                         fontSize = (14 * textScale).sp,
-                                        fontWeight = FontWeight.Bold,
+                                        fontWeight = FontWeight.Normal,
                                         color = selectedColor,
                                         fontFamily = barry,
                                         textAlign = TextAlign.Center,
@@ -341,8 +342,8 @@ fun ClockPositionDialog(
                     Button(
                         onClick = onDismiss,
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFFE3F2FD),
-                            contentColor = Color(0xFF1565C0)
+                            backgroundColor = Color(0xFFF8D5E2),
+                            contentColor = Color(0xFF9B5270)
                         )
                     ) {
                         Text(text = "취소", fontFamily = barry)
@@ -377,7 +378,7 @@ fun ClockPositionDialog(
                             onPositionSelected(position)
                         },
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF1565C0),
+                            backgroundColor = Color(0xFFEE9CB8),
                             contentColor = Color.White
                         )
                     ) {

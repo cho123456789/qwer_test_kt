@@ -6,6 +6,7 @@ import com.example.qwer_test_kt.data.model.MemberMainData
 import com.example.qwer_test_kt.data.model.ProfileItemData
 
 interface MemberRemoteDataSource {
+    suspend fun getMembers(): List<MemberData>
     suspend fun getMemberMainImagesByType(typeName: String): List<MemberMainData>
     suspend fun getAllMemberMainImages(): List<MemberMainData>
     suspend fun getProfileItemsByType(typeName: String): List<ProfileItemData>
