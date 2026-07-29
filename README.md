@@ -1,6 +1,3 @@
-<div align="center">
-<h1>📸 QWER Photo Widget</h1>
-</div>
 
 <p align="center">
   <img src="https://github.com/cho123456789/qwer_data/blob/main/%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84/%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%842.jpg?raw=true" width="70%">
