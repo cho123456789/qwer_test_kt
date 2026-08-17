@@ -11,6 +11,8 @@
 
 리센느 멤버 사진을 선택하고, 원하는 사진을 Android 배경화면 또는 홈 화면 위젯으로 등록할 수 있는 팬 프로젝트입니다.
 
+해당 프로젝트 소개 : https://idol-made-info.duringkara.workers.dev/#features
+
 ## 멤버 프로필 음성 파일
 
 각 멤버 프로필을 누를 때 재생할 MP3는 `app/src/main/res/raw/`에 다음 파일명으로 넣습니다.
@@ -20,32 +22,6 @@
 - `mei.mp3`
 - `jena.mp3`
 - `minami.mp3`
-
-## ✨ 기능 시연
-
-### 1. 리센느 다이어리 메인 화면
-
-<p align="center">
-  <img src="docs/images/main.gif" width="280" alt="리센느 다이어리 메인 화면" />
-</p>
-
-리센느의 곡명 칩과 멤버 스티커를 배치한 다이어리형 시작 화면입니다. 곡명 칩의 가로 스크롤, 폴라로이드 미리보기, 멤버 이름 스티커를 Compose로 구성합니다. **PHOTO WIDGET** 버튼을 누르면 멤버 사진 선택 화면으로 이동합니다.
-
-### 2. 멤버 사진 랜덤 선택 및 포토 위젯 등록
-
-<p align="center">
-  <img src="docs/images/widget.gif" width="280" alt="멤버 사진 선택과 포토 위젯 등록" />
-</p>
-
-`PhotoWidgetScreen`에서 원이·리브·메이·제나·미나미 프로필을 선택하면, `PhotoWidgetViewModel`이 해당 멤버의 이미지 목록을 불러온 뒤 한 장을 무작위로 표시합니다. 선택된 사진은 **위젯등록하기**를 통해 포토 위젯 등록 흐름으로 전달됩니다. 프로필 선택 상태와 이미지 로딩 상태를 분리해, 선택한 멤버와 현재 사진이 화면에 즉시 반영되도록 구현했습니다.
-
-### 3. 배경화면 설정과 위젯 종류 선택
-
-<p align="center">
-  <img src="docs/images/wallpaper.gif" width="280" alt="배경화면 및 위젯 설정" />
-</p>
-
-선택한 이미지는 `WallpaperDetailScreen`에서 Android의 배경화면 설정 화면으로 전달할 수 있습니다. 같은 사진으로 **사진 위젯**, **D-Day 위젯**, **시계 위젯**을 등록할 수도 있습니다. D-Day 위젯은 제목·날짜·표시 위치를 설정하고 남은 날짜를 계산하며, 시계 위젯은 표시 위치를 선택해 등록합니다. 위젯별 이미지 URL과 설정값은 `WidgetPreferences`에 저장되어 위젯 갱신 시 다시 사용됩니다.
 
 ## 🛠 기술 스택
 
