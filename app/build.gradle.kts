@@ -17,7 +17,7 @@ plugins {
 
 android {
     namespace = "com.example.qwer_test_kt"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
 
@@ -31,6 +31,9 @@ android {
             "SUPABASE_KEY",
             "\"${properties.getProperty("supabase.key") ?: ""}\""
         )
+        val naverMapClientId = properties.getProperty("NAVER_MAP_CLIENT_ID") ?: ""
+        buildConfigField("String", "NAVER_MAP_CLIENT_ID", "\"$naverMapClientId\"")
+        manifestPlaceholders["NAVER_MAP_CLIENT_ID"] = naverMapClientId
 
         applicationId = "com.example.qwer_test_kt"
         minSdk = 26
@@ -71,6 +74,8 @@ android {
 }
 
 dependencies {
+
+    implementation("com.naver.maps:map-sdk:3.23.3")
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics.ktx)

@@ -25,9 +25,7 @@ fun AppNavGraph(startDestination: String = Route.Splash) {
 
     ) {
         composable(Route.HOME) {
-            MainScreen(
-                navController = navController
-            )
+            MainScreen(navController = navController)
         }
         composable(Route.Gominjungdok) {
             GominjungdokScreen(

@@ -1,10 +1,13 @@
 package com.example.qwer_test_kt.gomin.wiget.screen
 
+import android.media.MediaPlayer
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
@@ -29,9 +33,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,7 +61,8 @@ import com.example.qwer_test_kt.presentation.PhotoWidgetViewModel
 
 private data class MemberProfile(
     val displayName: String,
-    val databaseName: String
+    val databaseName: String,
+    val audioResourceName: String
 )
 
 @Composable
@@ -94,14 +101,20 @@ fun PhotoWidgetContent(
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var selectedMember by remember { mutableStateOf<MemberProfile?>(null) }
+    var mediaPlayer by remember { mutableStateOf<MediaPlayer?>(null) }
+    val activeMediaPlayer by rememberUpdatedState(mediaPlayer)
     var showImageDialog by remember { mutableStateOf(false) }
     val members = listOf(
-        MemberProfile("원이", "WONI"),
-        MemberProfile("리브", "LIV"),
-        MemberProfile("메이", "MEI"),
-        MemberProfile("제나", "JENA"),
-        MemberProfile("미나미", "MINAMI")
+        MemberProfile("원이", "WONI", "woni"),
+        MemberProfile("리브", "LIV", "liv"),
+        MemberProfile("메이", "MEI", "mei"),
+        MemberProfile("제나", "JENA", "jena"),
+        MemberProfile("미나미", "MINAMI", "minami")
     )
+
+    DisposableEffect(Unit) {
+        onDispose { activeMediaPlayer?.release() }
+    }
 
     Column(
         modifier = modifier
@@ -121,19 +134,29 @@ fun PhotoWidgetContent(
             textAlign = TextAlign.Center
         )
         Spacer(Modifier.height(18.dp))
-        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+        BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+            val avatarSize = ((maxWidth - 32.dp) / members.size).coerceIn(40.dp, 72.dp)
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
             members.forEach { member ->
                 Column(
-                    modifier = Modifier.clickable {
+                    modifier = Modifier
+                        .width(avatarSize)
+                        .clickable {
                         selectedMember = member
                         viewModel.selectRandomImage(member.databaseName)
+                        mediaPlayer?.release()
+                        mediaPlayer = context.playMemberAudio(member.audioResourceName)
                     },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     SubcomposeAsyncImage(
                         model = ImageRequest.Builder(context).data(profileImages[member.databaseName]).crossfade(true).build(),
                         contentDescription = member.displayName,
-                        modifier = Modifier.size(66.dp)
+                        modifier = Modifier.size(avatarSize)
                             .background(if (member == selectedMember) Color(0xFFEE9CB8) else Color.White, CircleShape)
                             .padding(3.dp).clip(CircleShape),
                         contentScale = ContentScale.Crop,
@@ -144,8 +167,9 @@ fun PhotoWidgetContent(
                 }
             }
         }
+        }
         Spacer(Modifier.height(22.dp))
-        Card(Modifier.fillMaxWidth().height(440.dp), RoundedCornerShape(22.dp), Color.White, elevation = 6.dp) {
+        Card(Modifier.fillMaxWidth().aspectRatio(0.72f), RoundedCornerShape(22.dp), Color.White, elevation = 6.dp) {
             Box(contentAlignment = Alignment.Center) {
                 if (isLoading) {
                     CircularProgressIndicator(
@@ -188,4 +212,11 @@ fun PhotoWidgetContent(
     if (showImageDialog && currentImage != null) {
         ImageDetailDialog(currentImage!!, { showImageDialog = false }, context, viewModel, navController)
     }
+}
+
+private fun android.content.Context.playMemberAudio(resourceName: String): MediaPlayer? {
+    val resourceId = resources.getIdentifier(resourceName, "raw", packageName)
+    if (resourceId == 0) return null
+
+    return MediaPlayer.create(this, resourceId)?.apply { start() }
 }

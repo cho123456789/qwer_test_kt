@@ -36,7 +36,6 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.example.qwer_test_kt.gomin.util.WidgetPreferencesManager
 import com.example.qwer_test_kt.gomin.util.WidgetKeys
-import com.example.qwer_test_kt.WidgetRegistrationActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

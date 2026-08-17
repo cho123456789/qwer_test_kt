@@ -17,7 +17,7 @@ object SupabaseModule {
 
     @Provides
     @Singleton
-    fun provideSupabaseCilent(): SupabaseClient {
+    fun provideSupabaseClient(): SupabaseClient {
         return createSupabaseClient(
             supabaseUrl = BuildConfig.SUPABASE_URL,
             supabaseKey = BuildConfig.SUPABASE_KEY
