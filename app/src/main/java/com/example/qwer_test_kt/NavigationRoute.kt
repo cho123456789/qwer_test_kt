@@ -7,5 +7,4 @@ object Route {
     const val Splash = "splash"
     const val PhotoWidget = "photo_widget"
     const val WidgetRegistration = "widget_registration"
-    const val PilgrimageMap = "pilgrimage_map"
 }
