@@ -11,6 +11,8 @@
 
 리센느 멤버 사진을 선택하고, 원하는 사진을 Android 배경화면 또는 홈 화면 위젯으로 등록할 수 있는 팬 프로젝트입니다.
 
+해당 프로젝트 소개 : https://idol-made-info.duringkara.workers.dev/#features
+
 ## 멤버 프로필 음성 파일
 
 각 멤버 프로필을 누를 때 재생할 MP3는 `app/src/main/res/raw/`에 다음 파일명으로 넣습니다.
