@@ -2,19 +2,19 @@ name: Android CI (APK 자동 빌드)
 
 on:
   push:
-    branches: [ "RESCENE_wiget" ] # main 또는 master 브랜치에 코드가 push될 때 작동
+    branches: [ "RESCENE_wiget" ]
   pull_request:
     branches: [ "RESCENE_wiget" ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest # GitHub이 제공하는 우분투 가상머신에서 실행
+    runs-on: ubuntu-latest
 
     steps:
       - name: 1. 코드 가져오기
         uses: actions/checkout@v4
 
-      - name: 2. JDK 17 설정 (프로젝트 자바 버전에 맞게 수정 가능)
+      - name: 2. JDK 17 설정
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -23,11 +23,15 @@ jobs:
       - name: 3. Gradle 권한 부여
         run: chmod +x gradlew
 
-      - name: 4. APK 빌드
+      - name: 4. google-services.json 생성
+        run: |
+          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > app/google-services.json
+
+      - name: 5. APK 빌드
         run: ./gradlew assembleDebug
 
-      - name: 5. 빌드된 APK 파일 저장 (Artifact)
+      - name: 6. 빌드된 APK 파일 저장
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk # 다운로드받을 때 표시될 이름
-          path: app/build/outputs/apk/debug/app-debug.apk # 생성된 APK 위치
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
